@@ -2,7 +2,7 @@
 
 ```mermaid
 classDiagram
-	User
-	Animal
-	Review
+	User : +int userId
+	Animal : +int animalId
+	Review : +int reviewId
 ```
