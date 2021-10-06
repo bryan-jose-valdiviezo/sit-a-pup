@@ -2,5 +2,7 @@
 
 ```mermaid
  classDiagram
-      User
+      class User
+      class Animal
+      class Review
 ```
