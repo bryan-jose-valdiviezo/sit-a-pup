@@ -2,7 +2,7 @@
 
 ```mermaid
 classDiagram
-	class User{}
-	class Animal{}
-	class Review{}
+	User
+	Animal
+	Review
 ```
