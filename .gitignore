@@ -75,7 +75,7 @@ _[Ss]cripts
 *.dot[Cc]over
 
 # Visual Paradigm
-**/*.vpp*
+**/*.vpp.*
 **/*.vux
 
 **/*.log
