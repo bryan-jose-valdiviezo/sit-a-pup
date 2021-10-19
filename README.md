@@ -3,9 +3,13 @@
 ```mermaid
  classDiagram
       class User {
-            -int userId
+            -int
             -string userName
       }
-      class Animal
+      class Animal {
+		-int id
+		-string animalName
+		-string animalSpecy
+	}
       class Review
 ```
