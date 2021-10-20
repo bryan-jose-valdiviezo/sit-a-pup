@@ -2,18 +2,34 @@
 
 ```mermaid
  classDiagram
-      User "1" -- "*" Animal
+      User "0..1" -- "*" Pet
+      User "0..1" -- "*" PhoneNumber
+      User "0..1" -- "*" Review
       class User {
             -int id
             -string userName
-            -List<Animal> animals
+            -string email
+            -string address
+            -List<PhoneNumber> phoneNumbers
+            -List<Pet> ownedPet
+            -List<Pet> keptPet
       }
-      class Animal {
+      class PhoneNumber {
+            -int phoneNumber
+            -enum type
+      }
+      class Pet {
 		-int id
-		-string animalName
-		-string animalSpecy
+		-string petName
+		-enum petSpecy
+            -int age
+            -string photoURI
+            -boolean dangerous
+            -boolean exotic
 	}
       class Review {
             int id
+            int stars
+            string comment
       }
 ```
