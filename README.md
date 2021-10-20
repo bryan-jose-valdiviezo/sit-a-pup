@@ -2,9 +2,9 @@
 
 ```mermaid
  classDiagram
-      User "0..1" -- "*" Pet
-      User "0..1" -- "*" PhoneNumber
-      User "0..1" -- "*" Review
+      User "1" -- "0..n" Pet
+      User "1" -- "0..n" PhoneNumber
+      User "1" -- "0..n" Review
       class User {
             -int id
             -string userName
