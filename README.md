@@ -3,7 +3,7 @@
 ```mermaid
  classDiagram
       User "1" -- "0..n" Pet
-      User "1" -- "0..n" PhoneNumber
+      User "1" -- "1..n" PhoneNumber
       User "1" -- "0..n" Review
       class User {
             -int id
