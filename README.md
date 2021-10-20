@@ -1,5 +1,7 @@
 ## Application de gardiennage d'animaux 
 
+
+#### Business logic
 ```mermaid
  classDiagram
       User "1" -- "0..n" Pet
