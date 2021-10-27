@@ -7,6 +7,8 @@
       User "1" -- "0..n" Pet
       User "1" -- "1..n" PhoneNumber
       User "1" -- "0..n" Review
+      User "1" -- "0..n" Availability
+      User "1" -- "0..n" Message
       class User {
             -int id
             -string userName
@@ -33,6 +35,15 @@
             int id
             int stars
             string comment
+      }
+      class Availability {
+            int id
+            DateTime availabilityPeriod 
+      }
+      class Message {
+            int id
+            string content;
+            DateTime timeStamp;
       }
 ```
 #### Liens
