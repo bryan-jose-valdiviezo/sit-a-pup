@@ -10,40 +10,40 @@
       User "1" -- "0..n" Availability
       User "1" -- "0..n" Message
       class User {
-            -int id
-            -string userName
-            -string email
-            -string address
-            -List<PhoneNumber> phoneNumbers
-            -List<Pet> ownedPet
-            -List<Pet> keptPet
+            +int UserID
+            +string UserName
+            +string Email
+            +string Address
+            +List<PhoneNumber> PhoneNumbers
+            +List<Pet> OwnedPet
+            +List<Pet> KeptPet
+            +List<Availability> Availabilities
+            +List<Message> Messages
       }
       class PhoneNumber {
-            -int phoneNumber
-            -enum type
+            +int PhoneNumber
+            +enum Type
       }
       class Pet {
-		-int id
-		-string petName
-		-enum petSpecy
-            -int age
-            -string photoURI
-            -boolean dangerous
-            -boolean exotic
+		+int PetID
+		+string Name
+		+enum Specy
+            +int Age
+            +string PhotoURI
 	}
       class Review {
-            int id
-            int stars
-            string comment
+            +int ReviewID
+            +int Stars
+            +string Comment
       }
       class Availability {
-            int id
-            DateTime availabilityPeriod 
+            +int AvailabilityID
+            +DateTime availabilityPeriod 
       }
       class Message {
-            int id
-            string content;
-            DateTime timeStamp;
+            +int MessageID
+            +string Content;
+            +DateTime TimeStamp;
       }
 ```
 #### Liens
