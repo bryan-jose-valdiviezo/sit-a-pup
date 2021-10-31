@@ -17,9 +17,9 @@ namespace web3_tp_final.Models
         public DateTime TimeStamp { get; set; }
 
         [Required]
-        public User Sender { get; set; }
+        public int Sender { get; set; }
 
         [Required]
-        public User Recipient { get; set; }
+        public int Recipient { get; set; }
     }
 }

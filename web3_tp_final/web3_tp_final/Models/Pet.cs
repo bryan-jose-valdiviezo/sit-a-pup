@@ -33,6 +33,6 @@ namespace web3_tp_final.Models
 
         public string PhotoURI { get; set; }
 
-        public User owner { get; set; }
+        public int Owner { get; set; }
     }
 }

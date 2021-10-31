@@ -17,12 +17,12 @@ namespace web3_tp_final.Models
         public string Comment { get; set; }
 
         [Required]
-        public string date { get; set; }
+        public DateTime TimeStamp { get; set; }
 
         [Required]
-        public User WrittenToId { get; set; }
+        public int WrittenTo { get; set; }
 
         [Required]
-        public User WrittenById { get; set; }
+        public int WrittenBy { get; set; }
     }
 }
