@@ -8,7 +8,7 @@ namespace web3_tp_final.Models
 {
     public class Review
     {
-        public int ReviewId { get; set; }
+        public int ReviewID { get; set; }
 
         [Required]
         public int Stars { get; set; }
@@ -17,6 +17,12 @@ namespace web3_tp_final.Models
         public string Comment { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string date { get; set; }
+
+        [Required]
+        public User WrittenToId { get; set; }
+
+        [Required]
+        public User WrittenById { get; set; }
     }
 }

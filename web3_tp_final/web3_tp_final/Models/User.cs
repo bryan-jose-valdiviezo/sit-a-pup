@@ -20,9 +20,9 @@ namespace web3_tp_final.Models
         public string Email { get; set; }
 
         [Required]
-        public String Address { get; set; }
+        public string Address { get; set; }
 
-        public List<PhoneNumber> PhoneNumbers { get; set; }
+        public int PhoneNumber { get; set; }
 
         public List<Pet> OwnedPets { get; set; }
 
@@ -30,10 +30,8 @@ namespace web3_tp_final.Models
 
         public List<Availability> Availabilities { get; set; }
 
-        public List<Review> MyReviews { get; set; }
+        public List<Review> Reviews { get; set; }
 
-        public List<Review> ReviewsOtherUsers { get; set; }
-
-        public List<Message> MessagesSent { get; set; }
+        public List<Message> Messages { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace web3_tp_final.Models
 {
     public class Availability
     {
-        public int IdAvailability { get; set; }
+        public int AvailabilityID { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }
@@ -17,5 +17,7 @@ namespace web3_tp_final.Models
         public DateTime EndDate { get; set; }
 
         public int UserId { get; set; }
+
+        public User user { get; set; }
     }
 }

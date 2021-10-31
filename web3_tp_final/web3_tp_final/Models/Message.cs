@@ -8,7 +8,7 @@ namespace web3_tp_final.Models
 {
     public class Message
     {
-        public int MessageId { get; set; }
+        public int MessageID { get; set; }
         
         [Required]
         public string Content{get;set;}
@@ -17,10 +17,9 @@ namespace web3_tp_final.Models
         public DateTime TimeStamp { get; set; }
 
         [Required]
-        public int UserSenderId { get; set; }
+        public User Sender { get; set; }
 
         [Required]
-        public int UserRecipientId { get; set; }
-
+        public User Recipient { get; set; }
     }
 }
