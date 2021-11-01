@@ -20,6 +20,7 @@ namespace web3_tp_final.Models
 
     public class Pet
     {
+        [Required]
         public int PetID { get; set; }
 
         [Required]
@@ -33,6 +34,8 @@ namespace web3_tp_final.Models
 
         public string PhotoURI { get; set; }
 
-        public int Owner { get; set; }
+        public bool isBeingSitted { get; set; }
+
+        public int UserID { get; set; }
     }
 }

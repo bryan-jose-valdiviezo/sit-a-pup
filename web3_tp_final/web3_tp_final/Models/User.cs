@@ -24,9 +24,7 @@ namespace web3_tp_final.Models
 
         public int PhoneNumber { get; set; }
 
-        public List<Pet> OwnedPets { get; set; }
-
-        public List<Pet> SittedPets { get; set; }
+        public List<Pet> Pets { get; set; } = new List<Pet>();
 
         public List<Availability> Availabilities { get; set; }
 
