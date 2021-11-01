@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using web3_tp_final.Data;
 
 namespace web3_tp_final
 {
@@ -23,6 +26,13 @@ namespace web3_tp_final
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SitAPutContext>(options =>
+            {
+                //var connectionString = Configuration.GetConnectionString("SitAPupContext");
+
+                options.UseSqlite("Data Source=c:\\sqlite\\sitapup.db");
+            });
+
             services.AddControllersWithViews();
         }
 
