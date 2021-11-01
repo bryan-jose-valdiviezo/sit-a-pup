@@ -14,15 +14,10 @@
             +string UserName
             +string Email
             +string Address
-            +List<PhoneNumber> PhoneNumbers
             +List<Pet> OwnedPet
             +List<Pet> KeptPet
             +List<Availability> Availabilities
             +List<Message> Messages
-      }
-      class PhoneNumber {
-            +int PhoneNumber
-            +enum Type
       }
       class Pet {
 		+int PetID
