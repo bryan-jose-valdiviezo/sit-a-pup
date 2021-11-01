@@ -28,9 +28,7 @@ namespace web3_tp_final
         {
             services.AddDbContext<SitAPutContext>(options =>
             {
-                //var connectionString = Configuration.GetConnectionString("SitAPupContext");
-
-                options.UseSqlite("Data Source=c:\\sqlite\\sitapup.db");
+                options.UseSqlite(Configuration.GetConnectionString("SitAPupContext"));
             });
 
             services.AddControllersWithViews();
