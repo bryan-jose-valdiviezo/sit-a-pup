@@ -8,7 +8,7 @@ using web3_tp_final.Data;
 
 namespace web3_tp_final.Migrations
 {
-    [DbContext(typeof(SitAPutContext))]
+    [DbContext(typeof(SitAPupContext))]
     [Migration("20211101130715_InitialCreate")]
     partial class InitialCreate
     {

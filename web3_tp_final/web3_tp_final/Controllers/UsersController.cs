@@ -12,9 +12,9 @@ namespace web3_tp_final
 {
     public class UsersController : Controller
     {
-        private readonly SitAPutContext _context;
+        private readonly SitAPupContext _context;
 
-        public UsersController(SitAPutContext context)
+        public UsersController(SitAPupContext context)
         {
             _context = context;
         }

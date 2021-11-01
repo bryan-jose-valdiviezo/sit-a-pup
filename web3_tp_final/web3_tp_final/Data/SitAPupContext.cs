@@ -3,9 +3,9 @@ using web3_tp_final.Models;
 
 namespace web3_tp_final.Data
 {
-    public class SitAPutContext : DbContext
+    public class SitAPupContext : DbContext
     {
-        public SitAPutContext(DbContextOptions<SitAPutContext> options)
+        public SitAPupContext(DbContextOptions<SitAPupContext> options)
                     : base(options)
         {
         }

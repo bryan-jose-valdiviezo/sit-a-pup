@@ -7,8 +7,8 @@ using web3_tp_final.Data;
 
 namespace web3_tp_final.Migrations
 {
-    [DbContext(typeof(SitAPutContext))]
-    partial class SitAPutContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SitAPupContext))]
+    partial class SitAPupContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
