@@ -46,7 +46,7 @@ namespace web3_tp_final
         // GET: Users/Create
         public IActionResult Create()
         {
-            return View();
+            return View("SignUp");
         }
 
         // POST: Users/Create
