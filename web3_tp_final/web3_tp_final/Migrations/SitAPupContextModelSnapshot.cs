@@ -76,31 +76,35 @@ namespace web3_tp_final.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsBeingSitted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Owner")
+                    b.Property<string>("PhotoURI")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Sitter")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PhotoURI")
+                    b.Property<DateTime>("SittingEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("SittingStart")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Specie")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UserID1")
+                    b.Property<int>("UserID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("PetID");
 
                     b.HasIndex("UserID");
-
-                    b.HasIndex("UserID1");
 
                     b.ToTable("Pets");
                 });
@@ -183,12 +187,10 @@ namespace web3_tp_final.Migrations
             modelBuilder.Entity("web3_tp_final.Models.Pet", b =>
                 {
                     b.HasOne("web3_tp_final.Models.User", null)
-                        .WithMany("OwnedPets")
-                        .HasForeignKey("UserID");
-
-                    b.HasOne("web3_tp_final.Models.User", null)
-                        .WithMany("SittedPets")
-                        .HasForeignKey("UserID1");
+                        .WithMany("Pets")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("web3_tp_final.Models.Review", b =>
@@ -204,11 +206,9 @@ namespace web3_tp_final.Migrations
 
                     b.Navigation("Messages");
 
-                    b.Navigation("OwnedPets");
+                    b.Navigation("Pets");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("SittedPets");
                 });
 #pragma warning restore 612, 618
         }

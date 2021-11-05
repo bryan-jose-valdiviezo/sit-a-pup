@@ -34,7 +34,13 @@ namespace web3_tp_final.Models
 
         public string PhotoURI { get; set; }
 
-        public bool isBeingSitted { get; set; }
+        public bool IsBeingSitted { get; set; }
+
+        public int Sitter { get; set; }
+
+        public DateTime SittingStart { get; set; }
+
+        public DateTime SittingEnd { get; set; }
 
         public int UserID { get; set; }
     }
