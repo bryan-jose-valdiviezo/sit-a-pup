@@ -9,7 +9,7 @@ using web3_tp_final.Data;
 namespace web3_tp_final.Migrations
 {
     [DbContext(typeof(SitAPupContext))]
-    [Migration("20211105201614_InitialCreate")]
+    [Migration("20211106005041_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,8 +157,8 @@ namespace web3_tp_final.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
                         .IsRequired()

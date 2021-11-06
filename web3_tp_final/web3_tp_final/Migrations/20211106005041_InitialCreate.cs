@@ -16,7 +16,7 @@ namespace web3_tp_final.Migrations
                     UserName = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "INTEGER", nullable: false)
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
