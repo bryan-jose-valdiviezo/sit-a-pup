@@ -25,7 +25,7 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
-web3_tp_final/.vs/**
+web3_tp_final/.vs/
 ###################
 # Web publish log #
 ###################
