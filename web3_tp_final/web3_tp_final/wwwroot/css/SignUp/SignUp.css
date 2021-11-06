@@ -629,6 +629,8 @@ p {
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
         line-height: 1.625rem;
+        width: 25px;
+        height: 40px;
     }
 
     .navbar .navbar-toggler {
