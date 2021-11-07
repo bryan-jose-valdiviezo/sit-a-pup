@@ -58,7 +58,7 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
