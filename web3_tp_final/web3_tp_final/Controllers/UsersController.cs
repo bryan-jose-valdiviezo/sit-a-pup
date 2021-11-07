@@ -62,7 +62,7 @@ namespace web3_tp_final
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View("Index", user);
         }
 
         // GET: Users/Edit/5
