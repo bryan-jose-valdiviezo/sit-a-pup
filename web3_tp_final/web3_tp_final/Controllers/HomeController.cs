@@ -26,7 +26,12 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult BecomeSitter()
+        {
+            return View();
+        }
+
+        public IActionResult FindSitter()
         {
             return View();
         }

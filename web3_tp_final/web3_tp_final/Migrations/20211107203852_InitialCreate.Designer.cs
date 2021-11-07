@@ -9,7 +9,7 @@ using web3_tp_final.Data;
 namespace web3_tp_final.Migrations
 {
     [DbContext(typeof(SitAPupContext))]
-    [Migration("20211106005041_InitialCreate")]
+    [Migration("20211107203852_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,7 +75,7 @@ namespace web3_tp_final.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Age")
+                    b.Property<int>("BirthYear")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsBeingSitted")
@@ -121,6 +121,9 @@ namespace web3_tp_final.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("PetID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Stars")
                         .HasColumnType("INTEGER");
 
@@ -137,6 +140,8 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ReviewID");
+
+                    b.HasIndex("PetID");
 
                     b.HasIndex("UserID");
 
@@ -158,6 +163,7 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
@@ -197,9 +203,18 @@ namespace web3_tp_final.Migrations
 
             modelBuilder.Entity("web3_tp_final.Models.Review", b =>
                 {
+                    b.HasOne("web3_tp_final.Models.Pet", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("PetID");
+
                     b.HasOne("web3_tp_final.Models.User", null)
                         .WithMany("Reviews")
                         .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("web3_tp_final.Models.Pet", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("web3_tp_final.Models.User", b =>

@@ -22,14 +22,16 @@ namespace web3_tp_final.Models
         [Required]
         public string Address { get; set; }
 
+        [Required]
+        [RegularExpression(@"\d{3}[-]\d{3}[-]\d{4}")]
         public string PhoneNumber { get; set; }
 
         public List<Pet> Pets { get; set; } = new List<Pet>();
 
-        public List<Availability> Availabilities { get; set; }
+        public List<Availability> Availabilities { get; set; } = new List<Availability>();
 
-        public List<Review> Reviews { get; set; }
+        public List<Review> Reviews { get; set; } = new List<Review>();
 
-        public List<Message> Messages { get; set; }
+        public List<Message> Messages { get; set; } = new List<Message>();
     }
 }

@@ -16,7 +16,7 @@ namespace web3_tp_final.Migrations
                     UserName = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true)
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,7 +75,7 @@ namespace web3_tp_final.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false),
                     Specie = table.Column<int>(type: "INTEGER", nullable: false),
-                    Age = table.Column<int>(type: "INTEGER", nullable: false),
+                    BirthYear = table.Column<int>(type: "INTEGER", nullable: false),
                     PhotoURI = table.Column<string>(type: "TEXT", nullable: true),
                     IsBeingSitted = table.Column<bool>(type: "INTEGER", nullable: false),
                     Sitter = table.Column<int>(type: "INTEGER", nullable: false),
@@ -105,11 +105,18 @@ namespace web3_tp_final.Migrations
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     WrittenTo = table.Column<int>(type: "INTEGER", nullable: false),
                     WrittenBy = table.Column<int>(type: "INTEGER", nullable: false),
+                    PetID = table.Column<int>(type: "INTEGER", nullable: true),
                     UserID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ReviewID);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Pets_PetID",
+                        column: x => x.PetID,
+                        principalTable: "Pets",
+                        principalColumn: "PetID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserID",
                         column: x => x.UserID,
@@ -134,6 +141,11 @@ namespace web3_tp_final.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_PetID",
+                table: "Reviews",
+                column: "PetID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserID",
                 table: "Reviews",
                 column: "UserID");
@@ -148,10 +160,10 @@ namespace web3_tp_final.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Pets");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "Pets");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -30,12 +30,15 @@ namespace web3_tp_final.Models
         [Required]
         public Specie Specie { get; set; } 
         
-        public int Age { get; set; }
+        public int BirthYear { get; set; }
 
         public string PhotoURI { get; set; }
 
         public bool IsBeingSitted { get; set; }
 
+        public List<Review> Reviews { get; set; } = new List<Review>();
+
+        //Je n'ajoute pas d'ID dans l'attribut parce que ça compliquerait inutilement la gestion des clés primaires et étrangères avec le framework (CM).
         public int Sitter { get; set; }
 
         public DateTime SittingStart { get; set; }
