@@ -8,26 +8,24 @@ namespace web3_tp_final.Models
 {
     public enum Specie
     {
-        DOG,
-        CAT,
-        BIRD,
-        RODENT,
-        AMPHIBIAN,
+        CHIEN,
+        CHAT,
+        OISEAU,
+        RONGEUR,
         REPTILE,
         FISH,
-        EXOTIC
+        AUTRE
     }
 
     public class Pet
     {
-        [Required]
         public int PetID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Maximum 40 caractères")]
         [MaxLength(40)]
         public string Name { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Vous devez indiquer l'espèce")]
         public Specie Specie { get; set; } 
         
         public int BirthYear { get; set; }
