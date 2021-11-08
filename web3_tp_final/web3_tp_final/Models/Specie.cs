@@ -2,12 +2,12 @@
 {
     public enum Specie
     {
-        CHIEN = 0,
-        CHAT = 1,
-        OISEAU = 2,
-        RONGEUR = 3,
-        REPTILE = 4,
-        POISSON = 5,
-        AUTRE = 6
+        CHIEN,
+        CHAT,
+        OISEAU,
+        RONGEUR,
+        REPTILE,
+        POISSON,
+        AUTRE
     }
 }
