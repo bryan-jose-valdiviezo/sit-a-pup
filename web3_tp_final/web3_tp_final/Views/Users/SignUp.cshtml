@@ -72,8 +72,8 @@
 <div class="section section-signup" style="background-image: url('https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=%5B820%2C706%5D&w=2000&h=1000&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F47%2F2021%2F06%2F01%2Fdogs-at-dog-park-107903002-2000.jpg'); background-size: cover; background-position: top center; min-height: 100vh;">
     <div class="container">
         <div class="row">
-            <div class="card card-signup" data-background-color="brown">
-                <form class="form" asp-action="Create" method="post">
+            <div class="card card-signup" data-background-color="brown">                
+                <form class="form" asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="card-header text-center">
@@ -106,7 +106,7 @@
                                     <i class="now-ui-icons ui-1_email-85"></i>
                                 </span>
                             </div>
-                            <input type="text" placeholder="Email..." class="form-control">
+                            <input asp-for="Email" class="form-control" placeholder="Email..." >
                         </div>
                         <div class="input-group no-border">
                             <div class="input-group-prepend">
@@ -114,7 +114,7 @@
                                     <i class="now-ui-icons tech_mobile"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Phone Number...">
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number...">
                         </div>
                         <div class="input-group no-border">
                             <div class="input-group-prepend">
@@ -122,7 +122,7 @@
                                     <i class="now-ui-icons ui-1_email-85"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Address...">
+                            <input asp-for="Address" class="form-control" placeholder="Address...">
                         </div>
                     </div>
                     <div class="card-footer text-center">

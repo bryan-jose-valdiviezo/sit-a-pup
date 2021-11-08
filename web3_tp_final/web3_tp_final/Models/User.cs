@@ -23,7 +23,7 @@ namespace web3_tp_final.Models
         public string Address { get; set; }
 
         [Required]
-        [RegularExpression(@"\d{3}[-]\d{3}[-]\d{4}")]
+        //[RegularExpression(@"\d{3}[-]\d{3}[-]\d{4}")]
         public string PhoneNumber { get; set; }
 
         public List<Pet> Pets { get; set; } = new List<Pet>();
