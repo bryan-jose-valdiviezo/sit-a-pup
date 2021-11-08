@@ -58,11 +58,11 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                _context.Users.Add(user);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View("Index", user);
+            return View(user);
         }
 
         // GET: Users/Edit/5
