@@ -46,16 +46,16 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        // POST: Pets/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PetID,Name,Specie,BirthYear,PhotoURI,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
         {
+            //Attribue l'animal par défaut à l'utilisateur 1. À modifier avec les sessions. 
+            User mockUser = await _context.Users.FindAsync(1);
             if (ModelState.IsValid)
             {
-                _context.Add(pet);
+                mockUser.Pets.Add(pet);
+                _context.Users.Update(mockUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -78,9 +78,6 @@ namespace web3_tp_final.Controllers
             return View(pet);
         }
 
-        // POST: Pets/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,PhotoURI,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
@@ -139,6 +136,13 @@ namespace web3_tp_final.Controllers
             var pet = await _context.Pets.FindAsync(id);
             _context.Pets.Remove(pet);
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadPhoto()
+        {
             return RedirectToAction(nameof(Index));
         }
 
