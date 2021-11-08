@@ -220,6 +220,14 @@ body {
     color: #dd4b39 !important;
 }
 
+.text-danger[data-color="caramel"] {
+    color: #e09650 !important;
+}
+
+.card[data-background-color="brown"] {
+    background-color: rgba(107, 59, 43, 0.9);
+}
+
 .form-control::-moz-placeholder {
     color: #888888;
     opacity: 0.8;
