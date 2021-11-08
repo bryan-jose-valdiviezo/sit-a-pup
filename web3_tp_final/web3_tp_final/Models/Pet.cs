@@ -1,33 +1,34 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace web3_tp_final.Models
 {
-    public enum Specie
-    {
-        CHIEN,
-        CHAT,
-        OISEAU,
-        RONGEUR,
-        REPTILE,
-        FISH,
-        AUTRE
-    }
-
     public class Pet
     {
+        public Pet()
+        {
+            SpecieList = Enum.GetNames(typeof(Specie)).Select(name => new SelectListItem()
+            {
+                Text = name,
+                Value = name
+            });
+        }
+
         public int PetID { get; set; }
 
         [Required(ErrorMessage = "Maximum 40 caractères")]
         [MaxLength(40)]
         public string Name { get; set; }
-        
-        [Required(ErrorMessage = "Vous devez indiquer l'espèce")]
-        public Specie Specie { get; set; } 
-        
+
+        public Specie Specie { get; set; }
+
+        [NotMapped]
+        public IEnumerable<SelectListItem> SpecieList { get; set; }
+
         public int BirthYear { get; set; }
 
         public string PhotoURI { get; set; }

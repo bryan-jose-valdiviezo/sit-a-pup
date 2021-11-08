@@ -9,7 +9,7 @@ using web3_tp_final.Data;
 namespace web3_tp_final.Migrations
 {
     [DbContext(typeof(SitAPupContext))]
-    [Migration("20211107203852_InitialCreate")]
+    [Migration("20211108163718_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

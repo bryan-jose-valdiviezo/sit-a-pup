@@ -19,7 +19,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Specie" class="control-label"></label>
-                <select asp-for="Specie" class="form-control"></select>
+                <select asp-for="Specie" class="form-control">
+                    <option value="0">Chien</option>
+                    <option value="1">Chat</option>
+                    <option value="2">Oiseau</option>
+                    <option value="3">Rongeur</option>
+                    <option value="4">Reptile</option>
+                    <option value="5">Poisson</option>
+                    <option value="6">Autre</option>
+                </select>
                 <span asp-validation-for="Specie" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,30 +39,6 @@
                 <label asp-for="PhotoURI" class="control-label"></label>
                 <input asp-for="PhotoURI" class="form-control" />
                 <span asp-validation-for="PhotoURI" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsBeingSitted" /> @Html.DisplayNameFor(model => model.IsBeingSitted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sitter" class="control-label"></label>
-                <input asp-for="Sitter" class="form-control" />
-                <span asp-validation-for="Sitter" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SittingStart" class="control-label"></label>
-                <input asp-for="SittingStart" class="form-control" />
-                <span asp-validation-for="SittingStart" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SittingEnd" class="control-label"></label>
-                <input asp-for="SittingEnd" class="form-control" />
-                <span asp-validation-for="SittingEnd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
