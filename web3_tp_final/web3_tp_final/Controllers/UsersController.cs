@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.Data;
 using web3_tp_final.Models;
@@ -46,7 +43,7 @@ namespace web3_tp_final
         // GET: Users/Create
         public IActionResult Create()
         {
-            return View();
+            return View("SignUp");
         }
 
         // POST: Users/Create
@@ -62,7 +59,7 @@ namespace web3_tp_final
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View("SignUp", user);
         }
 
         // GET: Users/Edit/5

@@ -1,5 +1,3 @@
-using System;
-
 namespace web3_tp_final.Models
 {
     public class ErrorViewModel

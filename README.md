@@ -54,3 +54,7 @@
 Syntaxe pour [Markdown](https://www.markdownguide.org/basic-syntax/)
 
 Syntaxe pour les diagrammes de classe [Mermaid](https://mermaid-js.github.io/mermaid/#/classDiagram)
+
+[Animation css](https://animate.style/)
+
+Kit d'outils de développement [HTML/CSS](https://demos.creative-tim.com/now-ui-kit/index.html)

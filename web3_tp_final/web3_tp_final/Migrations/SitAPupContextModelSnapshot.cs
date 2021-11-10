@@ -73,7 +73,10 @@ namespace web3_tp_final.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Age")
+                    b.Property<int>("BirthYear")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsBeingSitted")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -81,26 +84,27 @@ namespace web3_tp_final.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Owner")
+                    b.Property<string>("PhotoURI")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Sitter")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PhotoURI")
+                    b.Property<DateTime>("SittingEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("SittingStart")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Specie")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UserID1")
+                    b.Property<int>("UserID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("PetID");
 
                     b.HasIndex("UserID");
-
-                    b.HasIndex("UserID1");
 
                     b.ToTable("Pets");
                 });
@@ -114,6 +118,9 @@ namespace web3_tp_final.Migrations
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("PetID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Stars")
                         .HasColumnType("INTEGER");
@@ -131,6 +138,8 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ReviewID");
+
+                    b.HasIndex("PetID");
 
                     b.HasIndex("UserID");
 
@@ -151,8 +160,9 @@ namespace web3_tp_final.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -183,19 +193,26 @@ namespace web3_tp_final.Migrations
             modelBuilder.Entity("web3_tp_final.Models.Pet", b =>
                 {
                     b.HasOne("web3_tp_final.Models.User", null)
-                        .WithMany("OwnedPets")
-                        .HasForeignKey("UserID");
-
-                    b.HasOne("web3_tp_final.Models.User", null)
-                        .WithMany("SittedPets")
-                        .HasForeignKey("UserID1");
+                        .WithMany("Pets")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("web3_tp_final.Models.Review", b =>
                 {
+                    b.HasOne("web3_tp_final.Models.Pet", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("PetID");
+
                     b.HasOne("web3_tp_final.Models.User", null)
                         .WithMany("Reviews")
                         .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("web3_tp_final.Models.Pet", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("web3_tp_final.Models.User", b =>
@@ -204,11 +221,9 @@ namespace web3_tp_final.Migrations
 
                     b.Navigation("Messages");
 
-                    b.Navigation("OwnedPets");
+                    b.Navigation("Pets");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("SittedPets");
                 });
 #pragma warning restore 612, 618
         }

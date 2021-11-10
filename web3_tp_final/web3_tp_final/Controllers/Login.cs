@@ -2,11 +2,11 @@
 
 namespace web3_tp_final.Controllers
 {
-    public class AvailabilitiesController : Controller
+    public class Login : Controller
     {
         public IActionResult Index()
         {
-            return View("Availabilities");
+            return View();
         }
     }
 }

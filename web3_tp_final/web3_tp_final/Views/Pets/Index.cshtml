@@ -1,0 +1,77 @@
+﻿@model IEnumerable<web3_tp_final.Models.Pet>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Specie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoURI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsBeingSitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sitter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingEnd)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoURI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBeingSitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sitter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SittingStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SittingEnd)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PetID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PetID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PetID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

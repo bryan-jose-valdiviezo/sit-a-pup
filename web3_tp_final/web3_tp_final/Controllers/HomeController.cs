@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
+using web3_tp_final.Data;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
@@ -12,9 +11,11 @@ namespace web3_tp_final.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SitAPupContext _sitAPupContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SitAPupContext sitAPupContext)
         {
+            _sitAPupContext = sitAPupContext;
             _logger = logger;
         }
 
@@ -23,9 +24,36 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult BecomeSitter()
         {
             return View();
+        }
+
+        public IActionResult FindSitter()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GenerateMockUsers()
+        {
+            List<Pet> pets1 = new List<Pet>();
+            pets1.Add(new Pet { Name = "Skye", Specie = Specie.CHIEN });
+            _sitAPupContext.Add(new User { UserName = "Quigid Trunslo", Email = "trunslo@gmail.com", PhoneNumber = "514-250-2121", Address = "20e Avenue Montréal", Pets = pets1 } );
+
+            List<Pet> pets2 = new List<Pet>();
+            pets2.Add(new Pet { Name = "Astro", Specie = Specie.CHAT } );
+            _sitAPupContext.Add(new User { UserName = "Gertrev Framab", Email = "framab@yahoo.fr", PhoneNumber = "514-250-2120", Address = "21e Avenue Montréal", Pets = pets2 });
+
+            List<Pet> pets3 = new List<Pet>();
+            pets3.Add(new Pet { Name = "Chase", Specie = Specie.OISEAU });
+            _sitAPupContext.Add(new User { UserName = "Zoirile Wolvlowe", Email = "zoirile@videotron.ca", PhoneNumber = "514-250-2119", Address = "22e Avenue Montréal", Pets = pets3 });
+
+            List<Pet> pets4 = new List<Pet>();
+            pets4.Add(new Pet { Name = "Render", Specie = Specie.RONGEUR });
+            _sitAPupContext.Add(new User { UserName = "Sophhai Rusell", Email = "rusell@ciuss.qc.ca", PhoneNumber = "514-250-2118", Address = "23e Avenue Montréal", Pets = pets4 });
+
+            await _sitAPupContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
