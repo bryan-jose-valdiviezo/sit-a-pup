@@ -11,6 +11,8 @@ namespace web3_tp_final.Models
         [MinLength(3), MaxLength(20)]
         public string UserName { get; set; }
 
+        public string Password { get; set; }
+
         [Required(ErrorMessage = "Entrez une adresse valide (ex: nom@courriel.com)")]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
         public string Email { get; set; }

@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace web3_tp_final.Models
 {
     public class Pet
     {
+        public enum Species
+        {
+            CHIEN,
+            CHAT,
+            OISEAU,
+            RONGEUR,
+            REPTILE,
+            POISSON,
+            AUTRE
+        }
         public Pet()
         {
-            SpecieList = Enum.GetNames(typeof(Specie)).Select(name => new SelectListItem()
-            {
-                Text = name,
-                Value = name
-            });
         }
 
         public int PetID { get; set; }
@@ -25,18 +26,21 @@ namespace web3_tp_final.Models
         [MaxLength(40)]
         public string Name { get; set; }
 
-        public Specie Specie { get; set; }
+        [Column("Specie")]
+        public string SpecieString
+        {
+            get { return Specie.ToString(); }
+            private set { Specie = (Species)Enum.Parse(typeof(Species), value, true); }
+        }
 
         [NotMapped]
-        public IEnumerable<SelectListItem> SpecieList { get; set; }
+        public Species Specie { get; set; }
 
         public int BirthYear { get; set; }
 
         public string PhotoURI { get; set; }
 
         public bool IsBeingSitted { get; set; }
-
-        public List<Review> Reviews { get; set; } = new List<Review>();
 
         //Je n'ajoute pas d'ID dans l'attribut parce que ça compliquerait inutilement la gestion des clés primaires et étrangères avec le framework (CM).
         public int Sitter { get; set; }
