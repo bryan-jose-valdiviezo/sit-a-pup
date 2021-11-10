@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.Data;
@@ -16,13 +19,11 @@ namespace web3_tp_final.Controllers
             _context = context;
         }
 
-        // GET: Pets
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pets.ToListAsync());
         }
 
-        // GET: Pets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,7 +41,6 @@ namespace web3_tp_final.Controllers
             return View(pet);
         }
 
-        // GET: Pets/Create
         public IActionResult Create()
         {
             return View();
@@ -62,7 +62,6 @@ namespace web3_tp_final.Controllers
             return View(pet);
         }
 
-        // GET: Pets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -110,7 +109,6 @@ namespace web3_tp_final.Controllers
             return View(pet);
         }
 
-        // GET: Pets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,7 +126,6 @@ namespace web3_tp_final.Controllers
             return View(pet);
         }
 
-        // POST: Pets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -141,8 +138,14 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadPhoto()
+        public async Task<IActionResult> UploadPhoto(IFormFile photo)
         {
+            var filePath = Path.GetFullPath("c:\\sqlite");
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.CopyToAsync(stream);
+                }
+            
             return RedirectToAction(nameof(Index));
         }
 

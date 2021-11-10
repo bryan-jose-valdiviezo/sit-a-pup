@@ -904,7 +904,12 @@ img {
 }
 
 .section-signup {
-    padding-top: 20vh;    
+    padding-top: 20vh;
+}
+
+.blur {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
 }
 
 [data-background-color="orange"] {
