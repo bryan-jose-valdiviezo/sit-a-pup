@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.Data;
@@ -48,12 +46,21 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetID,Name,Specie,BirthYear,PhotoURI,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
+        public async Task<IActionResult> Create([Bind("PetID,Name,Specie,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
         {
             //Attribue l'animal par défaut à l'utilisateur 1. À modifier avec les sessions. 
             User mockUser = await _context.Users.FindAsync(1);
             if (ModelState.IsValid)
             {
+                var photo = Request.Form.Files.GetFile("photo");
+                if (photo != null)
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    await photo.CopyToAsync(memoryStream);
+                    pet.Photo = memoryStream.ToArray();
+                    memoryStream.Close();
+                    memoryStream.Dispose();
+                }        
                 mockUser.Pets.Add(pet);
                 _context.Users.Update(mockUser);
                 await _context.SaveChangesAsync();
@@ -79,7 +86,7 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,PhotoURI,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
         {
             if (id != pet.PetID)
             {
@@ -138,10 +145,21 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadPhoto(IFormFile photo)
+        public async Task<IActionResult> UploadPhoto()
         {
-           
-            
+            //Image uploadée temporairement sur animal avec id spécifique
+            Pet pet = await _context.Pets.FindAsync(2);
+            foreach(var file in Request.Form.Files)
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+                pet.Photo = memoryStream.ToArray();
+                memoryStream.Close();
+                memoryStream.Dispose();
+                _context.Pets.Update(pet);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

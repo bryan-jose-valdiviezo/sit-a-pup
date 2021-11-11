@@ -35,7 +35,7 @@ namespace web3_tp_final.Models
 
         public int BirthYear { get; set; }
 
-        public byte[] PhotoData { get; set; }
+        public byte[] Photo { get; set; }
 
         public bool IsBeingSitted { get; set; }
 
