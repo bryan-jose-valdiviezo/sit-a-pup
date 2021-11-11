@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace web3_tp_final.Models
 {
@@ -29,5 +31,6 @@ namespace web3_tp_final.Models
         public List<Review> Reviews { get; set; } = new List<Review>();
 
         public List<Message> Messages { get; set; } = new List<Message>();
+
     }
 }

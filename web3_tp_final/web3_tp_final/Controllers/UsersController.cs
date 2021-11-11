@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using web3_tp_final.API;
 using web3_tp_final.Data;
 using web3_tp_final.Models;
 
@@ -10,6 +14,7 @@ namespace web3_tp_final
     public class UsersController : Controller
     {
         private readonly SitAPupContext _context;
+        private static APIController api = new APIController();
 
         public UsersController(SitAPupContext context)
         {
@@ -19,7 +24,9 @@ namespace web3_tp_final
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var users = await api.Get<User>();
+
+            return View(users);
         }
 
         // GET: Users/Details/5
@@ -30,8 +37,7 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
+            var user = await api.Get<User>(id);
             if (user == null)
             {
                 return NotFound();
@@ -55,11 +61,13 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                user.UserID = 0;
+                User createdUser = await api.Post<User>(user);
+                if (createdUser != null)
+                    return View(user);
             }
-            return View("SignUp", user);
+
+            return View("Signup");
         }
 
         // GET: Users/Edit/5
@@ -94,8 +102,8 @@ namespace web3_tp_final
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    user.UserID = id;
+                    User updatedUser = await api.Put<User>(id, user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -136,9 +144,7 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            api.Delete<User>(id);
             return RedirectToAction(nameof(Index));
         }
 
