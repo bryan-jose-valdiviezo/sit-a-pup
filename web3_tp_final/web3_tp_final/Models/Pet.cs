@@ -16,9 +16,6 @@ namespace web3_tp_final.Models
             POISSON,
             AUTRE
         }
-        public Pet()
-        {
-        }
 
         public int PetID { get; set; }
 
@@ -38,7 +35,7 @@ namespace web3_tp_final.Models
 
         public int BirthYear { get; set; }
 
-        public string PhotoURI { get; set; }
+        public byte[] PhotoData { get; set; }
 
         public bool IsBeingSitted { get; set; }
 

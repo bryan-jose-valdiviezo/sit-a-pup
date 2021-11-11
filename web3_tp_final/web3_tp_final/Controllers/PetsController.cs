@@ -140,11 +140,7 @@ namespace web3_tp_final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadPhoto(IFormFile photo)
         {
-            var filePath = Path.GetFullPath("c:\\sqlite");
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await photo.CopyToAsync(stream);
-                }
+           
             
             return RedirectToAction(nameof(Index));
         }
