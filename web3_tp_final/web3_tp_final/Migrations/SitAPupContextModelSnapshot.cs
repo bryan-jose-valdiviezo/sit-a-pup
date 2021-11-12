@@ -134,7 +134,6 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Stars")
