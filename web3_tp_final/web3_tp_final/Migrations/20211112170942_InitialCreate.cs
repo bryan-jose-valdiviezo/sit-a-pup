@@ -116,7 +116,7 @@ namespace web3_tp_final.Migrations
                     ReviewID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Stars = table.Column<int>(type: "INTEGER", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     WrittenTo = table.Column<int>(type: "INTEGER", nullable: false),
                     WrittenBy = table.Column<int>(type: "INTEGER", nullable: false),

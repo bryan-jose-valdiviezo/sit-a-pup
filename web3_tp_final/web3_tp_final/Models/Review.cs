@@ -7,19 +7,19 @@ namespace web3_tp_final.Models
     {
         public int ReviewID { get; set; }
 
-        [Required]
+        //[Required]
         public int Stars { get; set; }
 
-        [Required]
+        //[Required]
         public string Comment { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime TimeStamp { get; set; }
 
-        [Required]
+        //[Required]
         public int WrittenTo { get; set; }
 
-        [Required]
+        //[Required]
         public int WrittenBy { get; set; }
     }
 }

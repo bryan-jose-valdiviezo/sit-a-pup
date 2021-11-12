@@ -46,9 +46,9 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetID,Name,Specie,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
+        public async Task<IActionResult> Create([Bind("PetID,Name,SpecieString,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
         {
-            //Attribue l'animal par défaut à l'utilisateur 1. À modifier avec les sessions. 
+            //Attribue l'animal par défaut à l'utilisateur 1. //RÉCUPÉRER ID DE L'UTILISATEUR DANS SESSION
             User mockUser = await _context.Users.FindAsync(1);
             if (ModelState.IsValid)
             {
@@ -58,8 +58,6 @@ namespace web3_tp_final.Controllers
                     MemoryStream memoryStream = new MemoryStream();
                     await photo.CopyToAsync(memoryStream);
                     pet.Photo = memoryStream.ToArray();
-                    memoryStream.Close();
-                    memoryStream.Dispose();
                 }        
                 mockUser.Pets.Add(pet);
                 _context.Users.Update(mockUser);
@@ -86,18 +84,23 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,SpecieString,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
         {
-            if (id != pet.PetID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(pet);
+                    var photo = Request.Form.Files.GetFile("photo");
+                    if (photo != null)
+                    {
+                    MemoryStream memoryStream = new MemoryStream();
+                    await photo.CopyToAsync(memoryStream);
+                    pet.Photo = memoryStream.ToArray();
+                    }
+                    User user = await _context.Users.FindAsync(1); //RÉCUPÉRER ID DE L'UTILISATEUR DANS SESSION
+                    user.Pets.RemoveAll(petToRemove => petToRemove.PetID == pet.PetID); //Attention, si le mauvais ID de l'utilisateur est passé, un nouvel animal est créé et assigné à cet utilisateur.
+                    user.Pets.Add(pet);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -140,26 +143,6 @@ namespace web3_tp_final.Controllers
             var pet = await _context.Pets.FindAsync(id);
             _context.Pets.Remove(pet);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadPhoto()
-        {
-            //Image uploadée temporairement sur animal avec id spécifique
-            Pet pet = await _context.Pets.FindAsync(2);
-            foreach(var file in Request.Form.Files)
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                await file.CopyToAsync(memoryStream);
-                pet.Photo = memoryStream.ToArray();
-                memoryStream.Close();
-                memoryStream.Dispose();
-                _context.Pets.Update(pet);
-                await _context.SaveChangesAsync();
-            }
-
             return RedirectToAction(nameof(Index));
         }
 

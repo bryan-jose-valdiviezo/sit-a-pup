@@ -38,19 +38,19 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> GenerateMockUsers()
         {
             List<Pet> pets1 = new List<Pet>();
-            pets1.Add(new Pet { Name = "Skye", Specie = Species.CHIEN });
+            pets1.Add(new Pet { Name = "Skye", BirthYear = 2016, Specie = Species.CHIEN });
             _sitAPupContext.Add(new User { UserName = "Quigid Trunslo", Email = "trunslo@gmail.com", PhoneNumber = "514-250-2121", Address = "20e Avenue Montréal", Pets = pets1 } );
 
             List<Pet> pets2 = new List<Pet>();
-            pets2.Add(new Pet { Name = "Astro", Specie = Species.CHAT } );
+            pets2.Add(new Pet { Name = "Astro", BirthYear = 2017, Specie = Species.CHAT } );
             _sitAPupContext.Add(new User { UserName = "Gertrev Framab", Email = "framab@yahoo.fr", PhoneNumber = "514-250-2120", Address = "21e Avenue Montréal", Pets = pets2 });
 
             List<Pet> pets3 = new List<Pet>();
-            pets3.Add(new Pet { Name = "Chase", Specie = Species.OISEAU });
+            pets3.Add(new Pet { Name = "Chase", BirthYear = 2018, Specie = Species.OISEAU });
             _sitAPupContext.Add(new User { UserName = "Zoirile Wolvlowe", Email = "zoirile@videotron.ca", PhoneNumber = "514-250-2119", Address = "22e Avenue Montréal", Pets = pets3 });
 
             List<Pet> pets4 = new List<Pet>();
-            pets4.Add(new Pet { Name = "Render", Specie = Species.RONGEUR });
+            pets4.Add(new Pet { Name = "Render", BirthYear = 2019, Specie = Species.RONGEUR });
             _sitAPupContext.Add(new User { UserName = "Sophhai Rusell", Email = "rusell@ciuss.qc.ca", PhoneNumber = "514-250-2118", Address = "23e Avenue Montréal", Pets = pets4 });
 
             await _sitAPupContext.SaveChangesAsync();

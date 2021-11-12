@@ -9,7 +9,7 @@ using web3_tp_final.Data;
 namespace web3_tp_final.Migrations
 {
     [DbContext(typeof(SitAPupContext))]
-    [Migration("20211111172325_InitialCreate")]
+    [Migration("20211112170942_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,7 +136,6 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Stars")
