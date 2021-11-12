@@ -2,7 +2,7 @@
 
 namespace web3_tp_final.Controllers
 {
-    public class Login : Controller
+    public class LoginController : Controller
     {
         public IActionResult Index()
         {
