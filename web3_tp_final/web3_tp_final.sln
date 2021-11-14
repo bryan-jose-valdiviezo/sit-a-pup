@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web3_tp_final", "web3_tp_final\web3_tp_final.csproj", "{A6CF8E38-82E1-443D-BA1D-EEFB88879F42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service_Final_Rest_API", "Service_Final_Rest_API\Service_Final_Rest_API.csproj", "{2DAB7360-C278-426F-BC50-D877487A281F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service_Final_Rest_API", "Service_Final_Rest_API\Service_Final_Rest_API.csproj", "{2DAB7360-C278-426F-BC50-D877487A281F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

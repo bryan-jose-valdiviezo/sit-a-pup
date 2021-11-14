@@ -16,6 +16,23 @@ namespace web3_tp_final.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.11");
 
+            modelBuilder.Entity("web3_tp_final.Models.Admin", b =>
+                {
+                    b.Property<int>("AdminID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AdminID");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("web3_tp_final.Models.Availability", b =>
                 {
                     b.Property<int>("AvailabilityID")
@@ -84,8 +101,8 @@ namespace web3_tp_final.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PhotoURI")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("BLOB");
 
                     b.Property<int>("Sitter")
                         .HasColumnType("INTEGER");
@@ -96,8 +113,9 @@ namespace web3_tp_final.Migrations
                     b.Property<DateTime>("SittingStart")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Specie")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("SpecieString")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Specie");
 
                     b.Property<int>("UserID")
                         .HasColumnType("INTEGER");
@@ -116,11 +134,7 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("PetID")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Stars")
                         .HasColumnType("INTEGER");
@@ -139,8 +153,6 @@ namespace web3_tp_final.Migrations
 
                     b.HasKey("ReviewID");
 
-                    b.HasIndex("PetID");
-
                     b.HasIndex("UserID");
 
                     b.ToTable("Reviews");
@@ -158,6 +170,9 @@ namespace web3_tp_final.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
@@ -201,18 +216,9 @@ namespace web3_tp_final.Migrations
 
             modelBuilder.Entity("web3_tp_final.Models.Review", b =>
                 {
-                    b.HasOne("web3_tp_final.Models.Pet", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("PetID");
-
                     b.HasOne("web3_tp_final.Models.User", null)
                         .WithMany("Reviews")
                         .HasForeignKey("UserID");
-                });
-
-            modelBuilder.Entity("web3_tp_final.Models.Pet", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("web3_tp_final.Models.User", b =>
