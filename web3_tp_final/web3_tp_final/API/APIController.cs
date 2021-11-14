@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using web3_tp_final.Models;
 
 namespace web3_tp_final.API
 {
@@ -55,7 +50,7 @@ namespace web3_tp_final.API
             return (T)JsonConvert.DeserializeObject<T>(apiResponse);
         }
 
-        public async Task<HttpResponseMessage> Delete<T> (int id)
+        public async Task<HttpResponseMessage> Delete<T> (int? id)
         {
             string className = Pluralize<T>();
 
