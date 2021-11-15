@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using web3_tp_final.API;
 using web3_tp_final.Data;
 using web3_tp_final.Models;
 using static web3_tp_final.Models.Pet;
@@ -13,9 +14,11 @@ namespace web3_tp_final.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SitAPupContext _sitAPupContext;
+        private APIController api; 
 
         public HomeController(ILogger<HomeController> logger, SitAPupContext sitAPupContext)
         {
+            api = new APIController();
             _sitAPupContext = sitAPupContext;
             _logger = logger;
         }
@@ -30,9 +33,10 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        public IActionResult FindSitter()
+        public async Task<IActionResult> FindSitter()
         {
-            return View();
+            IEnumerable<User> users = await api.Get<User>();
+            return View(users);
         }
 
         public async Task<IActionResult> GenerateMockUsers()

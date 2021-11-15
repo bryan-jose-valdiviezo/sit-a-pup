@@ -61,8 +61,6 @@ namespace web3_tp_final.API
 
         private string Pluralize<T>(string word = null)
         {
-            string className;
-
             if (word == null)
             {
                 var objectClass = (T)Activator.CreateInstance(typeof(T));
