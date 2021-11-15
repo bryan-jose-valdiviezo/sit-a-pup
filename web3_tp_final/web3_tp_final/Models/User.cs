@@ -13,9 +13,11 @@ namespace web3_tp_final.Models
         [MinLength(3), MaxLength(20)]
         public string UserName { get; set; }
 
+        [Required(ErrorMessage = "Un mot de passe est requis (Minimum 10 caractères)")]
+        [MinLength(10)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Entrez une adresse valide (ex: nom@courriel.com)")]
+        [Required(ErrorMessage = "Entrez un courriel valide (ex: nom@courriel.com)")]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
         public string Email { get; set; }
 
