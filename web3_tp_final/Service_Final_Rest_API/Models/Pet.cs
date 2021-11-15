@@ -22,6 +22,7 @@ namespace Service_Final_Rest_API.Models
         public string SittingStart { get; set; }
         public string SittingEnd { get; set; }
         public long UserId { get; set; }
+        public long? Photo { get; set; }
 
         public virtual User User { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
