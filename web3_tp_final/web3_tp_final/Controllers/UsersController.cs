@@ -14,6 +14,7 @@ namespace web3_tp_final
     public class UsersController : Controller
     {
         private readonly SitAPupContext _context;
+        private static APIController api = new APIController();
 
         public UsersController(SitAPupContext context)
         {
@@ -23,7 +24,9 @@ namespace web3_tp_final
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var users = await api.Get<User>();
+
+            return View(users);
         }
 
         // GET: Users/Details/5
@@ -34,8 +37,7 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await _context.Pets
-               .FirstOrDefaultAsync(m => m.UserID == id);
+            var user = await api.Get<User>(id);
             if (user == null)
             {
                 return NotFound();
@@ -55,16 +57,17 @@ namespace web3_tp_final
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserName,Email,Address,PhoneNumber")] User user)
+        public async Task<IActionResult> Create([Bind("UserID,UserName, Password,Email,Address,PhoneNumber")] User user)
         {
             if (ModelState.IsValid)
             {
-                if (user != null)
-                    _context.Add(user);
+                user.UserID = 0;
+                User createdUser = await api.Post<User>(user);
+                if (createdUser != null)
                     return View(user);
             }
 
-            return View(user);
+            return View("Signup");
         }
 
         // GET: Users/Edit/5
@@ -99,8 +102,8 @@ namespace web3_tp_final
             {
                 try
                 {
-                    _context.Update(user);
-                    _context.SaveChangesAsync();
+                    user.UserID = id;
+                    User updatedUser = await api.Put<User>(id, user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,7 +129,7 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserID == id);
+            var user = await api.Get<User>(id);
             if (user == null)
             {
                 return NotFound();
@@ -140,7 +143,7 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await api.Delete<User>(id);
+            api.Delete<User>(id);
             return RedirectToAction(nameof(Index));
         }
 
