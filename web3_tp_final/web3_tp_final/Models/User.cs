@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 
@@ -34,5 +35,15 @@ namespace web3_tp_final.Models
 
         public List<Message> Messages { get; set; } = new List<Message>();
 
+
+        public int AverageRating()
+        {
+            if (!Reviews.Any())
+                return 0;
+
+            int stars = Reviews.Select(o => o.Stars).ToList().Sum();
+
+            return stars / Reviews.Count;
+        }
     }
 }

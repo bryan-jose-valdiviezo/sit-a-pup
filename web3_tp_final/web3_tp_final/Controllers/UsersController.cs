@@ -143,7 +143,7 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            api.Delete<User>(id);
+            await api.Delete<User>(id);
             return RedirectToAction(nameof(Index));
         }
 
