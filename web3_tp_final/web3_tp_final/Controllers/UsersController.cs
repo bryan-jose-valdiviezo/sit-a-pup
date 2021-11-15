@@ -51,7 +51,7 @@ namespace web3_tp_final
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserName,Email,Address,PhoneNumber")] User user)
+        public async Task<IActionResult> Create([Bind("UserID,UserName, Password,Email,Address,PhoneNumber")] User user)
         {
             if (ModelState.IsValid)
             {
