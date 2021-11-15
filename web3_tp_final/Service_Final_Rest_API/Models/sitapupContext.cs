@@ -23,6 +23,7 @@ namespace Service_Final_Rest_API.Models
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Availability>(entity =>
