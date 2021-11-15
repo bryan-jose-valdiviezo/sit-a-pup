@@ -66,7 +66,7 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> GenerateMockLogin()
         {
             User mockUser = await _sitAPupContext.Users.FindAsync(1);
-            SessionHelper.SetObjectAsJson(HttpContext.Session, "mockUser", mockUser);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "user", mockUser);
             return RedirectToAction(nameof(Index));
         }
 

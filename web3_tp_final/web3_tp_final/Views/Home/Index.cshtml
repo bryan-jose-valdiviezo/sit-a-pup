@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Accueil";
-    var user = SessionHelper.GetObjectFromJson<User>(Context.Session, "mockUser");
+    var user = SessionHelper.GetObjectFromJson<User>(Context.Session, "user");
     string username = "No active session";
     if (user != null)
     {
