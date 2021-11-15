@@ -9,14 +9,14 @@ using web3_tp_final.Data;
 namespace web3_tp_final.Migrations
 {
     [DbContext(typeof(SitAPupContext))]
-    [Migration("20211112170942_InitialCreate")]
+    [Migration("20211115014402_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.11");
+                .HasAnnotation("ProductVersion", "5.0.12");
 
             modelBuilder.Entity("web3_tp_final.Models.Admin", b =>
                 {
@@ -175,6 +175,7 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
