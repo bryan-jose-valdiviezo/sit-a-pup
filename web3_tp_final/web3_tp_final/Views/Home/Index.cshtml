@@ -1,5 +1,13 @@
-﻿@{
+﻿@using web3_tp_final.Helpers;
+
+@{
     ViewData["Title"] = "Accueil";
+    var user = SessionHelper.GetObjectFromJson<User>(Context.Session, "mockUser");
+    string username = "No active session";
+    if (user != null)
+    {
+        username = user.UserName;
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -14,7 +22,9 @@
         Liens temporaires
         <ul class="list-unstyled">
             <li><a asp-controller="Pets" asp-action="Index">PetsController</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="GenerateMockUsers">Generate mock users</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="GenerateMockData">Generate mock data</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="GenerateMockLogin">Generate mock login</a></li>
+            <li>User session: @username</li>
         </ul>
     </div>
 

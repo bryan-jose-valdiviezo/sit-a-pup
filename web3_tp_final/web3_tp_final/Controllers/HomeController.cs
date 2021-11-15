@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Data;
+using web3_tp_final.Helpers;
 using web3_tp_final.Models;
 using static web3_tp_final.Models.Pet;
 
@@ -39,7 +40,7 @@ namespace web3_tp_final.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> GenerateMockUsers()
+        public async Task<IActionResult> GenerateMockData()
         {
             List<Pet> pets1 = new List<Pet>();
             pets1.Add(new Pet { Name = "Skye", BirthYear = 2016, Specie = Species.CHIEN });
@@ -58,6 +59,14 @@ namespace web3_tp_final.Controllers
             _sitAPupContext.Add(new User { UserName = "Sophhai Rusell", Password = "crosemont2021", Email = "rusell@ciuss.qc.ca", PhoneNumber = "514-250-2118", Address = "23e Avenue Montréal", Pets = pets4 });
 
             await _sitAPupContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GenerateMockLogin()
+        {
+            User mockUser = await _sitAPupContext.Users.FindAsync(1);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "mockUser", mockUser);
             return RedirectToAction(nameof(Index));
         }
 
