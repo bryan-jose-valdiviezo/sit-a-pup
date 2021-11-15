@@ -99,8 +99,8 @@ namespace web3_tp_final
             {
                 try
                 {
-                    //user.UserID = id;
-                    //User updatedUser = await api.Put<User>(id, user);
+                    _context.Update(user);
+                    _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
