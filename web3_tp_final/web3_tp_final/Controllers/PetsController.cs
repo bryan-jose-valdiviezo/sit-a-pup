@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,16 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pets.ToListAsync());
+            int userID = 0;
+            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+            if (user != null)
+            {
+                userID = user.UserID;
+            }
+
+            List<Pet> pets = await _context.Pets.ToListAsync();
+
+            return View(pets.FindAll(pet => pet.UserID == userID));
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -61,15 +71,15 @@ namespace web3_tp_final.Controllers
                         await photo.CopyToAsync(memoryStream);
                         pet.Photo = memoryStream.ToArray();
                     }
-                    user.Pets.Add(pet);
-                    _context.Users.Update(user);
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, "user", user);
+                    //On dirait qu'il faut passer par le user pour que la clé étrangère se créée...
+                    User userFromDB = await _context.Users.FirstOrDefaultAsync(u => u.UserID == user.UserID);
+                    userFromDB.Pets.Add(pet);
+                    _context.Update(userFromDB);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 } 
                 else
                 {
-                    //Données du formulaires pourraient être sauvegardées temporairement
                     return RedirectToAction("Index", "Login");
                 }
             }
@@ -109,10 +119,8 @@ namespace web3_tp_final.Controllers
                             await photo.CopyToAsync(memoryStream);
                             pet.Photo = memoryStream.ToArray();
                         }
-                        user.Pets.RemoveAll(petToRemove => petToRemove.PetID == id); //Problème: le update ne semblait pas fonctionner, alors je fais un remplacement (CM)
-                        user.Pets.Add(pet);
-                        _context.Update(user);
-                        SessionHelper.SetObjectAsJson(HttpContext.Session, "user", user);
+                        pet.UserID = user.UserID;
+                        _context.Pets.Update(pet);
                         await _context.SaveChangesAsync();
                     } else
                     {
@@ -160,12 +168,6 @@ namespace web3_tp_final.Controllers
         {
             var pet = await _context.Pets.FindAsync(id);
             _context.Pets.Remove(pet);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> GenerateMockPets()
-        {
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

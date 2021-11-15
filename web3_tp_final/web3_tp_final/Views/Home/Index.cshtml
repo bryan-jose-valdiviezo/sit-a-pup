@@ -21,10 +21,13 @@
     <div>
         Liens temporaires
         <ul class="list-unstyled">
-            <li><a asp-controller="Pets" asp-action="Index">PetsController</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="GenerateMockData">Generate mock data</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="GenerateMockLogin">Generate mock login</a></li>
             <li>User session: @username</li>
+            @{ for (int i = 1; i < 5; i++)
+                {
+                    <li><a asp-route-userID="@i" asp-controller="Home" asp-action="GenerateMockLogin">Login for User @i</a></li>
+                }
+            }
         </ul>
     </div>
 

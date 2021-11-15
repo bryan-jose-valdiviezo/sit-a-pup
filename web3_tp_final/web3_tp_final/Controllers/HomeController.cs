@@ -63,9 +63,9 @@ namespace web3_tp_final.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> GenerateMockLogin()
+        public async Task<IActionResult> GenerateMockLogin(int userID)
         {
-            User mockUser = await _sitAPupContext.Users.FindAsync(1);
+            User mockUser = await _sitAPupContext.Users.FindAsync(userID);
             SessionHelper.SetObjectAsJson(HttpContext.Session, "user", mockUser);
             return RedirectToAction(nameof(Index));
         }
