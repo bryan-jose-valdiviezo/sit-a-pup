@@ -14,7 +14,6 @@ namespace web3_tp_final
     public class UsersController : Controller
     {
         private readonly SitAPupContext _context;
-        private static APIController api = new APIController();
 
         public UsersController(SitAPupContext context)
         {
@@ -24,9 +23,7 @@ namespace web3_tp_final
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var users = await api.Get<User>();
-
-            return View(users);
+            return View(await _context.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -37,7 +34,8 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await api.Get<User>(id);
+            var user = await _context.Pets
+               .FirstOrDefaultAsync(m => m.UserID == id);
             if (user == null)
             {
                 return NotFound();
@@ -61,13 +59,12 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                user.UserID = 0;
-                User createdUser = await api.Post<User>(user);
-                if (createdUser != null)
+                if (user != null)
+                    _context.Add(user);
                     return View(user);
             }
 
-            return View("Signup");
+            return View(user);
         }
 
         // GET: Users/Edit/5
@@ -102,8 +99,8 @@ namespace web3_tp_final
             {
                 try
                 {
-                    user.UserID = id;
-                    User updatedUser = await api.Put<User>(id, user);
+                    //user.UserID = id;
+                    //User updatedUser = await api.Put<User>(id, user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,7 +126,7 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await api.Get<User>(id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserID == id);
             if (user == null)
             {
                 return NotFound();
@@ -143,7 +140,9 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            api.Delete<User>(id);
+            var user = await _context.Users.FindAsync(id);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
