@@ -10,8 +10,7 @@
 *,
 *::before,
 *::after {
-    
-    box-sizing:border-box;
+    box-sizing: border-box;
 }
 
 
@@ -58,7 +57,6 @@ h2,
 h3,
 p {
     margin: 0;
-   
 }
 
 
@@ -68,7 +66,6 @@ body {
     font-weight: 400;
     font-size: 1.313rem;
     line-height: 1.6;
-    
 }
 
 
@@ -78,7 +75,6 @@ h3 {
     color: var(--clr-neutral-200);
     line-height: 1;
     font-weight: 900;
-    
 }
 
 h2,
@@ -87,13 +83,13 @@ p {
     margin-bottom: 1em;
 }
 
-img{
+img {
     max-width: 100%;
     display: block;
 }
 
 
-section{
+section {
     padding: 3rem 0;
 }
 
@@ -108,7 +104,7 @@ header {
 }
 
 .split {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
@@ -121,38 +117,38 @@ header {
     .split {
         flex-direction: row;
     }
-    .split > * {
-        flex-basis: 100%;
-    }
 
-    .split > * + * {
-        margin-left: 2em;
-    }
+        .split > * {
+            flex-basis: 100%;
+        }
 
+            .split > * + * {
+                margin-left: 2em;
+            }
 }
 
 
 
 .text-center {
-    text-align:center;
+    text-align: center;
 }
 
 
 
 .bg-primary-100 {
-    background-color:var(--clr-primary-100);
-
+    background-color: var(--clr-primary-100);
 }
 
 .bg-primary-400 {
     background-color: var(--clr-primary-400);
     color: var(--clr-neutral-200);
 }
+
 .bg-primary-200 {
     background-color: var(--clr-primary-200);
-    
     color: var(--clr-neutral-100);
 }
+
 .bg-neutral-200 {
     background-color: var(--clr-neutral-200);
     color: var(--clr-primary-200);
@@ -172,9 +168,9 @@ header {
     color: var(--clr-neutral-100);
 }
 
-.p-header{
-    font-size:1rem;
-    margin-bottom:0 em;
+.p-header {
+    font-size: 1rem;
+    margin-bottom: 0 em;
 }
 
 .section-footer {
@@ -184,4 +180,3 @@ header {
 .padding-image-accueil {
     padding: 2rem 0;
 }
-
