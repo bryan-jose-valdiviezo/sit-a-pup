@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service_Final_Rest_API.Models;
 
 namespace Service_Final_Rest_API.Migrations
 {
     [DbContext(typeof(sitapupContext))]
-    partial class sitapupContextModelSnapshot : ModelSnapshot
+    [Migration("20211115025308_AddPasswordColumnToUsers")]
+    partial class AddPasswordColumnToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

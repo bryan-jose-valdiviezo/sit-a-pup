@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using web3_tp_final.Models;
 
 namespace web3_tp_final.API
 {
@@ -12,6 +14,7 @@ namespace web3_tp_final.API
         public APIController() {
         }
 
+        // Basic API calls
         public async Task<IEnumerable<T>> Get<T>()
         {
             string className = this.Pluralize<T>();
@@ -57,6 +60,24 @@ namespace web3_tp_final.API
             var response = await client.DeleteAsync("https://localhost:44308/api/" + className + "/" + id);
 
             return response;
+        }
+
+        //Users API calls
+
+        public async Task<User> LogIn(string username, string password)
+        {
+            var response = await client.GetAsync("https://localhost:44308/api/Users/LogIn?username=" + username + "&password=" + password);
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine(apiResponse);
+                return (User) JsonConvert.DeserializeObject<User>(apiResponse);
+            }
+            else
+            {
+                Debug.WriteLine(response.Content.ReadAsStringAsync());
+                return null;
+            }
         }
 
         private string Pluralize<T>(string word = null)
