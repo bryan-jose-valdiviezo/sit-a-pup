@@ -21,6 +21,10 @@ namespace web3_tp_final
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession();
+
             services.AddDbContext<SitAPupContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("SitAPupContext"));
@@ -49,6 +53,8 @@ namespace web3_tp_final
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

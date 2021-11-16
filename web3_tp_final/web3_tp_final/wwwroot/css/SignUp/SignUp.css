@@ -566,10 +566,6 @@ p {
     content: "\ea3e";
 }
 
-.now-ui-icons.ui-1_lock-circle-open:before {
-    content: "\ea35";
-}
-
 .navbar {
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
@@ -666,17 +662,11 @@ p {
     }
 
     .navbar.navbar-transparent {
-        background-color: rgb(161 187 220 / 38%) !important;
+        background-color: transparent !important;
         box-shadow: none;
         color: #FFFFFF;
         padding-top: 20px !important;
     }
-
-.footer {
-    background-color: rgb(161 187 220 / 70%) !important;
-    box-shadow: none;
-    color: #FFFFFF;
-}
 
 .bg-primary {
     background-color: #f96332 !important;
@@ -920,7 +910,6 @@ img {
 .blur {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(8px);
-    height: 100vh;
 }
 
 [data-background-color="orange"] {

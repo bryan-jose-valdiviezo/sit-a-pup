@@ -14,7 +14,7 @@ namespace web3_tp_final.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.11");
+                .HasAnnotation("ProductVersion", "5.0.12");
 
             modelBuilder.Entity("web3_tp_final.Models.Admin", b =>
                 {
@@ -173,6 +173,7 @@ namespace web3_tp_final.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")

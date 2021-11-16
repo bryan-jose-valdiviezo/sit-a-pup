@@ -24,7 +24,12 @@ namespace Service_Final_Rest_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.Include(e => e.Availabilities).ToListAsync();
+            return await _context.Users
+                .Include(e => e.Availabilities)
+                .Include(e => e.Reviews)
+                .Include(e => e.Pets)
+                .Include(e => e.Messages)
+                .ToListAsync();
         }
 
         // GET: api/Users/5

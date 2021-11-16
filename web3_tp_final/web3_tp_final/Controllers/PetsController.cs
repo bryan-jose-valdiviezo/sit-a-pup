@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.Data;
+using web3_tp_final.Helpers;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
@@ -19,7 +21,16 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pets.ToListAsync());
+            int userID = 0;
+            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+            if (user != null)
+            {
+                userID = user.UserID;
+            }
+
+            List<Pet> pets = await _context.Pets.ToListAsync();
+
+            return View(pets.FindAll(pet => pet.UserID == userID));
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -48,21 +59,29 @@ namespace web3_tp_final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PetID,Name,SpecieString,BirthYear,Photo,IsBeingSitted,Sitter,SittingStart,SittingEnd,UserID")] Pet pet)
         {
-            //Attribue l'animal par défaut à l'utilisateur 1. //RÉCUPÉRER ID DE L'UTILISATEUR DANS SESSION
-            User mockUser = await _context.Users.FindAsync(1);
             if (ModelState.IsValid)
-            {
-                var photo = Request.Form.Files.GetFile("photo");
-                if (photo != null)
                 {
-                    MemoryStream memoryStream = new MemoryStream();
-                    await photo.CopyToAsync(memoryStream);
-                    pet.Photo = memoryStream.ToArray();
-                }        
-                mockUser.Pets.Add(pet);
-                _context.Users.Update(mockUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+                if (user != null)
+                {
+                    var photo = Request.Form.Files.GetFile("photo");
+                    if (photo != null)
+                    {
+                        MemoryStream memoryStream = new MemoryStream();
+                        await photo.CopyToAsync(memoryStream);
+                        pet.Photo = memoryStream.ToArray();
+                    }
+                    //On dirait qu'il faut passer par le user pour que la clé étrangère se créée...
+                    User userFromDB = await _context.Users.FirstOrDefaultAsync(u => u.UserID == user.UserID);
+                    userFromDB.Pets.Add(pet);
+                    _context.Update(userFromDB);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } 
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
             }
             return View(pet);
         }
@@ -88,20 +107,27 @@ namespace web3_tp_final.Controllers
         {
             if (ModelState.IsValid)
             {
+                User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
                 try
                 {
-                    var photo = Request.Form.Files.GetFile("photo");
-                    if (photo != null)
+                    if (user != null)
                     {
-                    MemoryStream memoryStream = new MemoryStream();
-                    await photo.CopyToAsync(memoryStream);
-                    pet.Photo = memoryStream.ToArray();
+                        var photo = Request.Form.Files.GetFile("photo");
+                        if (photo != null)
+                        {
+                            MemoryStream memoryStream = new MemoryStream();
+                            await photo.CopyToAsync(memoryStream);
+                            pet.Photo = memoryStream.ToArray();
+                        }
+                        pet.UserID = user.UserID;
+                        _context.Pets.Update(pet);
+                        await _context.SaveChangesAsync();
+                    } else
+                    {
+                        //Données du formulaires pourraient être sauvegardées temporairement
+                        return RedirectToAction("Index", "Login");
                     }
-                    User user = await _context.Users.FindAsync(1); //RÉCUPÉRER ID DE L'UTILISATEUR DANS SESSION
-                    user.Pets.RemoveAll(petToRemove => petToRemove.PetID == pet.PetID); //Attention, si le mauvais ID de l'utilisateur est passé, un nouvel animal est créé et assigné à cet utilisateur.
-                    user.Pets.Add(pet);
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,12 +168,6 @@ namespace web3_tp_final.Controllers
         {
             var pet = await _context.Pets.FindAsync(id);
             _context.Pets.Remove(pet);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> GenerateMockPets()
-        {
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

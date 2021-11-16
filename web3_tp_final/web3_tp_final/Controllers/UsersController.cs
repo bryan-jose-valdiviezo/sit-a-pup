@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using web3_tp_final.API;
 using web3_tp_final.Data;
 using web3_tp_final.Models;
