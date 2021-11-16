@@ -41,6 +41,13 @@ namespace Service_Final_Rest_API.Controllers
             return user;
         }
 
+        [HttpGet("LogIn")]
+        public async Task<ActionResult<User>> LogIn([FromQuery]string username, [FromQuery]string password)
+        {
+            var user = await _context.Users.Where(x => x.UserName == username).Where(x => x.Password == password).FirstOrDefaultAsync();
+            return user;
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
