@@ -61,7 +61,7 @@ namespace web3_tp_final
                 user.UserID = 0;
                 User createdUser = await api.Post<User>(user);
                 if (createdUser != null)
-                    return View(user);
+                    return RedirectToAction("Index");
             }
 
             return View("Signup");
