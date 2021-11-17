@@ -17,23 +17,20 @@ namespace Service_Final_Rest_API.Models
         {
         }
 
+        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Availability> Availabilities { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Pet> Pets { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlite("Data Source=c:\\\\\\\\sqlite\\\\\\\\sitapup.db");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Admin>(entity =>
+            {
+                entity.Property(e => e.AdminId).HasColumnName("AdminID");
+            });
+
             modelBuilder.Entity<Availability>(entity =>
             {
                 entity.HasIndex(e => e.UserId, "IX_Availabilities_UserId");
@@ -74,8 +71,6 @@ namespace Service_Final_Rest_API.Models
 
                 entity.Property(e => e.Name).IsRequired();
 
-                entity.Property(e => e.PhotoUri).HasColumnName("PhotoURI");
-
                 entity.Property(e => e.SittingEnd).IsRequired();
 
                 entity.Property(e => e.SittingStart).IsRequired();
@@ -89,23 +84,13 @@ namespace Service_Final_Rest_API.Models
 
             modelBuilder.Entity<Review>(entity =>
             {
-                entity.HasIndex(e => e.PetId, "IX_Reviews_PetID");
-
                 entity.HasIndex(e => e.UserId, "IX_Reviews_UserID");
 
                 entity.Property(e => e.ReviewId).HasColumnName("ReviewID");
 
-                entity.Property(e => e.Comment).IsRequired();
-
-                entity.Property(e => e.PetId).HasColumnName("PetID");
-
                 entity.Property(e => e.TimeStamp).IsRequired();
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.HasOne(d => d.Pet)
-                    .WithMany(p => p.Reviews)
-                    .HasForeignKey(d => d.PetId);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
@@ -120,9 +105,7 @@ namespace Service_Final_Rest_API.Models
 
                 entity.Property(e => e.Email).IsRequired();
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasDefaultValueSql("'crosemont'");
+                entity.Property(e => e.Password).IsRequired();
 
                 entity.Property(e => e.PhoneNumber).IsRequired();
 

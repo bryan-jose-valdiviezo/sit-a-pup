@@ -13,10 +13,8 @@ namespace Service_Final_Rest_API.Models
         public string TimeStamp { get; set; }
         public long WrittenTo { get; set; }
         public long WrittenBy { get; set; }
-        public long? PetId { get; set; }
         public long? UserId { get; set; }
 
-        public virtual Pet Pet { get; set; }
         public virtual User User { get; set; }
     }
 }

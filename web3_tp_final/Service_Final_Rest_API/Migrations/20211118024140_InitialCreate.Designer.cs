@@ -9,14 +9,32 @@ using Service_Final_Rest_API.Models;
 namespace Service_Final_Rest_API.Migrations
 {
     [DbContext(typeof(sitapupContext))]
-    [Migration("20211115000606_Initial")]
-    partial class Initial
+    [Migration("20211118024140_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.12");
+
+            modelBuilder.Entity("Service_Final_Rest_API.Models.Admin", b =>
+                {
+                    b.Property<long>("AdminId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("AdminID");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AdminId");
+
+                    b.ToTable("Admins");
+                });
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.Availability", b =>
                 {
@@ -92,9 +110,8 @@ namespace Service_Final_Rest_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PhotoUri")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("PhotoURI");
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("BLOB");
 
                     b.Property<long>("Sitter")
                         .HasColumnType("INTEGER");
@@ -107,8 +124,8 @@ namespace Service_Final_Rest_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("Specie")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Specie")
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("UserId")
                         .HasColumnType("INTEGER")
@@ -129,12 +146,7 @@ namespace Service_Final_Rest_API.Migrations
                         .HasColumnName("ReviewID");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<long?>("PetId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("PetID");
 
                     b.Property<long>("Stars")
                         .HasColumnType("INTEGER");
@@ -155,8 +167,6 @@ namespace Service_Final_Rest_API.Migrations
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex(new[] { "PetId" }, "IX_Reviews_PetID");
-
                     b.HasIndex(new[] { "UserId" }, "IX_Reviews_UserID");
 
                     b.ToTable("Reviews");
@@ -174,6 +184,10 @@ namespace Service_Final_Rest_API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -223,22 +237,11 @@ namespace Service_Final_Rest_API.Migrations
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.Review", b =>
                 {
-                    b.HasOne("Service_Final_Rest_API.Models.Pet", "Pet")
-                        .WithMany("Reviews")
-                        .HasForeignKey("PetId");
-
                     b.HasOne("Service_Final_Rest_API.Models.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Pet");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Service_Final_Rest_API.Models.Pet", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.User", b =>

@@ -1,11 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Service_Final_Rest_API.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    AdminID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Password = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.AdminID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -13,6 +28,7 @@ namespace Service_Final_Rest_API.Migrations
                     UserID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: false)
@@ -73,9 +89,9 @@ namespace Service_Final_Rest_API.Migrations
                     PetID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Specie = table.Column<long>(type: "INTEGER", nullable: false),
+                    Specie = table.Column<string>(type: "TEXT", nullable: true),
                     BirthYear = table.Column<long>(type: "INTEGER", nullable: false),
-                    PhotoURI = table.Column<string>(type: "TEXT", nullable: true),
+                    Photo = table.Column<byte[]>(type: "BLOB", nullable: true),
                     IsBeingSitted = table.Column<long>(type: "INTEGER", nullable: false),
                     Sitter = table.Column<long>(type: "INTEGER", nullable: false),
                     SittingStart = table.Column<string>(type: "TEXT", nullable: false),
@@ -100,22 +116,15 @@ namespace Service_Final_Rest_API.Migrations
                     ReviewID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Stars = table.Column<long>(type: "INTEGER", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
                     TimeStamp = table.Column<string>(type: "TEXT", nullable: false),
                     WrittenTo = table.Column<long>(type: "INTEGER", nullable: false),
                     WrittenBy = table.Column<long>(type: "INTEGER", nullable: false),
-                    PetID = table.Column<long>(type: "INTEGER", nullable: true),
                     UserID = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ReviewID);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Pets_PetID",
-                        column: x => x.PetID,
-                        principalTable: "Pets",
-                        principalColumn: "PetID",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserID",
                         column: x => x.UserID,
@@ -140,11 +149,6 @@ namespace Service_Final_Rest_API.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_PetID",
-                table: "Reviews",
-                column: "PetID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserID",
                 table: "Reviews",
                 column: "UserID");
@@ -153,16 +157,19 @@ namespace Service_Final_Rest_API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Admins");
+
+            migrationBuilder.DropTable(
                 name: "Availabilities");
 
             migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "Pets");
 
             migrationBuilder.DropTable(
-                name: "Pets");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Users");
