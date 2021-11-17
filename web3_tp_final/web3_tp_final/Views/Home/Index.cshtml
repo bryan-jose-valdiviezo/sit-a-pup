@@ -8,6 +8,8 @@
     {
         username = user.UserName;
     }
+
+    Layout = "_Navbar-default";
 }
 <!DOCTYPE html>
 <html>
@@ -18,7 +20,7 @@
     <title>Accueil</title>
 </head>
 <body>
-    <div>
+    <div style="margin-top: 2em">
         Liens temporaires
         <ul class="list-unstyled">
             <li><a asp-area="" asp-controller="Home" asp-action="GenerateMockData">Generate mock data</a></li>
