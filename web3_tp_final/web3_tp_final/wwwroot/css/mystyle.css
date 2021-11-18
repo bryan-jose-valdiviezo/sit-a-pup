@@ -13,8 +13,6 @@
     box-sizing: border-box;
 }
 
-
-
 /* ---------------- Fonts --------------------------- */
 
 @font-face {
@@ -59,15 +57,12 @@ p {
     margin: 0;
 }
 
-
-
 body {
     font-family: backslash;
     font-weight: 400;
     font-size: 1.313rem;
     line-height: 1.6;
 }
-
 
 h1,
 h2,
@@ -108,11 +103,6 @@ header {
     flex-direction: column;
 }
 
-.jumbotron {
-    background-image: url("../images/doglogo.png");
-    background-size: cover;
-}
-
 @media(min-width: 60em) {
     .split {
         flex-direction: row;
@@ -128,11 +118,9 @@ header {
 }
 
 
-
 .text-center {
     text-align: center;
 }
-
 
 
 .bg-primary-100 {
@@ -157,7 +145,6 @@ header {
 .bg-neutral-100 {
     background-color: var(--clr-neutral-100);
 }
-
 
 
 .bg-primary-400 h2 {
