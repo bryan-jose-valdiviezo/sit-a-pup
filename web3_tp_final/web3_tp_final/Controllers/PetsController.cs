@@ -113,7 +113,7 @@ namespace web3_tp_final.Controllers
                     if (user != null)
                     {
                         var photo = Request.Form.Files.GetFile("photo");
-                        if (photo != null)
+                        if (photo != null && photo.Length > 0)
                         {
                             MemoryStream memoryStream = new MemoryStream();
                             await photo.CopyToAsync(memoryStream);

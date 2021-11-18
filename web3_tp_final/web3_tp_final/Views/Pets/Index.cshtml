@@ -8,96 +8,66 @@
     <div class="d-flex justify-content-center">
         <h1>Mes animaux</h1>
     </div>
-    <div class="d-flex justify-content-end">
-        <a asp-action="Create">Inscrire!</a>
-    </div>
 </div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="~/images/dogs_playing.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="~/images/dogs_playing.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm">
-            One of three columns
-        </div>
-    </div>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Specie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsBeingSitted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sitter)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SittingStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SittingEnd)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+    @{
+        Pet pet;
+        List<Pet> pets = Model.ToList();
+        int numberOfPets = pets.Count();
+        int numberOfColumns = 3; //Peut être personnalisé + tri de liste effectué
+        int numberOfRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(numberOfPets) / Convert.ToDouble(numberOfColumns)));
+        if (numberOfPets > 0)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Specie)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BirthYear)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsBeingSitted)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sitter)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SittingStart)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SittingEnd)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.PetID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PetID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PetID">Delete</a>
-                </td>
-            </tr>
+
+            while (numberOfRows > 0)
+            {
+                @:<div class="row pt-3">
+                    for (int i = 0; i < numberOfColumns; i++)
+                    {
+                        @:<div class="col-sm">
+                            pet = pets[numberOfPets - 1];
+                            @:<div class="card" style="width: 18rem;">
+                                string imgSrc = "/images/doglogo.png";
+                                if (pet.Photo != null)
+                                {
+                                    var base64 = Convert.ToBase64String(pet.Photo);
+                                    imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                }
+                                <h5 class="card-header">@pet.Name</h5>
+                                <img class="card-img-top" src=@imgSrc alt="Pet photo">
+                                <div class="card-body">
+                                    <p class="card-text">Date naissance: @pet.BirthYear</p>
+                                    <p class="card-text">Espèce: @pet.SpecieString</p>
+                                    <p class="card-text">Gardé par: </p>
+                                    <a asp-action="Edit" asp-route-id="@pet.PetID" class="btn btn-primary">Modifier</a>
+                                    <a asp-action="Details" asp-route-id="@pet.PetID" class="btn btn-primary">Détails</a>
+                                    <a asp-action="Delete" asp-route-id="@pet.PetID" class="btn btn-danger">Désinscrire</a>
+                                </div>
+                            @:</div>
+                            if (numberOfPets > 1)
+                            {
+                                numberOfPets--;
+                            }
+                            else
+                            {
+                                i = 3;
+                            }
+                        @:</div>
+                    }
+                    numberOfRows--;
+                @:</div>
+            }
         }
-    </tbody>
-</table>
+        else
+        {
+            <div class="d-flex justify-content-center jumbotron">
+                <p>Aucun animal inscrit!</p>
+            </div>
+        }
+    }
+</div>
+
+<div class="d-flex justify-content-center jumbotron">
+    <a asp-action="Create">Inscrire!</a>
+</div>
