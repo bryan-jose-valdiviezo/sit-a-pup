@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using web3_tp_final.Helpers;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!--link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"-->
@@ -33,7 +35,7 @@
                 <div class="collapse navbar-collapse justify-content-lg-start" id="navigation" data-nav-image="../assets/img/blurred-image-1.jpg">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index" asp-route-id="">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" asp-route-id="">Accueil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="FindSitter">Trouver un gardien</a>
@@ -44,9 +46,14 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Utilisateurs</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
-                        </li>
+                        @{
+                            if (SessionHelper.GetObjectFromJson<User>(Context.Session, "user") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
+                                </li>
+                            }
+                        }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
                         </li>
@@ -97,14 +104,14 @@
     </div>
 
     <section class="section-footer">
-        <footer class="footer"  style="background-color: #ffffff;">
+        <footer class="footer" style="background-color: #ffffff;">
             <div class="container">
                 <nav>
                     <ul>
                         <li>
                             <p class="mb-0"> &copy; 2021 - web3_tp_final</p>
                         </li>
-                        
+
                     </ul>
                 </nav>
                 <div class="copyright" id="copyright">
