@@ -9,7 +9,7 @@ using Service_Final_Rest_API.Models;
 namespace Service_Final_Rest_API.Migrations
 {
     [DbContext(typeof(sitapupContext))]
-    [Migration("20211119121747_InitialCreate")]
+    [Migration("20211119154239_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

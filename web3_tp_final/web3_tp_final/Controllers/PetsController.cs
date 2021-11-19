@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using web3_tp_final.API;
 using web3_tp_final.Data;
 using web3_tp_final.Helpers;
 using web3_tp_final.Models;
@@ -12,11 +13,10 @@ namespace web3_tp_final.Controllers
 {
     public class PetsController : Controller
     {
-        private readonly SitAPupContext _context;
+        private static APIController _api = new APIController();
 
-        public PetsController(SitAPupContext context)
+        public PetsController()
         {
-            _context = context;
         }
 
         public async Task<IActionResult> Index()
@@ -28,9 +28,9 @@ namespace web3_tp_final.Controllers
                 userID = user.UserID;
             }
 
-            List<Pet> pets = await _context.Pets.ToListAsync();
+            user = await _api.Get<User>(userID);
 
-            return View(pets.FindAll(pet => pet.UserID == userID));
+            return View(user.Pets);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -40,8 +40,16 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pets
-                .FirstOrDefaultAsync(m => m.PetID == id);
+            int userID = 0;
+            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+            if (user != null)
+            {
+                userID = user.UserID;
+            }
+
+            user = await _api.Get<User>(userID);
+
+            var pet = user.Pets.Find(pet => pet.PetID == id);
             if (pet == null)
             {
                 return NotFound();
@@ -71,11 +79,10 @@ namespace web3_tp_final.Controllers
                         await photo.CopyToAsync(memoryStream);
                         pet.Photo = memoryStream.ToArray();
                     }
-                    //On dirait qu'il faut passer par le user pour que la clé étrangère se créée...
-                    User userFromDB = await _context.Users.FirstOrDefaultAsync(u => u.UserID == user.UserID);
+                    
+                    User userFromDB = await _api.Get<User>(user.UserID);
                     userFromDB.Pets.Add(pet);
-                    _context.Update(userFromDB);
-                    await _context.SaveChangesAsync();
+                    await _api.Put<User>(user.UserID, userFromDB);
                     return RedirectToAction(nameof(Index));
                 } 
                 else
@@ -93,7 +100,17 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pets.FindAsync(id);
+            int userID = 0;
+            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+            if (user != null)
+            {
+                userID = user.UserID;
+            }
+
+            user = await _api.Get<User>(userID);
+
+            var pet = user.Pets.Find(pet => pet.PetID == id);
+
             if (pet == null)
             {
                 return NotFound();
@@ -119,9 +136,11 @@ namespace web3_tp_final.Controllers
                             await photo.CopyToAsync(memoryStream);
                             pet.Photo = memoryStream.ToArray();
                         }
+                        //Tour de passe passe à modifier
                         pet.UserID = user.UserID;
-                        _context.Pets.Update(pet);
-                        await _context.SaveChangesAsync();
+                        User userFromDb = await _api.Get<User>(user.UserID);
+                        userFromDb.Pets.RemoveAll(p => p.PetID == pet.PetID);
+                        await _api.Put<User>(user.UserID, userFromDb);
                     } else
                     {
                         //Données du formulaires pourraient être sauvegardées temporairement
@@ -152,29 +171,31 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            var pet = await _context.Pets
-                .FirstOrDefaultAsync(m => m.PetID == id);
-            if (pet == null)
-            {
-                return NotFound();
-            }
+            //var pet = await _context.Pets
+            //    .FirstOrDefaultAsync(m => m.PetID == id);
+            //if (pet == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(pet);
+            //return View(pet);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pet = await _context.Pets.FindAsync(id);
-            _context.Pets.Remove(pet);
-            await _context.SaveChangesAsync();
+            //var pet = await _context.Pets.FindAsync(id);
+            //_context.Pets.Remove(pet);
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PetExists(int id)
         {
-            return _context.Pets.Any(e => e.PetID == id);
+            //return _context.Pets.Any(e => e.PetID == id);
+            return false;
         }
     }
 }
