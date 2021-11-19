@@ -9,7 +9,7 @@ using Service_Final_Rest_API.Models;
 namespace Service_Final_Rest_API.Migrations
 {
     [DbContext(typeof(sitapupContext))]
-    [Migration("20211118024140_InitialCreate")]
+    [Migration("20211119121747_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,39 @@ namespace Service_Final_Rest_API.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("Service_Final_Rest_API.Models.Appointment", b =>
+                {
+                    b.Property<long>("AppointmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("AppointmentID");
+
+                    b.Property<string>("EndDate")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("IsActive")
+                        .HasColumnType("INTEGER(1)");
+
+                    b.Property<long?>("OwnerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("SitterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StartDate")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppointmentId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex(new[] { "SitterId" }, "IX_Appointments_UserId");
+
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.Availability", b =>
@@ -103,26 +136,12 @@ namespace Service_Final_Rest_API.Migrations
                     b.Property<long>("BirthYear")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("IsBeingSitted")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("Photo")
                         .HasColumnType("BLOB");
-
-                    b.Property<long>("Sitter")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SittingEnd")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SittingStart")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Specie")
                         .HasColumnType("TEXT");
@@ -136,6 +155,28 @@ namespace Service_Final_Rest_API.Migrations
                     b.HasIndex(new[] { "UserId" }, "IX_Pets_UserID");
 
                     b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("Service_Final_Rest_API.Models.PetAppointment", b =>
+                {
+                    b.Property<long>("PetAppointmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("PetAppointmentID");
+
+                    b.Property<long>("AppointmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("PetId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PetAppointmentId");
+
+                    b.HasIndex(new[] { "AppointmentId" }, "IX_PetAppointments_AppointmentId");
+
+                    b.HasIndex(new[] { "PetId" }, "IX_PetAppointments_PetId");
+
+                    b.ToTable("PetAppointments");
                 });
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.Review", b =>
@@ -204,6 +245,22 @@ namespace Service_Final_Rest_API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Service_Final_Rest_API.Models.Appointment", b =>
+                {
+                    b.HasOne("Service_Final_Rest_API.Models.User", "Owner")
+                        .WithMany("AppointmentOwners")
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("Service_Final_Rest_API.Models.User", "Sitter")
+                        .WithMany("AppointmentSitters")
+                        .HasForeignKey("SitterId")
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Sitter");
+                });
+
             modelBuilder.Entity("Service_Final_Rest_API.Models.Availability", b =>
                 {
                     b.HasOne("Service_Final_Rest_API.Models.User", "User")
@@ -235,6 +292,23 @@ namespace Service_Final_Rest_API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Service_Final_Rest_API.Models.PetAppointment", b =>
+                {
+                    b.HasOne("Service_Final_Rest_API.Models.Appointment", "Appointment")
+                        .WithMany("PetAppointments")
+                        .HasForeignKey("AppointmentId")
+                        .IsRequired();
+
+                    b.HasOne("Service_Final_Rest_API.Models.Pet", "Pet")
+                        .WithMany("PetAppointments")
+                        .HasForeignKey("PetId")
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Pet");
+                });
+
             modelBuilder.Entity("Service_Final_Rest_API.Models.Review", b =>
                 {
                     b.HasOne("Service_Final_Rest_API.Models.User", "User")
@@ -244,8 +318,22 @@ namespace Service_Final_Rest_API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Service_Final_Rest_API.Models.Appointment", b =>
+                {
+                    b.Navigation("PetAppointments");
+                });
+
+            modelBuilder.Entity("Service_Final_Rest_API.Models.Pet", b =>
+                {
+                    b.Navigation("PetAppointments");
+                });
+
             modelBuilder.Entity("Service_Final_Rest_API.Models.User", b =>
                 {
+                    b.Navigation("AppointmentOwners");
+
+                    b.Navigation("AppointmentSitters");
+
                     b.Navigation("Availabilities");
 
                     b.Navigation("Messages");

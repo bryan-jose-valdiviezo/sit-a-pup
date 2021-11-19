@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using web3_tp_final.DTO;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.API
@@ -78,6 +79,30 @@ namespace web3_tp_final.API
                 Debug.WriteLine(response.Content.ReadAsStringAsync());
                 return null;
             }
+        }
+
+        //Appointment API calls
+        public async Task<Appointment> PostAppointment(AppointmentDTO form)
+        {
+            var response = await client.PostAsJsonAsync("https://localhost:44308/api/Appointments/CreateAppointment/", form );
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                return (Appointment)JsonConvert.DeserializeObject<Appointment>(apiResponse);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //Pets API calls
+        public async Task<List<Pet>> GetPetsForAppointment(int id)
+        {
+            var response = await client.GetAsync("https://localhost:44308/api/Appointments/" + id + "/Pets");
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            return (List<Pet>)JsonConvert.DeserializeObject<List<Pet>>(apiResponse);
         }
 
         private string Pluralize<T>(string word = null)

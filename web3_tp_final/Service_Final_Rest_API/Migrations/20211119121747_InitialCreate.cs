@@ -39,6 +39,35 @@ namespace Service_Final_Rest_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    AppointmentID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SitterId = table.Column<long>(type: "INTEGER", nullable: false),
+                    StartDate = table.Column<string>(type: "TEXT", nullable: false),
+                    EndDate = table.Column<string>(type: "TEXT", nullable: false),
+                    OwnerId = table.Column<long>(type: "INTEGER", nullable: true),
+                    IsActive = table.Column<long>(type: "INTEGER(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentID);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Users_SitterId",
+                        column: x => x.SitterId,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Availabilities",
                 columns: table => new
                 {
@@ -88,14 +117,10 @@ namespace Service_Final_Rest_API.Migrations
                 {
                     PetID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Specie = table.Column<string>(type: "TEXT", nullable: true),
                     BirthYear = table.Column<long>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
                     Photo = table.Column<byte[]>(type: "BLOB", nullable: true),
-                    IsBeingSitted = table.Column<long>(type: "INTEGER", nullable: false),
-                    Sitter = table.Column<long>(type: "INTEGER", nullable: false),
-                    SittingStart = table.Column<string>(type: "TEXT", nullable: false),
-                    SittingEnd = table.Column<string>(type: "TEXT", nullable: false),
+                    Specie = table.Column<string>(type: "TEXT", nullable: true),
                     UserID = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -133,6 +158,42 @@ namespace Service_Final_Rest_API.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PetAppointments",
+                columns: table => new
+                {
+                    PetAppointmentID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PetId = table.Column<long>(type: "INTEGER", nullable: false),
+                    AppointmentId = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PetAppointments", x => x.PetAppointmentID);
+                    table.ForeignKey(
+                        name: "FK_PetAppointments_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "AppointmentID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PetAppointments_Pets_PetId",
+                        column: x => x.PetId,
+                        principalTable: "Pets",
+                        principalColumn: "PetID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_OwnerId",
+                table: "Appointments",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_UserId",
+                table: "Appointments",
+                column: "SitterId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Availabilities_UserId",
                 table: "Availabilities",
@@ -142,6 +203,16 @@ namespace Service_Final_Rest_API.Migrations
                 name: "IX_Messages_UserID",
                 table: "Messages",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PetAppointments_AppointmentId",
+                table: "PetAppointments",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PetAppointments_PetId",
+                table: "PetAppointments",
+                column: "PetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pets_UserID",
@@ -166,10 +237,16 @@ namespace Service_Final_Rest_API.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Pets");
+                name: "PetAppointments");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
+
+            migrationBuilder.DropTable(
+                name: "Appointments");
+
+            migrationBuilder.DropTable(
+                name: "Pets");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -35,6 +35,8 @@ namespace web3_tp_final.Models
 
         public List<Message> Messages { get; set; } = new List<Message>();
 
+        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+
 
         public int AverageRating()
         {

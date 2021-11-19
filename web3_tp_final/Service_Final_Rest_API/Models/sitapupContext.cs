@@ -18,17 +18,50 @@ namespace Service_Final_Rest_API.Models
         }
 
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Availability> Availabilities { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Pet> Pets { get; set; }
+        public virtual DbSet<PetAppointment> PetAppointments { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlite("Data Source=c:\\\\\\\\sqlite\\\\\\\\sitapup.db");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Admin>(entity =>
             {
                 entity.Property(e => e.AdminId).HasColumnName("AdminID");
+            });
+
+            modelBuilder.Entity<Appointment>(entity =>
+            {
+                entity.HasIndex(e => e.SitterId, "IX_Appointments_UserId");
+
+                entity.Property(e => e.AppointmentId).HasColumnName("AppointmentID");
+
+                entity.Property(e => e.EndDate).IsRequired();
+
+                entity.Property(e => e.IsActive).HasColumnType("INTEGER(1)");
+
+                entity.Property(e => e.StartDate).IsRequired();
+
+                entity.HasOne(d => d.Owner)
+                    .WithMany(p => p.AppointmentOwners)
+                    .HasForeignKey(d => d.OwnerId);
+
+                entity.HasOne(d => d.Sitter)
+                    .WithMany(p => p.AppointmentSitters)
+                    .HasForeignKey(d => d.SitterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Availability>(entity =>
@@ -71,15 +104,30 @@ namespace Service_Final_Rest_API.Models
 
                 entity.Property(e => e.Name).IsRequired();
 
-                entity.Property(e => e.SittingEnd).IsRequired();
-
-                entity.Property(e => e.SittingStart).IsRequired();
-
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Pets)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<PetAppointment>(entity =>
+            {
+                entity.HasIndex(e => e.AppointmentId, "IX_PetAppointments_AppointmentId");
+
+                entity.HasIndex(e => e.PetId, "IX_PetAppointments_PetId");
+
+                entity.Property(e => e.PetAppointmentId).HasColumnName("PetAppointmentID");
+
+                entity.HasOne(d => d.Appointment)
+                    .WithMany(p => p.PetAppointments)
+                    .HasForeignKey(d => d.AppointmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Pet)
+                    .WithMany(p => p.PetAppointments)
+                    .HasForeignKey(d => d.PetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Review>(entity =>

@@ -1,5 +1,5 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 import { HttpClient } from "./HttpClient";
 import { MessageHeaders } from "./IHubProtocol";
@@ -65,12 +65,4 @@ export interface IHttpConnectionOptions {
      * Cookies are used by many load-balancers for sticky sessions which is required when your app is deployed with multiple servers.
      */
     withCredentials?: boolean;
-
-    /**
-     * Default value is 100,000 milliseconds.
-     * Timeout to apply to Http requests.
-     *
-     * This will not apply to Long Polling poll requests, EventSource, or WebSockets.
-     */
-    timeout?: number;
 }

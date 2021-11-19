@@ -9,6 +9,8 @@ namespace Service_Final_Rest_API.Models
     {
         public User()
         {
+            AppointmentOwners = new HashSet<Appointment>();
+            AppointmentSitters = new HashSet<Appointment>();
             Availabilities = new HashSet<Availability>();
             Messages = new HashSet<Message>();
             Pets = new HashSet<Pet>();
@@ -22,6 +24,8 @@ namespace Service_Final_Rest_API.Models
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
 
+        public virtual ICollection<Appointment> AppointmentOwners { get; set; }
+        public virtual ICollection<Appointment> AppointmentSitters { get; set; }
         public virtual ICollection<Availability> Availabilities { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Pet> Pets { get; set; }
