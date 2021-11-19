@@ -29,6 +29,13 @@ namespace Service_Final_Rest_API.Controllers
             return await _context.Admins.ToListAsync();
         }
 
+        [HttpGet("LogIn")]
+        public async Task<ActionResult<Admin>> LogIn([FromQuery] string username, [FromQuery] string password)
+        {
+            var admin = await _context.Admins.Where(x => x.Name == username).Where(x => x.Password == password).FirstOrDefaultAsync();
+            return admin;
+        }
+
         // GET: api/Admins/16
         [HttpGet("{id}")]
         public async Task<ActionResult<Admin>> GetAdmin(long id)
