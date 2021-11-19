@@ -45,11 +45,8 @@ namespace Service_Final_Rest_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("IsActive")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("BOOLEAN")
-                        .HasDefaultValueSql("FALSE");
+                    b.Property<long>("IsActive")
+                        .HasColumnType("INTEGER(1)");
 
                     b.Property<long?>("OwnerId")
                         .HasColumnType("INTEGER");

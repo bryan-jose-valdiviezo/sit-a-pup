@@ -47,8 +47,8 @@ namespace Service_Final_Rest_API.Migrations
                     SitterId = table.Column<long>(type: "INTEGER", nullable: false),
                     StartDate = table.Column<string>(type: "TEXT", nullable: false),
                     EndDate = table.Column<string>(type: "TEXT", nullable: false),
-                    IsActive = table.Column<byte[]>(type: "BOOLEAN", nullable: false, defaultValueSql: "FALSE"),
-                    OwnerId = table.Column<long>(type: "INTEGER", nullable: true)
+                    OwnerId = table.Column<long>(type: "INTEGER", nullable: true),
+                    IsActive = table.Column<long>(type: "INTEGER(1)", nullable: false)
                 },
                 constraints: table =>
                 {
