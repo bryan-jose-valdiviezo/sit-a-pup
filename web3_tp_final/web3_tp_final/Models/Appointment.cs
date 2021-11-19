@@ -9,13 +9,11 @@ namespace web3_tp_final.Models
     {
         public int AppointmentID { get; set; }
 
-        public User Sitter { get; set; }
-
-        public User Owner { get; set; }
-
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public List<User> Users { get; set; }
 
         public List<Pet> Pets { get; set; }
     }

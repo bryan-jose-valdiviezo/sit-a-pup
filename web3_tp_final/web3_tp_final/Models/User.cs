@@ -1,11 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 
 namespace web3_tp_final.Models
 {
+    public enum Role
+    {
+        SITTER,
+        SERVICE_USER
+    }
+
     public class User
     {
         public int UserID { get; set; }
@@ -26,6 +34,16 @@ namespace web3_tp_final.Models
         [Required(ErrorMessage = "Vous devez entrer un numéro de téléphone valide")]
         //[RegularExpression(@"\d{3}[-]\d{3}[-]\d{4}")]
         public string PhoneNumber { get; set; }
+        
+        [NotMapped]
+        public Role Role { get; set; }
+
+        [Column("Role")]
+        public string RoleString
+        {
+            get { return Role.ToString(); }
+            private set { Role = (Role)Enum.Parse(typeof(Role), value, true); }
+        }
 
         public List<Pet> Pets { get; set; } = new List<Pet>();
 
@@ -36,7 +54,6 @@ namespace web3_tp_final.Models
         public List<Message> Messages { get; set; } = new List<Message>();
 
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
-
 
         public int AverageRating()
         {
