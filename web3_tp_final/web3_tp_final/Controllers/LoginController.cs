@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using web3_tp_final.API;
-using web3_tp_final.Data;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers

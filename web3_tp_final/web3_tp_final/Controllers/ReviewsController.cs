@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.API;
-using web3_tp_final.Data;
 using web3_tp_final.Models;
 
 namespace web3_tp_final
