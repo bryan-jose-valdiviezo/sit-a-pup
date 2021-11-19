@@ -1,0 +1,352 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenue à l'application administrative de SitAPup!</h1>
+    <h2>Connectez-vous en tant qu'administrateur pour avoir accès aux options</h2>
+    <div class="container">
+        <div class="col-3">
+            <form id="connexionAdmin">
+                <label for="username">Nom d'Utilisateur</label>
+                <input type="text" id="username" name="username" />
+                <label for="password">Mot De Passe</label>
+                <input type="password" name="password" id="password" />
+            </form>
+            <button class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
+        </div>
+    </div>
+</div>
+        <div class="container">
+            <div class="col-3">
+                <div id="modifierLivre" class="my-2" style="visibility:hidden">
+                    <form id="formulaireModification">
+                        <input type="text" id="id" name="id" />
+                        <label for="id">Id</label>
+                        <input type="text" name="title" id="title" />
+                        <label for="title">Titre</label>
+                        <input type="text" name="author" id="author" />
+                        <label for="author">Auteur</label>
+                        <input type="text" name="description" id="description" />
+                        <label for="description">Déscription</label>
+                        <input type="text" name="anneeDeParution" id="anneeDeParution" />
+                        <label for="anneeDeParution">Année de parution</label>
+                        <input type="text" name="isbn" id="isbn" />
+                        <label for="isbn">ISBN</label>
+                    </form>
+                    <button class="btn btn-primary" onclick="modifyBook()">Modifier</button>
+                </div>
+            </div>
+            <button id="getAllUsers" class="btn btn-primary" onclick="getAllBooks()" style="visibility:hidden">Get all Users</button>
+            <button id="RechercherUserParUsername" class="btn btn-primary" onclick="afficherFormulaireRecherche()" style="visibility:hidden">Get User by Username</button>
+            <button id="RechercherUserParEmail" class="btn btn-primary" onclick="afficherFormulaireRechercheAnnee()" style="visibility:hidden">Get User By Email</button>
+            <button id="RechercherUserParId" class="btn btn-primary" onclick="afficherFormulaireRechercheId()" style="visibility:hidden">Get User by ID </button>
+            <button id="AjoutAdmin" class="btn btn-primary" onclick="afficherFormulaireAjout()" style="visibility:hidden">Add an admin</button>
+            <button id="ModifierAdmin" class="btn btn-primary" onclick="afficherFormulaireModification()" style="visibility:hidden">Modify an admin</button>
+            <button id="SupprimerAdmin" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete an admin</button>
+            <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireModification()" style="visibility:hidden">Modify a user</button>
+            <button id="SupprimerUser" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete a user</button>
+            <div class="row">
+                <div class="col-3">
+                    <div id="rechercheParIsbn" class="my-2" style="visibility:hidden">
+                        <label for="RechercheIsbn">Isbn recherché</label>
+                        <input type="text" name="isbn" id="RechercheIsbn" />
+                        <button class="btn" onclick="rechercheParIsbn()"> Rechercher </button>
+                    </div>
+                    <div id="rechercheParAnnee" class="my-2" style="visibility:hidden">
+                        <label for="anneeRecherche">Annee recherché</label>
+                        <input type="text" name="anneeRecherche" id="anneeRecherche" />
+                        <button class="btn" onclick="rechercheParAnnee()"> Rechercher </button>
+                    </div>
+                    <div id="rechercheParID" class="my-2" style="visibility:hidden">
+                        <label for="idRecherche">ID recherché</label>
+                        <input type="text" name="idRecherche" id="idRecherche" />
+                        <button class="btn" onclick="rechercheParID()"> Rechercher </button>
+                    </div>
+
+                </div>
+                <div class="col-3">
+                    <div id="ajoutLivre" class="my-2" style="visibility:hidden">
+                        <form id="formAjoutLivre">
+                            <input type="text" name="title" id="title" />
+                            <label for="title">Titre</label>
+                            <input type="text" name="author" id="author" />
+                            <label for="author">Auteur</label>
+                            <input type="text" name="description" id="description" />
+                            <label for="description">Déscription</label>
+                            <input type="text" name="anneeDeParution" id="anneeDeParution" />
+                            <label for="anneeDeParution">Année de parution</label>
+                            <input type="text" name="isbn" id="isbn" />
+                            <label for="isbn">ISBN</label>
+                        </form>
+                        <button class="btn btn-primary" onclick="postBook()">Envoyer</button>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div id="modifierLivre" class="my-2" style="visibility:hidden">
+                        <form id="formulaireModification">
+                            <input type="text" id="id" name="id" />
+                            <label for="id">Id</label>
+                            <input type="text" name="title" id="title" />
+                            <label for="title">Titre</label>
+                            <input type="text" name="author" id="author" />
+                            <label for="author">Auteur</label>
+                            <input type="text" name="description" id="description" />
+                            <label for="description">Déscription</label>
+                            <input type="text" name="anneeDeParution" id="anneeDeParution" />
+                            <label for="anneeDeParution">Année de parution</label>
+                            <input type="text" name="isbn" id="isbn" />
+                            <label for="isbn">ISBN</label>
+                        </form>
+                        <button class="btn btn-primary" onclick="modifyBook()">Modifier</button>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div id="supprimerLivre" style="visibility:hidden">
+                        <label for="idSupprimer">Id a supprimer</label>
+                        <input type="text" id="idSupprimer" />
+                        <button onclick="deleteLivre()">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+            <div id="reponse">
+
+            </div>
+        </div>
+        <script>
+
+            function cacherToutLesFormulaire() {
+                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
+                document.getElementById("ajoutLivre").style.visibility = "hidden"
+                document.getElementById("modifierLivre").style.visibility = "hidden"
+                document.getElementById("supprimerLivre").style.visibility = "hidden"
+                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+               
+
+            }
+
+            function afficherLesOptions() {
+                document.getElementById("getAllUsers").style.visibility = "visible"
+                document.getElementById("RechercherUserParUsername").style.visibility = "visible"
+                document.getElementById("RechercherUserParEmail").style.visibility = "visible"
+                document.getElementById("RechercherUserParId").style.visibility = "visible"
+                document.getElementById("AjoutAdmin").style.visibility = "visible"
+                document.getElementById("ModifierAdmin").style.visibility = "visible"
+                document.getElementById("SupprimerAdmin").style.visibility = "visible"
+                document.getElementById("ModifierUser").style.visibility = "visible"
+                document.getElementById("SupprimerUser").style.visibility = "visible"
+               
+
+            }
+            function afficherFormulaireRecherche() {
+                document.getElementById("rechercheParIsbn").style.visibility = "visible"
+                document.getElementById("ajoutLivre").style.visibility = "hidden"
+                document.getElementById("modifierLivre").style.visibility = "hidden"
+                document.getElementById("supprimerLivre").style.visibility = "hidden"
+                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+
+            function afficherFormulaireAjout() {
+                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
+                document.getElementById("ajoutLivre").style.visibility = "visible"
+                document.getElementById("modifierLivre").style.visibility = "hidden"
+                document.getElementById("supprimerLivre").style.visibility = "hidden"
+                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+
+            function afficherFormulaireModification() {
+                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
+                document.getElementById("ajoutLivre").style.visibility = "hidden"
+                document.getElementById("modifierLivre").style.visibility = "visible"
+                document.getElementById("supprimerLivre").style.visibility = "hidden"
+                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+
+            function afficherFormulaireSuppression() {
+                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
+                document.getElementById("ajoutLivre").style.visibility = "hidden"
+                document.getElementById("modifierLivre").style.visibility = "hidden"
+                document.getElementById("supprimerLivre").style.visibility = "visible"
+                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+
+            function afficherFormulaireRechercheId() {
+                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
+                document.getElementById("ajoutLivre").style.visibility = "hidden"
+                document.getElementById("modifierLivre").style.visibility = "hidden"
+                document.getElementById("supprimerLivre").style.visibility = "hidden"
+                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "visible"
+            }
+
+            function afficherFormulaireRechercheAnnee() {
+                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
+                document.getElementById("ajoutLivre").style.visibility = "hidden"
+                document.getElementById("modifierLivre").style.visibility = "hidden"
+                document.getElementById("supprimerLivre").style.visibility = "hidden"
+                document.getElementById("rechercheParAnnee").style.visibility = "visible"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+            function getAllBooks() {
+                var url = "https://localhost:44332/api/Books"
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+                        var texte = document.createElement("p");
+                        for (i in tableauReponse) {
+
+                            texte.innerHTML += "ID :" + tableauReponse[i].id + "<br> Titre : " + tableauReponse[i].title + "<br> Auteur : " + tableauReponse[i].author + "<br> ISBN " + tableauReponse[i].isbn + "<br>  Déscription :" + tableauReponse[i].description + "<br> Année de parution : " + tableauReponse[i].anneeDeParution + "<br><br>"
+
+                        }
+                        divReponse.appendChild(texte);
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+
+            function postBook() {
+                var donneeFormulaire = document.getElementById("formAjoutLivre");
+                var url = "https://localhost:44332/api/Books"
+                var donnees = new FormData(donneeFormulaire);
+                var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+                        alert("Envoie Réussi")
+                        getAllBooks();
+                        cacherToutLesFormulaire();
+                    }
+                };
+                xhttp.open("POST", url, true)
+                xhttp.send(donnees);
+            }
+
+            function modifyBook() {
+                var donneeFormulaire = document.getElementById("formulaireModification");
+                var url = "https://localhost:44332/api/Books"
+                var donnees = new FormData(donneeFormulaire);
+                var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                        alert("Mise a jour réussis Réussi")
+                        getAllBooks()
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("PUT", url, true)
+                xhttp.send(donnees);
+            }
+            function rechercheParIsbn() {
+                var isbn = document.getElementById("RechercheIsbn").value
+                var url = "https://localhost:44332/getByIsbn/" + isbn
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+                        var texte = document.createElement("p");
+
+                        texte.innerHTML += "ID :" + tableauReponse.id + "<br> Titre : " + tableauReponse.title + "<br> Auteur : " + tableauReponse.author + "<br> ISBN " + tableauReponse.isbn + "<br>  Déscription :" + tableauReponse.description + "<br> Année de parution : " + tableauReponse.anneeDeParution + "<br><br>"
+
+                        divReponse.appendChild(texte);
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+
+            function rechercheParAnnee() {
+                var annee = document.getElementById("anneeRecherche").value;
+                var url = "https://localhost:44332/getByAnnee/" + annee
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+                        var texte = document.createElement("p");
+                        for (i in tableauReponse) {
+                            texte.innerHTML += "ID :" + tableauReponse[i].id + "<br> Titre : " + tableauReponse[i].title + "<br> Auteur : " + tableauReponse[i].author + "<br> ISBN " + tableauReponse[i].isbn + "<br>  Déscription :" + tableauReponse[i].description + "<br> Année de parution : " + tableauReponse[i].anneeDeParution + "<br><br>"
+
+                            divReponse.appendChild(texte);
+                        }
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+
+            function rechercheParID() {
+                var id = document.getElementById("idRecherche").value
+                var url = "https://localhost:44332/api/Books/" + id
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+                        var texte = document.createElement("p");
+
+                        texte.innerHTML += "ID :" + tableauReponse.id + "<br> Titre : " + tableauReponse.title + "<br> Auteur : " + tableauReponse.author + "<br> ISBN " + tableauReponse.isbn + "<br>  Déscription :" + tableauReponse.description + "<br> Année de parution : " + tableauReponse.anneeDeParution + "<br><br>"
+
+                        divReponse.appendChild(texte);
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+
+            function deleteLivre() {
+                var id = document.getElementById("idSupprimer").value
+                var url = "https://localhost:44332/api/Books/" + id
+                var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                        alert("Suppression Réussi")
+                        getAllBooks()
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("DELETE", url, true)
+                xhttp.send();
+            }
+
+
+            function seConnecter() {
+                var donneeFormulaire = document.getElementById("connexionAdmin");
+                var url = "https://localhost:44332/api/Admin/Login"
+                /*var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                        alert("Connexion Réussie")
+
+                        afficherLesOptions()
+                    }
+                };
+                xhttp.open("GET", url, true)
+                xhttp.send(donnees);*/
+
+
+                afficherLesOptions()
+
+            }
+
+
+        </script>
