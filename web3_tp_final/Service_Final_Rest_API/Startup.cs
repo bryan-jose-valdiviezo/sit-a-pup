@@ -43,7 +43,10 @@ namespace Service_Final_Rest_API
             });
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy("AllowOrigin", options => options
+                                                     .AllowAnyOrigin()
+                                                     .AllowAnyMethod()
+                                                     .AllowAnyHeader());
             });
         }
 

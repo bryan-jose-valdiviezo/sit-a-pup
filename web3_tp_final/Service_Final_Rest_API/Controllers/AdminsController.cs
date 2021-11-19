@@ -55,6 +55,7 @@ namespace Service_Final_Rest_API.Controllers
         // PUT: api/Admins/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [EnableCors("AllowOrigin")]
         public async Task<IActionResult> PutAdmin(long id, Admin admin)
         {
             if (id != admin.AdminId)
@@ -86,7 +87,7 @@ namespace Service_Final_Rest_API.Controllers
         // POST: api/Admins
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Admin>> PostPet(Admin admin)
+        public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
         {
             _context.Admins.Add(admin);
             await _context.SaveChangesAsync();
