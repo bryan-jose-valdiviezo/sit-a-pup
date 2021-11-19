@@ -1,5 +1,9 @@
 ﻿@using web3_tp_final.Helpers;
 
+@{ 
+    User user = SessionHelper.GetObjectFromJson<User>(Context.Session, "user");
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,20 +47,17 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="BecomeSitter">Devenir gardien</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">Utilisateurs</a>
-                        </li>
                         @{
-                            if (SessionHelper.GetObjectFromJson<User>(Context.Session, "user") != null)
+                            if (user != null)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
+                                </li>
                             }
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
-                        </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">

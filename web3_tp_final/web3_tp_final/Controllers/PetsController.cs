@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetID,Name,SpecieString,BirthYear,Photo,UserID")] Pet pet)
+        public async Task<IActionResult> Create([Bind("PetID,Name,Specie,BirthYear,Photo,UserID")] Pet pet)
         {
             if (ModelState.IsValid)
                 {
@@ -100,8 +101,9 @@ namespace web3_tp_final.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,SpecieString,BirthYear,Photo,UserID")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,Photo,UserID")] Pet pet)
         {
+            //Debug.WriteLine(pet.Photo.ToString());
             if (ModelState.IsValid)
             {
                 User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
