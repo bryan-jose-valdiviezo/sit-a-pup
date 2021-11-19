@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using web3_tp_final.Data;
 using web3_tp_final.Hubs;
 
 namespace web3_tp_final
@@ -24,11 +22,6 @@ namespace web3_tp_final
             services.AddDistributedMemoryCache();
 
             services.AddSession();
-
-            services.AddDbContext<SitAPupContext>(options =>
-            {
-                options.UseSqlite(Configuration.GetConnectionString("SitAPupContext"));
-            });
 
             services.AddControllersWithViews();
             services.AddSignalR();

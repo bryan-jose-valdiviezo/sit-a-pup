@@ -13,7 +13,6 @@ namespace web3_tp_final
     public class ReviewsController : Controller
     {
         private readonly SitAPupContext _context;
-
         public ReviewsController(SitAPupContext context)
         {
             _context = context;

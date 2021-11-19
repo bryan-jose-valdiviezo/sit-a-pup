@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,20 +11,19 @@ namespace web3_tp_final
 {
     public class UsersController : Controller
     {
-        private readonly SitAPupContext _context;
         private static APIController api = new APIController();
+        private IEnumerable<User> _users;
 
-        public UsersController(SitAPupContext context)
+        public UsersController()
         {
-            _context = context;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var users = await api.Get<User>();
+            _users = await api.Get<User>();
 
-            return View(users);
+            return View(_users);
         }
 
         // GET: Users/Details/5
@@ -75,7 +75,7 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            var user = await api.Get<User>(id);
             if (user == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace web3_tp_final
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.UserID == id);
+            return _users.Any(e => e.UserID == id);
         }
     }
 }

@@ -37,7 +37,6 @@ namespace web3_tp_final.Models
 
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
-
         public int AverageRating()
         {
             if (!Reviews.Any())
