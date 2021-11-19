@@ -10,11 +10,11 @@ namespace web3_tp_final.Controllers
 {
     public class AppointmentsController : Controller
     {
-        private APIController api;
+        private static APIController _aPIController;
 
-        public AppointmentsController()
+        public AppointmentsController(APIController aPIController)
         {
-            api = new APIController();
+            _aPIController = aPIController;
         }
 
         public IActionResult Index()
@@ -24,7 +24,7 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            Appointment appointment = await api.Get<Appointment>(id);
+            Appointment appointment = await _aPIController.Get<Appointment>(id);
 
             return View(appointment);
         }

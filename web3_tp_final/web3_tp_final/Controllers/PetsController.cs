@@ -13,10 +13,11 @@ namespace web3_tp_final.Controllers
 {
     public class PetsController : Controller
     {
-        private static APIController _api = new APIController();
+        private static APIController _aPIController;
 
-        public PetsController()
+        public PetsController(APIController aPIController)
         {
+            _aPIController = aPIController;
         }
 
         public async Task<IActionResult> Index()
@@ -28,7 +29,7 @@ namespace web3_tp_final.Controllers
                 userID = user.UserID;
             }
 
-            user = await _api.Get<User>(userID);
+            user = await _aPIController.Get<User>(userID);
 
             return View(user.Pets);
         }
@@ -47,7 +48,7 @@ namespace web3_tp_final.Controllers
                 userID = user.UserID;
             }
 
-            user = await _api.Get<User>(userID);
+            user = await _aPIController.Get<User>(userID);
 
             var pet = user.Pets.Find(pet => pet.PetID == id);
             if (pet == null)
@@ -80,9 +81,9 @@ namespace web3_tp_final.Controllers
                         pet.Photo = memoryStream.ToArray();
                     }
                     
-                    User userFromDB = await _api.Get<User>(user.UserID);
+                    User userFromDB = await _aPIController.Get<User>(user.UserID);
                     userFromDB.Pets.Add(pet);
-                    await _api.Put<User>(user.UserID, userFromDB);
+                    await _aPIController.Put<User>(user.UserID, userFromDB);
                     return RedirectToAction(nameof(Index));
                 } 
                 else
@@ -107,7 +108,7 @@ namespace web3_tp_final.Controllers
                 userID = user.UserID;
             }
 
-            user = await _api.Get<User>(userID);
+            user = await _aPIController.Get<User>(userID);
 
             var pet = user.Pets.Find(pet => pet.PetID == id);
 
@@ -138,9 +139,9 @@ namespace web3_tp_final.Controllers
                         }
                         //Tour de passe passe à modifier
                         pet.UserID = user.UserID;
-                        User userFromDb = await _api.Get<User>(user.UserID);
+                        User userFromDb = await _aPIController.Get<User>(user.UserID);
                         userFromDb.Pets.RemoveAll(p => p.PetID == pet.PetID);
-                        await _api.Put<User>(user.UserID, userFromDb);
+                        await _aPIController.Put<User>(user.UserID, userFromDb);
                     } else
                     {
                         //Données du formulaires pourraient être sauvegardées temporairement
@@ -164,33 +165,33 @@ namespace web3_tp_final.Controllers
             return View(pet);
         }
 
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //var pet = await _context.Pets
-            //    .FirstOrDefaultAsync(m => m.PetID == id);
-            //if (pet == null)
-            //{
-            //    return NotFound();
-            //}
+        //    var pet = await _context.Pets
+        //        .FirstOrDefaultAsync(m => m.PetID == id);
+        //    if (pet == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //return View(pet);
-            return RedirectToAction(nameof(Index));
-        }
+        //    return View(pet);
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            //var pet = await _context.Pets.FindAsync(id);
-            //_context.Pets.Remove(pet);
-            //await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var pet = await _context.Pets.FindAsync(id);
+        //    _context.Pets.Remove(pet);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool PetExists(int id)
         {

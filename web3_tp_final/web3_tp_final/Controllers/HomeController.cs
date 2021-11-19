@@ -14,11 +14,11 @@ namespace web3_tp_final.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private APIController api; 
+        private static APIController _aPIController;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, APIController aPIController)
         {
-            api = new APIController();
+            _aPIController = aPIController;
             _logger = logger;
         }
 
@@ -34,7 +34,7 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> FindSitter()
         {
-            IEnumerable<User> users = await api.Get<User>();
+            IEnumerable<User> users = await _aPIController.Get<User>();
             return View(users);
         }
 
@@ -56,17 +56,17 @@ namespace web3_tp_final.Controllers
             pets4.Add(new Pet { Name = "Render", BirthYear = 2019, Specie = Species.RONGEUR });
             User user4 = new User { UserName = "Sophhai Rusell", Password = "crosemont2021", Email = "rusell@ciuss.qc.ca", PhoneNumber = "514-250-2118", Address = "23e Avenue Montréal", Pets = pets4 };
 
-            await api.Post<User>(user1);
-            await api.Post<User>(user2);
-            await api.Post<User>(user3);
-            await api.Post<User>(user4);
+            await _aPIController.Post<User>(user1);
+            await _aPIController.Post<User>(user2);
+            await _aPIController.Post<User>(user3);
+            await _aPIController.Post<User>(user4);
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> GenerateMockLogin(int userID)
         {
-            User mockUser = await api.Get<User>(userID);
+            User mockUser = await _aPIController.Get<User>(userID);
             SessionHelper.SetObjectAsJson(HttpContext.Session, "user", mockUser);
             return RedirectToAction(nameof(Index));
         }
