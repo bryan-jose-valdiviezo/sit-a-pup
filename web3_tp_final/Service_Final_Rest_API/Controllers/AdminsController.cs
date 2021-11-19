@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Service_Final_Rest_API.Models;
 using System;
@@ -10,6 +11,7 @@ namespace Service_Final_Rest_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class AdminsController : Controller
     {
         private readonly sitapupContext _context;

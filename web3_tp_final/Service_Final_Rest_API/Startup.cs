@@ -41,6 +41,10 @@ namespace Service_Final_Rest_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service_Final_Rest_API", Version = "v1" });
             });
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +62,8 @@ namespace Service_Final_Rest_API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
