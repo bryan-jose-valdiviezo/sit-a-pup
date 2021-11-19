@@ -11,9 +11,9 @@
         <div class="col-3">
             <form id="connexionAdmin">
                 <label for="username">Nom d'Utilisateur</label>
-                <input type="text" id="username" name="username" />
+                <input type="text" id="usernameConnexion" name="username" />
                 <label for="password">Mot De Passe</label>
-                <input type="password" name="password" id="password" />
+                <input type="password" name="password" id="passwordConnexion" />
             </form>
             <button id="seConnecter" class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
             <button id="seDeconnecter" class="btn btn-primary" onclick="seDeconnecter()" style="visibility:hidden">Se Déconnecter</button>
@@ -22,45 +22,40 @@
 </div>
         <div class="container">
             <div class="col-3">
-                <div id="modifierLivre" class="my-2" style="visibility:hidden">
-                    <form id="formulaireModification">
-                        <input type="text" id="id" name="id" />
-                        <label for="id">Id</label>
-                        <input type="text" name="title" id="title" />
-                        <label for="title">Titre</label>
-                        <input type="text" name="author" id="author" />
-                        <label for="author">Auteur</label>
-                        <input type="text" name="description" id="description" />
-                        <label for="description">Déscription</label>
-                        <input type="text" name="anneeDeParution" id="anneeDeParution" />
-                        <label for="anneeDeParution">Année de parution</label>
-                        <input type="text" name="isbn" id="isbn" />
-                        <label for="isbn">ISBN</label>
+                <div id="modifierUser" class="my-2" style="visibility:hidden">
+                    <form id="formModifUser">
+                        <label for="userId">Id</label>
+                        <input type="text" id="userIdModif" name="userId" />
+
+                        <label for="username">Nom d'utilisateur'</label>
+                        <input type="text" name="username" id="username" />
+
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" />
+
+                        <label for="password">Mot de passe</label>
+                        <input type="text" name="password" id="password" />
+
+                        <label for="address">Année de parution</label>
+                        <input type="text" name="adress" id="address" />
+
+                        <label for="phoneNumber">Numéro de Téléphone</label>
+                        <input type="text" name="phoneNumber" id="phonenumber" />
+
                     </form>
-                    <button class="btn btn-primary" onclick="modifyBook()">Modifier</button>
+                    <button class="btn btn-primary" onclick="modifyUser()">Modifier</button>
                 </div>
             </div>
             <button id="getAllUsers" class="btn btn-primary" onclick="getAllUsers()" style="visibility:hidden">Get all Users</button>
-            <button id="RechercherUserParUsername" class="btn btn-primary" onclick="afficherFormulaireRecherche()" style="visibility:hidden">Get User by Username</button>
-            <button id="RechercherUserParEmail" class="btn btn-primary" onclick="afficherFormulaireRechercheAnnee()" style="visibility:hidden">Get User By Email</button>
             <button id="RechercherUserParId" class="btn btn-primary" onclick="afficherFormulaireRechercheId()" style="visibility:hidden">Get User by ID </button>
             <button id="AjoutAdmin" class="btn btn-primary" onclick="afficherFormulaireAjout()" style="visibility:hidden">Add an admin</button>
             <button id="ModifierAdmin" class="btn btn-primary" onclick="afficherFormulaireModification()" style="visibility:hidden">Modify an admin</button>
-            <button id="SupprimerAdmin" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete an admin</button>
-            <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireModification()" style="visibility:hidden">Modify a user</button>
+            <button id="SupprimerAdmin" class="btn btn-primary" onclick="afficherFormulaireSuppressionAdmin()" style="visibility:hidden">Delete an admin</button>
+            <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireModificationUser()" style="visibility:hidden">Modify a user</button>
             <button id="SupprimerUser" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete a user</button>
             <div class="row">
                 <div class="col-3">
-                    <div id="rechercheParIsbn" class="my-2" style="visibility:hidden">
-                        <label for="RechercheIsbn">Isbn recherché</label>
-                        <input type="text" name="isbn" id="RechercheIsbn" />
-                        <button class="btn" onclick="rechercheParIsbn()"> Rechercher </button>
-                    </div>
-                    <div id="rechercheParAnnee" class="my-2" style="visibility:hidden">
-                        <label for="anneeRecherche">Annee recherché</label>
-                        <input type="text" name="anneeRecherche" id="anneeRecherche" />
-                        <button class="btn" onclick="rechercheParAnnee()"> Rechercher </button>
-                    </div>
+                   
                     <div id="rechercheParID" class="my-2" style="visibility:hidden">
                         <label for="idRecherche">ID du User recherché</label>
                         <input type="text" name="idRecherche" id="idRecherche" />
@@ -69,46 +64,45 @@
 
                 </div>
                 <div class="col-3">
-                    <div id="ajoutLivre" class="my-2" style="visibility:hidden">
-                        <form id="formAjoutLivre">
-                            <input type="text" name="title" id="title" />
-                            <label for="title">Titre</label>
-                            <input type="text" name="author" id="author" />
-                            <label for="author">Auteur</label>
-                            <input type="text" name="description" id="description" />
-                            <label for="description">Déscription</label>
-                            <input type="text" name="anneeDeParution" id="anneeDeParution" />
-                            <label for="anneeDeParution">Année de parution</label>
-                            <input type="text" name="isbn" id="isbn" />
-                            <label for="isbn">ISBN</label>
+                    <div id="ajoutAdmin" class="my-2" style="visibility:hidden">
+                        <form id="formAjoutAdmin">
+                            <input type="text" name="name" id="name" />
+                            <label for="name">Nom d'Utilisateur</label>
+                            <input type="text" name="password" id="password" />
+                            <label for="password">Mot de passe</label>
                         </form>
-                        <button class="btn btn-primary" onclick="postBook()">Envoyer</button>
+                        <button class="btn btn-primary" onclick="postAdmin()">Envoyer</button>
                     </div>
                 </div>
                 <div class="col-3">
-                    <div id="modifierLivre" class="my-2" style="visibility:hidden">
-                        <form id="formulaireModification">
-                            <input type="text" id="id" name="id" />
-                            <label for="id">Id</label>
-                            <input type="text" name="title" id="title" />
-                            <label for="title">Titre</label>
-                            <input type="text" name="author" id="author" />
-                            <label for="author">Auteur</label>
-                            <input type="text" name="description" id="description" />
-                            <label for="description">Déscription</label>
-                            <input type="text" name="anneeDeParution" id="anneeDeParution" />
-                            <label for="anneeDeParution">Année de parution</label>
-                            <input type="text" name="isbn" id="isbn" />
-                            <label for="isbn">ISBN</label>
+                    <div id="modifierAdmin" class="my-2" style="visibility:hidden">
+                        <form id="formModifAdmin">
+
+                            <label for="adminId">ID de l'admin à modifier</label>
+                            <input type="text" name="adminId" id="adminIdModif" />
+
+                            <label for="name">Nom d'Utilisateur'</label>
+                            <input type="text" name="name" id="name" />
+
+                            <label for="password">Mot de passe</label>
+                            <input type="text" name="password" id="password" />
+
                         </form>
-                        <button class="btn btn-primary" onclick="modifyBook()">Modifier</button>
+                        <button class="btn btn-primary" onclick="modifyAdmin()">Modifier</button>
                     </div>
                 </div>
                 <div class="col-3">
-                    <div id="supprimerLivre" style="visibility:hidden">
+                    <div id="supprimerUser" style="visibility:hidden">
                         <label for="idSupprimer">Id a supprimer</label>
                         <input type="text" id="idSupprimer" />
-                        <button onclick="deleteLivre()">Supprimer</button>
+                        <button onclick="deleteUser()">Supprimer</button>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div id="supprimerAdmin" style="visibility:hidden">
+                        <label for="idSupprimerAdmin">Id a supprimer</label>
+                        <input type="text" id="idSupprimerAdmin" />
+                        <button onclick="deleteAdmin()">Supprimer</button>
                     </div>
                 </div>
             </div>
@@ -119,20 +113,33 @@
         <script>
 
             function cacherToutLesFormulaire() {
-                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
-                document.getElementById("ajoutLivre").style.visibility = "hidden"
-                document.getElementById("modifierLivre").style.visibility = "hidden"
-                document.getElementById("supprimerLivre").style.visibility = "hidden"
-                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
                
 
             }
 
+            function cacherToutesLesOptions() {
+                document.getElementById("getAllUsers").style.visibility = "hidden"
+                document.getElementById("RechercherUserParId").style.visibility = "hidden"
+                document.getElementById("AjoutAdmin").style.visibility = "hidden"
+                document.getElementById("ModifierAdmin").style.visibility = "hidden"
+                document.getElementById("SupprimerAdmin").style.visibility = "hidden"
+                document.getElementById("ModifierUser").style.visibility = "hidden"
+                document.getElementById("SupprimerUser").style.visibility = "hidden"
+                document.getElementById("connexionAdmin").style.visibility = "visible"
+                document.getElementById("seConnecter").style.visibility = "visible"
+                document.getElementById("seDeconnecter").style.visibility = "hidden"
+
+
+
+            }
+
             function afficherLesOptions() {
                 document.getElementById("getAllUsers").style.visibility = "visible"
-                document.getElementById("RechercherUserParUsername").style.visibility = "visible"
-                document.getElementById("RechercherUserParEmail").style.visibility = "visible"
                 document.getElementById("RechercherUserParId").style.visibility = "visible"
                 document.getElementById("AjoutAdmin").style.visibility = "visible"
                 document.getElementById("ModifierAdmin").style.visibility = "visible"
@@ -146,56 +153,73 @@
 
             }
             function afficherFormulaireRecherche() {
-                document.getElementById("rechercheParIsbn").style.visibility = "visible"
-                document.getElementById("ajoutLivre").style.visibility = "hidden"
-                document.getElementById("modifierLivre").style.visibility = "hidden"
-                document.getElementById("supprimerLivre").style.visibility = "hidden"
-                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
             }
 
             function afficherFormulaireAjout() {
-                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
-                document.getElementById("ajoutLivre").style.visibility = "visible"
-                document.getElementById("modifierLivre").style.visibility = "hidden"
-                document.getElementById("supprimerLivre").style.visibility = "hidden"
-                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("ajoutAdmin").style.visibility = "visible"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
             }
 
             function afficherFormulaireModification() {
-                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
-                document.getElementById("ajoutLivre").style.visibility = "hidden"
-                document.getElementById("modifierLivre").style.visibility = "visible"
-                document.getElementById("supprimerLivre").style.visibility = "hidden"
-                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "visible"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+
+            function afficherFormulaireModificationUser() {
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "visible"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
             }
 
             function afficherFormulaireSuppression() {
-                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
-                document.getElementById("ajoutLivre").style.visibility = "hidden"
-                document.getElementById("modifierLivre").style.visibility = "hidden"
-                document.getElementById("supprimerLivre").style.visibility = "visible"
-                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "visible"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+            }
+            function afficherFormulaireSuppressionAdmin() {
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "visible"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
             }
 
             function afficherFormulaireRechercheId() {
-                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
-                document.getElementById("ajoutLivre").style.visibility = "hidden"
-                document.getElementById("modifierLivre").style.visibility = "hidden"
-                document.getElementById("supprimerLivre").style.visibility = "hidden"
-                document.getElementById("rechercheParAnnee").style.visibility = "hidden"
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "visible"
             }
 
             function afficherFormulaireRechercheAnnee() {
-                document.getElementById("rechercheParIsbn").style.visibility = "hidden"
-                document.getElementById("ajoutLivre").style.visibility = "hidden"
-                document.getElementById("modifierLivre").style.visibility = "hidden"
-                document.getElementById("supprimerLivre").style.visibility = "hidden"
-                document.getElementById("rechercheParAnnee").style.visibility = "visible"
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
             }
             function getAllUsers() {
@@ -208,6 +232,7 @@
                         var reponse = this.responseText;
                         var tableauReponse = JSON.parse(reponse);
                         var texte = document.createElement("p");
+                        "<h2>Réussi</h2>"
                         for (i in tableauReponse) {
 
                             texte.innerHTML += "ID :" + tableauReponse[i].userId + "<br> Username : " + tableauReponse[i].userName + "<br> email : " + tableauReponse[i].email + "<br> Phone Number " + tableauReponse[i].phoneNumber
@@ -220,15 +245,38 @@
                 xhttp.send();
             }
 
-            function postBook() {
-                var donneeFormulaire = document.getElementById("formAjoutLivre");
-                var url = "https://localhost:44332/api/Books"
+            function getAllAdmins() {
+                var url = "https://localhost:44308/api/Admins"
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+                        var texte = document.createElement("p");
+                        "<h2>Réussi</h2>"
+                        for (i in tableauReponse) {
+
+                            texte.innerHTML += "ID :" + tableauReponse[i].adminId + "<br> Name : " + tableauReponse[i].name
+
+                        }
+                        divReponse.appendChild(texte);
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+
+            function postAdmin() {
+                var donneeFormulaire = document.getElementById("formAjoutAdmin");
+                var url = "https://localhost:44308/api/Admins"
                 var donnees = new FormData(donneeFormulaire);
                 var xhttp = new XMLHttpRequest()
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-                        alert("Envoie Réussi")
-                        getAllBooks();
+                        alert("Envoi Réussi")
+                        getAllAdmins();
                         cacherToutLesFormulaire();
                     }
                 };
@@ -236,95 +284,84 @@
                 xhttp.send(donnees);
             }
 
-            function modifyBook() {
-                var donneeFormulaire = document.getElementById("formulaireModification");
-                var url = "https://localhost:44332/api/Books"
+            function modifyAdmin() {
+                var donneeFormulaire = document.getElementById("formModifAdmin");
+                var id = document.getElementById("adminIdModif").value
+                var url = "https://localhost:44308/api/Admins/" + id
                 var donnees = new FormData(donneeFormulaire);
                 var xhttp = new XMLHttpRequest()
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
-                        alert("Mise a jour réussis Réussi")
-                        getAllBooks()
+                        alert("Mise a jour réussie")
+                        getAllAdmins()
                         cacherToutLesFormulaire()
                     }
                 };
                 xhttp.open("PUT", url, true)
                 xhttp.send(donnees);
             }
-            function rechercheParIsbn() {
-                var isbn = document.getElementById("RechercheIsbn").value
-                var url = "https://localhost:44332/getByIsbn/" + isbn
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var divReponse = document.getElementById("reponse");
-                        divReponse.innerHTML = ""
-                        var reponse = this.responseText;
-                        var tableauReponse = JSON.parse(reponse);
-                        var texte = document.createElement("p");
-
-                        texte.innerHTML += "ID :" + tableauReponse.id + "<br> Titre : " + tableauReponse.title + "<br> Auteur : " + tableauReponse.author + "<br> ISBN " + tableauReponse.isbn + "<br>  Déscription :" + tableauReponse.description + "<br> Année de parution : " + tableauReponse.anneeDeParution + "<br><br>"
-
-                        divReponse.appendChild(texte);
-                    }
-                };
-                xhttp.open("GET", url, true);
-                xhttp.send();
-            }
-
-            function rechercheParAnnee() {
-                var annee = document.getElementById("anneeRecherche").value;
-                var url = "https://localhost:44332/getByAnnee/" + annee
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var divReponse = document.getElementById("reponse");
-                        divReponse.innerHTML = ""
-                        var reponse = this.responseText;
-                        var tableauReponse = JSON.parse(reponse);
-                        var texte = document.createElement("p");
-                        for (i in tableauReponse) {
-                            texte.innerHTML += "ID :" + tableauReponse[i].id + "<br> Titre : " + tableauReponse[i].title + "<br> Auteur : " + tableauReponse[i].author + "<br> ISBN " + tableauReponse[i].isbn + "<br>  Déscription :" + tableauReponse[i].description + "<br> Année de parution : " + tableauReponse[i].anneeDeParution + "<br><br>"
-
-                            divReponse.appendChild(texte);
-                        }
-                        cacherToutLesFormulaire()
-                    }
-                };
-                xhttp.open("GET", url, true);
-                xhttp.send();
-            }
-
-         /*   function rechercheUserParID() {
-                var id = document.getElementById("idRecherche").value
-                var url = "https://localhost:44332/api/Users/" + id
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var divReponse = document.getElementById("reponse");
-                        divReponse.innerHTML = ""
-                        var reponse = this.responseText;
-                        var tableauReponse = JSON.parse(reponse);
-                        var texte = document.createElement("p");
-
-                        texte.innerHTML += "ID :" + tableauReponse.userId + "<br> Username : " + tableauReponse.userName + "<br> email : " + tableauReponse.email + "<br> Adress " + tableauReponse.adress + "<br>  phone Number :" + tableauReponse.phoneNumber "<br>"
-
-                        divReponse.appendChild(texte);
-                        cacherToutLesFormulaire()
-                    }
-                };
-                xhttp.open("GET", url, true);
-                xhttp.send();
-            }*/
-
-            function deleteLivre() {
-                var id = document.getElementById("idSupprimer").value
-                var url = "https://localhost:44332/api/Books/" + id
+            function modifyUser() {
+                var donneeFormulaire = document.getElementById("formModifUser");
+                var id = document.getElementById("userIdModif").value
+                var url = "https://localhost:44308/api/Users/" +id
+                var donnees = new FormData(donneeFormulaire);
                 var xhttp = new XMLHttpRequest()
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
-                        alert("Suppression Réussi")
-                        getAllBooks()
+                        alert("Mise a jour réussie")
+                        getAllUsers()
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("PUT", url, true)
+                xhttp.send(donnees);
+            }
+            
+           function rechercheUserParID() {
+                var id = document.getElementById("idRecherche").value
+               var url = "https://localhost:44308/api/Users/" + id
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+                        var texte = document.createElement("p");
+
+                        texte.innerHTML += "ID :" + tableauReponse.userId + "<br> Username : " + tableauReponse.userName + "<br> email : " + tableauReponse.email + "<br> Address " + tableauReponse.address + "<br>  phone Number :" + tableauReponse.phoneNumber
+
+                        divReponse.appendChild(texte);
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+
+            function deleteUser() {
+                var id = document.getElementById("idSupprimer").value
+                var url = "https://localhost:44308/api/Users/" + id
+                var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                        alert("Suppression Réussie")
+                        getAllUsers()
+                        cacherToutLesFormulaire()
+                    }
+                };
+                xhttp.open("DELETE", url, true)
+                xhttp.send();
+            }
+
+            function deleteAdmin() {
+                var id = document.getElementById("idSupprimerAdmin").value
+                var url = "https://localhost:44308/api/Admins/" + id
+                var xhttp = new XMLHttpRequest()
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                        alert("Suppression Réussie")
+                        getAllUsers()
                         cacherToutLesFormulaire()
                     }
                 };
@@ -334,9 +371,9 @@
 
 
             function seConnecter() {
-                var donneeFormulaire = document.getElementById("connexionAdmin");
+                var donnees = document.getElementById("connexionAdmin");
                 var url = "https://localhost:44332/api/Admin/Login"
-                /*var xhttp = new XMLHttpRequest()
+                var xhttp = new XMLHttpRequest()
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
                         alert("Connexion Réussie")
@@ -345,10 +382,17 @@
                     }
                 };
                 xhttp.open("GET", url, true)
-                xhttp.send(donnees);*/
-
+                xhttp.send(donnees);
 
                 afficherLesOptions()
+            }
+
+            function seDeconnecter() {
+
+                cacherToutLesFormulaire()
+                cacherToutesLesOptions()
+                document.getElementById("usernameConnexion").value = "";
+                document.getElementById("passwordConnexion").value = "";
 
             }
 
