@@ -66,9 +66,9 @@
                 <div class="col-3">
                     <div id="ajoutAdmin" class="my-2" style="visibility:hidden">
                         <form id="formAjoutAdmin">
-                            <input type="text" name="name" id="name" />
+                            <input type="text" name="name" id="nameAdminAjout" />
                             <label for="name">Nom d'Utilisateur</label>
-                            <input type="text" name="password" id="password" />
+                            <input type="text" name="password" id="passwordAdminAjout" />
                             <label for="password">Mot de passe</label>
                         </form>
                         <button class="btn btn-primary" onclick="postAdmin()">Envoyer</button>
@@ -272,17 +272,36 @@
                 var donneeFormulaire = document.getElementById("formAjoutAdmin");
                 var url = "https://localhost:44308/api/Admins"
                 var donnees = new FormData(donneeFormulaire);
-                var xhttp = new XMLHttpRequest()
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-                        alert("Envoi Réussi")
-                        getAllAdmins();
-                        cacherToutLesFormulaire();
+                 
+               /* var xhttp = new XMLHttpRequest()
+                 xhttp.onreadystatechange = function () {
+                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+                         alert("Envoi Réussi")
+                         getAllAdmins();
+                         cacherToutLesFormulaire();
+                     }
+                 };
+                 xhttp.open("POST", url, true)
+                 xhttp.send(donnees);*/
+                var variable = {
+                    'name': $('#nameAdminAjout').val(),
+                    'password': $('#passwordAdminAjout').val()
+                }
+                $.ajax({
+                    url: 'https://localhost:44308/api/Admins',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    datatype: 'json',
+                    data: JSON.stringify(donnees),
+                   
+
+                    success: function (data) {
+                        alert('Data: ' + data);
                     }
-                };
-                xhttp.open("POST", url, true)
-                xhttp.send(donnees);
+                });
             }
+            
+            
 
             function modifyAdmin() {
                 var donneeFormulaire = document.getElementById("formModifAdmin");
@@ -372,7 +391,7 @@
 
             function seConnecter() {
                 var donnees = document.getElementById("connexionAdmin");
-                var url = "https://localhost:44332/api/Admin/Login"
+                var url = "https://localhost:44308/api/Admin/Login"
                 var xhttp = new XMLHttpRequest()
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
