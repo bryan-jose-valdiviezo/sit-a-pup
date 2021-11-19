@@ -15,7 +15,8 @@
                 <label for="password">Mot De Passe</label>
                 <input type="password" name="password" id="password" />
             </form>
-            <button class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
+            <button id="seConnecter" class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
+            <button id="seDeconnecter" class="btn btn-primary" onclick="seDeconnecter()" style="visibility:hidden">Se Déconnecter</button>
         </div>
     </div>
 </div>
@@ -39,7 +40,7 @@
                     <button class="btn btn-primary" onclick="modifyBook()">Modifier</button>
                 </div>
             </div>
-            <button id="getAllUsers" class="btn btn-primary" onclick="getAllBooks()" style="visibility:hidden">Get all Users</button>
+            <button id="getAllUsers" class="btn btn-primary" onclick="getAllUsers()" style="visibility:hidden">Get all Users</button>
             <button id="RechercherUserParUsername" class="btn btn-primary" onclick="afficherFormulaireRecherche()" style="visibility:hidden">Get User by Username</button>
             <button id="RechercherUserParEmail" class="btn btn-primary" onclick="afficherFormulaireRechercheAnnee()" style="visibility:hidden">Get User By Email</button>
             <button id="RechercherUserParId" class="btn btn-primary" onclick="afficherFormulaireRechercheId()" style="visibility:hidden">Get User by ID </button>
@@ -61,9 +62,9 @@
                         <button class="btn" onclick="rechercheParAnnee()"> Rechercher </button>
                     </div>
                     <div id="rechercheParID" class="my-2" style="visibility:hidden">
-                        <label for="idRecherche">ID recherché</label>
+                        <label for="idRecherche">ID du User recherché</label>
                         <input type="text" name="idRecherche" id="idRecherche" />
-                        <button class="btn" onclick="rechercheParID()"> Rechercher </button>
+                        <button class="btn" onclick="rechercheUserParID()"> Rechercher </button>
                     </div>
 
                 </div>
@@ -138,6 +139,9 @@
                 document.getElementById("SupprimerAdmin").style.visibility = "visible"
                 document.getElementById("ModifierUser").style.visibility = "visible"
                 document.getElementById("SupprimerUser").style.visibility = "visible"
+                document.getElementById("connexionAdmin").style.visibility = "hidden"
+                document.getElementById("seConnecter").style.visibility = "hidden"
+                document.getElementById("seDeconnecter").style.visibility = "visible"
                
 
             }
@@ -194,8 +198,8 @@
                 document.getElementById("rechercheParAnnee").style.visibility = "visible"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
             }
-            function getAllBooks() {
-                var url = "https://localhost:44332/api/Books"
+            function getAllUsers() {
+                var url = "https://localhost:44308/api/Users"
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -206,7 +210,7 @@
                         var texte = document.createElement("p");
                         for (i in tableauReponse) {
 
-                            texte.innerHTML += "ID :" + tableauReponse[i].id + "<br> Titre : " + tableauReponse[i].title + "<br> Auteur : " + tableauReponse[i].author + "<br> ISBN " + tableauReponse[i].isbn + "<br>  Déscription :" + tableauReponse[i].description + "<br> Année de parution : " + tableauReponse[i].anneeDeParution + "<br><br>"
+                            texte.innerHTML += "ID :" + tableauReponse[i].userId + "<br> Username : " + tableauReponse[i].userName + "<br> email : " + tableauReponse[i].email + "<br> Phone Number " + tableauReponse[i].phoneNumber
 
                         }
                         divReponse.appendChild(texte);
@@ -291,9 +295,9 @@
                 xhttp.send();
             }
 
-            function rechercheParID() {
+         /*   function rechercheUserParID() {
                 var id = document.getElementById("idRecherche").value
-                var url = "https://localhost:44332/api/Books/" + id
+                var url = "https://localhost:44332/api/Users/" + id
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -303,7 +307,7 @@
                         var tableauReponse = JSON.parse(reponse);
                         var texte = document.createElement("p");
 
-                        texte.innerHTML += "ID :" + tableauReponse.id + "<br> Titre : " + tableauReponse.title + "<br> Auteur : " + tableauReponse.author + "<br> ISBN " + tableauReponse.isbn + "<br>  Déscription :" + tableauReponse.description + "<br> Année de parution : " + tableauReponse.anneeDeParution + "<br><br>"
+                        texte.innerHTML += "ID :" + tableauReponse.userId + "<br> Username : " + tableauReponse.userName + "<br> email : " + tableauReponse.email + "<br> Adress " + tableauReponse.adress + "<br>  phone Number :" + tableauReponse.phoneNumber "<br>"
 
                         divReponse.appendChild(texte);
                         cacherToutLesFormulaire()
@@ -311,7 +315,7 @@
                 };
                 xhttp.open("GET", url, true);
                 xhttp.send();
-            }
+            }*/
 
             function deleteLivre() {
                 var id = document.getElementById("idSupprimer").value
