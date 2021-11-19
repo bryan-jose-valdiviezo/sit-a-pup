@@ -1,24 +1,24 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 // @ts-ignore: This will be removed from built files and is here to make the types available during dev work
-import { CookieJar } from "@types/tough-cookie";
+import * as tough from "@types/tough-cookie";
 
 import { AbortError, HttpError, TimeoutError } from "./Errors";
 import { HttpClient, HttpRequest, HttpResponse } from "./HttpClient";
 import { ILogger, LogLevel } from "./ILogger";
-import { Platform, getGlobalThis } from "./Utils";
+import { Platform } from "./Utils";
 
 export class FetchHttpClient extends HttpClient {
-    private readonly _abortControllerType: { prototype: AbortController, new(): AbortController };
-    private readonly _fetchType: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
-    private readonly _jar?: CookieJar;
+    private readonly abortControllerType: { prototype: AbortController, new(): AbortController };
+    private readonly fetchType: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+    private readonly jar?: tough.CookieJar;
 
-    private readonly _logger: ILogger;
+    private readonly logger: ILogger;
 
     public constructor(logger: ILogger) {
         super();
-        this._logger = logger;
+        this.logger = logger;
 
         if (typeof fetch === "undefined") {
             // In order to ignore the dynamic require in webpack builds we need to do this magic
@@ -26,24 +26,18 @@ export class FetchHttpClient extends HttpClient {
             const requireFunc = typeof __webpack_require__ === "function" ? __non_webpack_require__ : require;
 
             // Cookies aren't automatically handled in Node so we need to add a CookieJar to preserve cookies across requests
-            this._jar = new (requireFunc("tough-cookie")).CookieJar();
-            this._fetchType = requireFunc("node-fetch");
+            this.jar = new (requireFunc("tough-cookie")).CookieJar();
+            this.fetchType = requireFunc("node-fetch");
 
             // node-fetch doesn't have a nice API for getting and setting cookies
             // fetch-cookie will wrap a fetch implementation with a default CookieJar or a provided one
-            this._fetchType = requireFunc("fetch-cookie")(this._fetchType, this._jar);
-        } else {
-            this._fetchType = fetch.bind(getGlobalThis());
-        }
-        if (typeof AbortController === "undefined") {
-            // In order to ignore the dynamic require in webpack builds we need to do this magic
-            // @ts-ignore: TS doesn't know about these names
-            const requireFunc = typeof __webpack_require__ === "function" ? __non_webpack_require__ : require;
+            this.fetchType = requireFunc("fetch-cookie")(this.fetchType, this.jar);
 
             // Node needs EventListener methods on AbortController which our custom polyfill doesn't provide
-            this._abortControllerType = requireFunc("abort-controller");
+            this.abortControllerType = requireFunc("abort-controller");
         } else {
-            this._abortControllerType = AbortController;
+            this.fetchType = fetch.bind(self);
+            this.abortControllerType = AbortController;
         }
     }
 
@@ -61,7 +55,7 @@ export class FetchHttpClient extends HttpClient {
             throw new Error("No url defined.");
         }
 
-        const abortController = new this._abortControllerType();
+        const abortController = new this.abortControllerType();
 
         let error: any;
         // Hook our abortSignal into the abort controller
@@ -79,14 +73,14 @@ export class FetchHttpClient extends HttpClient {
             const msTimeout = request.timeout!;
             timeoutId = setTimeout(() => {
                 abortController.abort();
-                this._logger.log(LogLevel.Warning, `Timeout from HTTP request.`);
+                this.logger.log(LogLevel.Warning, `Timeout from HTTP request.`);
                 error = new TimeoutError();
             }, msTimeout);
         }
 
         let response: Response;
         try {
-            response = await this._fetchType(request.url!, {
+            response = await this.fetchType(request.url!, {
                 body: request.content!,
                 cache: "no-cache",
                 credentials: request.withCredentials === true ? "include" : "same-origin",
@@ -97,14 +91,14 @@ export class FetchHttpClient extends HttpClient {
                 },
                 method: request.method!,
                 mode: "cors",
-                redirect: "follow",
+                redirect: "manual",
                 signal: abortController.signal,
             });
         } catch (e) {
             if (error) {
                 throw error;
             }
-            this._logger.log(
+            this.logger.log(
                 LogLevel.Warning,
                 `Error from HTTP request. ${e}.`,
             );
@@ -119,8 +113,7 @@ export class FetchHttpClient extends HttpClient {
         }
 
         if (!response.ok) {
-            const errorMessage = await deserializeContent(response, "text") as string;
-            throw new HttpError(errorMessage || response.statusText, response.status);
+            throw new HttpError(response.statusText, response.status);
         }
 
         const content = deserializeContent(response, request.responseType);
@@ -135,9 +128,9 @@ export class FetchHttpClient extends HttpClient {
 
     public getCookieString(url: string): string {
         let cookies: string = "";
-        if (Platform.isNode && this._jar) {
+        if (Platform.isNode && this.jar) {
             // @ts-ignore: unused variable
-            this._jar.getCookies(url, (e, c) => cookies = c.join("; "));
+            this.jar.getCookies(url, (e, c) => cookies = c.join("; "));
         }
         return cookies;
     }

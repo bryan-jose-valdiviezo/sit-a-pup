@@ -37,15 +37,6 @@ namespace web3_tp_final.Models
 
         public byte[] Photo { get; set; }
 
-        public bool IsBeingSitted { get; set; }
-
-        //Je n'ajoute pas d'ID dans l'attribut parce que ça compliquerait inutilement la gestion des clés primaires et étrangères avec le framework (CM).
-        public int Sitter { get; set; }
-
-        public DateTime SittingStart { get; set; }
-
-        public DateTime SittingEnd { get; set; }
-
         public int UserID { get; set; }
     }
 }

@@ -36,7 +36,12 @@ namespace Service_Final_Rest_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
-            var user = await _context.Users.Include(e => e.Availabilities).FirstOrDefaultAsync(x => x.UserId == id);
+            var user = await _context.Users
+                .Include(e => e.Availabilities)
+                .Include(e => e.Reviews)
+                .Include(e => e.Pets)
+                .Include(e => e.Messages)
+                .FirstOrDefaultAsync(x => x.UserId == id);
 
             if (user == null)
             {

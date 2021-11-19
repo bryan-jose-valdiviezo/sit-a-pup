@@ -1,5 +1,5 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 import { DefaultReconnectPolicy } from "./DefaultReconnectPolicy";
 import { HttpConnection } from "./HttpConnection";
@@ -13,7 +13,8 @@ import { JsonHubProtocol } from "./JsonHubProtocol";
 import { NullLogger } from "./Loggers";
 import { Arg, ConsoleLogger } from "./Utils";
 
-const LogLevelNameMapping: {[k: string]: LogLevel} = {
+// tslint:disable:object-literal-sort-keys
+const LogLevelNameMapping = {
     trace: LogLevel.Trace,
     debug: LogLevel.Debug,
     info: LogLevel.Information,
