@@ -19,8 +19,7 @@
         int numberOfRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(numberOfPets) / Convert.ToDouble(numberOfColumns)));
         if (numberOfPets > 0)
         {
-
-            while (numberOfRows > 0)
+            for (int j = numberOfRows; j > 0; j--)
             {
                 @:<div class="row pt-3">
                     for (int i = 0; i < numberOfColumns; i++)
@@ -55,7 +54,6 @@
                             }
                         @:</div>
                     }
-                    numberOfRows--;
                 @:</div>
             }
         }
