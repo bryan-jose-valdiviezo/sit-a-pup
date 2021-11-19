@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using web3_tp_final.API;
 using web3_tp_final.Hubs;
 
 namespace web3_tp_final
@@ -25,6 +27,8 @@ namespace web3_tp_final
 
             services.AddControllersWithViews();
             services.AddSignalR();
+
+            services.AddSingleton<APIController>(new APIController());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

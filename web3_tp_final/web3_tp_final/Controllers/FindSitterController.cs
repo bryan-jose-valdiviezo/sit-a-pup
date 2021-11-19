@@ -12,22 +12,22 @@ namespace web3_tp_final.Controllers
 {
     public class FindSitterController : Controller
     {
-        private APIController api;
-        public FindSitterController()
+        private static APIController _aPIController;
+        public FindSitterController(APIController aPIController)
         {
-            api = new APIController();
+            _aPIController = aPIController;
         }
         public async Task<IActionResult> Index()
         {
-            IEnumerable<User> users = await api.Get<User>();
+            IEnumerable<User> users = await _aPIController.Get<User>();
             return View(users);
         }
 
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> BookAppointment(int id)
         {
-            User sitter = await api.Get<User>(id);
-            User currentUser = await api.Get<User>(1);
+            User sitter = await _aPIController.Get<User>(id);
+            User currentUser = await _aPIController.Get<User>(1);
             ViewBag.sitter = sitter;
             ViewBag.user = currentUser;
             return View("Form");
@@ -37,15 +37,15 @@ namespace web3_tp_final.Controllers
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> Create(int id, [Bind("AppointmentID, OwnerId, SitterId, StartDate, EndDate, PetIds")] AppointmentDTO appointmentForm)
         {
-            Appointment newAppointment = await api.PostAppointment(appointmentForm);
+            Appointment newAppointment = await _aPIController.PostAppointment(appointmentForm);
             if (newAppointment != null)
             {
                 return RedirectToAction("Details", "Appointments", new {userID = appointmentForm.OwnerId, id = newAppointment.AppointmentID });
             }
             else
             {
-                User sitter = await api.Get<User>(id);
-                User currentUser = await api.Get<User>(1);
+                User sitter = await _aPIController.Get<User>(id);
+                User currentUser = await _aPIController.Get<User>(1);
                 ViewBag.sitter = sitter;
                 ViewBag.user = currentUser;
                 return View("Form", appointmentForm);
