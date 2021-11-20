@@ -32,9 +32,9 @@ namespace Service_Final_Rest_API.Controllers
         }
 
         [HttpGet("LogIn")]
-        public async Task<ActionResult<Admin>> LogIn([FromQuery] string username, [FromQuery] string password)
+        public async Task<ActionResult<Admin>> LogIn([FromQuery] string name, [FromQuery] string password)
         {
-            var admin = await _context.Admins.Where(x => x.Name == username).Where(x => x.Password == password).FirstOrDefaultAsync();
+            var admin = await _context.Admins.Where(x => x.Name == name).Where(x => x.Password == password).FirstOrDefaultAsync();
             return admin;
         }
 
