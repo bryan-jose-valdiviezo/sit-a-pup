@@ -11,9 +11,9 @@
         <div class="col-3">
             <form id="connexionAdmin">
                 <label for="username">Nom d'Utilisateur</label>
-                <input type="text" id="usernameConnexion" name="username" />
+                <input type="text" id="username" name="username" />
                 <label for="password">Mot De Passe</label>
-                <input type="password" name="password" id="passwordConnexion" />
+                <input type="password" name="password" id="password" />
             </form>
             <button id="seConnecter" class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
             <button id="seDeconnecter" class="btn btn-primary" onclick="seDeconnecter()" style="visibility:hidden">Se Déconnecter</button>
@@ -28,30 +28,35 @@
                         <input type="text" id="userIdModif" name="userId" />
 
                         <label for="username">Nom d'utilisateur'</label>
-                        <input type="text" name="username" id="username" />
+                        <input type="text" name="username" id="usernameModifUser" />
 
                         <label for="email">Email</label>
-                        <input type="text" name="email" id="email" />
+                        <input type="text" name="email" id="emailModifUser" />
 
                         <label for="password">Mot de passe</label>
-                        <input type="text" name="password" id="password" />
+                        <input type="password" name="password" id="passwordModifUser" />
 
-                        <label for="address">Année de parution</label>
-                        <input type="text" name="adress" id="address" />
+                        <label for="address">Adresse</label>
+                        <input type="text" name="address" id="addressModifUser" />
 
                         <label for="phoneNumber">Numéro de Téléphone</label>
-                        <input type="text" name="phoneNumber" id="phonenumber" />
+                        <input type="text" name="phoneNumber" id="phonenumberModifUser" />
 
                     </form>
                     <button class="btn btn-primary" onclick="modifyUser()">Modifier</button>
+                </div>
+                <div id="rechercheParIDUserModif" class="my-2" style="visibility:hidden">
+                    <label for="idRechercheUserModif">ID du User recherché</label>
+                    <input type="text" name="idRechercheUserModif" id="idRechercheUserModif" />
+                    <button class="btn btn-primary" onclick="rechercheUserParIDUserModif()"> Rechercher </button>
                 </div>
             </div>
             <button id="getAllUsers" class="btn btn-primary" onclick="getAllUsers()" style="visibility:hidden">Get all Users</button>
             <button id="RechercherUserParId" class="btn btn-primary" onclick="afficherFormulaireRechercheId()" style="visibility:hidden">Get User by ID </button>
             <button id="AjoutAdmin" class="btn btn-primary" onclick="afficherFormulaireAjout()" style="visibility:hidden">Add an admin</button>
-            <button id="ModifierAdmin" class="btn btn-primary" onclick="afficherFormulaireModification()" style="visibility:hidden">Modify an admin</button>
+            <button id="ModifierAdmin" class="btn btn-primary" onclick="afficherFormulaireRechercheIdAdminModif()" style="visibility:hidden">Modify an admin</button>
             <button id="SupprimerAdmin" class="btn btn-primary" onclick="afficherFormulaireSuppressionAdmin()" style="visibility:hidden">Delete an admin</button>
-            <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireModificationUser()" style="visibility:hidden">Modify a user</button>
+            <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireRechercheIdUserModif()" style="visibility:hidden">Modify a user</button>
             <button id="SupprimerUser" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete a user</button>
             <div class="row">
                 <div class="col-3">
@@ -75,6 +80,11 @@
                     </div>
                 </div>
                 <div class="col-3">
+                    <div id="rechercheParIDAdminModif" class="my-2" style="visibility:hidden">
+                        <label for="idRechercheAdminModif">ID de l'admin' recherché</label>
+                        <input type="text" name="idRechercheAdminModif" id="idRechercheAdminModif" />
+                        <button class="btn btn-primary" onclick="rechercheUserParIDAdminModif()"> Rechercher </button>
+                    </div>
                     <div id="modifierAdmin" class="my-2" style="visibility:hidden">
                         <form id="formModifAdmin">
 
@@ -82,10 +92,10 @@
                             <input type="text" name="adminId" id="adminIdModif" />
 
                             <label for="name">Nom d'Utilisateur'</label>
-                            <input type="text" name="name" id="name" />
+                            <input type="text" name="name" id="nameAdminModif" />
 
                             <label for="password">Mot de passe</label>
-                            <input type="text" name="password" id="password" />
+                            <input type="text" name="password" id="passwordAdminModif" />
 
                         </form>
                         <button class="btn btn-primary" onclick="modifyAdmin()">Modifier</button>
@@ -95,14 +105,14 @@
                     <div id="supprimerUser" style="visibility:hidden">
                         <label for="idSupprimer">Id a supprimer</label>
                         <input type="text" id="idSupprimer" />
-                        <button onclick="deleteUser()">Supprimer</button>
+                        <button class="btn btn-primary" onclick="deleteUser()">Supprimer</button>
                     </div>
                 </div>
                 <div class="col-3">
                     <div id="supprimerAdmin" style="visibility:hidden">
                         <label for="idSupprimerAdmin">Id a supprimer</label>
                         <input type="text" id="idSupprimerAdmin" />
-                        <button onclick="deleteAdmin()">Supprimer</button>
+                        <button class="btn btn-primary" onclick="deleteAdmin()">Supprimer</button>
                     </div>
                 </div>
             </div>
@@ -118,6 +128,9 @@
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
+               
                
 
             }
@@ -159,6 +172,8 @@
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
             }
 
             function afficherFormulaireAjout() {
@@ -168,6 +183,8 @@
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
             }
 
             function afficherFormulaireModification() {
@@ -177,6 +194,8 @@
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "visible"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
             }
 
             function afficherFormulaireModificationUser() {
@@ -195,6 +214,8 @@
                 document.getElementById("supprimerUser").style.visibility = "visible"
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
             }
             function afficherFormulaireSuppressionAdmin() {
                 document.getElementById("ajoutAdmin").style.visibility = "hidden"
@@ -203,6 +224,8 @@
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("supprimerAdmin").style.visibility = "visible"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
             }
 
             function afficherFormulaireRechercheId() {
@@ -212,16 +235,33 @@
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "visible"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
             }
 
-            function afficherFormulaireRechercheAnnee() {
+            function afficherFormulaireRechercheIdUserModif() {
                 document.getElementById("ajoutAdmin").style.visibility = "hidden"
                 document.getElementById("modifierAdmin").style.visibility = "hidden"
                 document.getElementById("modifierUser").style.visibility = "hidden"
                 document.getElementById("supprimerUser").style.visibility = "hidden"
                 document.getElementById("supprimerAdmin").style.visibility = "hidden"
                 document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "visible"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "hidden"
+
             }
+            function afficherFormulaireRechercheIdAdminModif() {
+                document.getElementById("ajoutAdmin").style.visibility = "hidden"
+                document.getElementById("modifierAdmin").style.visibility = "hidden"
+                document.getElementById("modifierUser").style.visibility = "hidden"
+                document.getElementById("supprimerUser").style.visibility = "hidden"
+                document.getElementById("supprimerAdmin").style.visibility = "hidden"
+                document.getElementById("rechercheParID").style.visibility = "hidden"
+                document.getElementById("rechercheParIDUserModif").style.visibility = "hidden"
+                document.getElementById("rechercheParIDAdminModif").style.visibility = "visible"
+            }
+
+            
             function getAllUsers() {
                 var url = "https://localhost:44308/api/Users"
                 var xhttp = new XMLHttpRequest();
@@ -255,7 +295,7 @@
                         var reponse = this.responseText;
                         var tableauReponse = JSON.parse(reponse);
                         var texte = document.createElement("p");
-                        "<h2>Réussi</h2>"
+                       
                         for (i in tableauReponse) {
 
                             texte.innerHTML += "ID :" + tableauReponse[i].adminId + "<br> Name : " + tableauReponse[i].name
@@ -272,35 +312,50 @@
                 var donneeFormulaire = document.getElementById("formAjoutAdmin");
                 var url = "https://localhost:44308/api/Admins"
                 var donnees = new FormData(donneeFormulaire);
-                 
-               /* var xhttp = new XMLHttpRequest()
-                 xhttp.onreadystatechange = function () {
-                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-                         alert("Envoi Réussi")
-                         getAllAdmins();
-                         cacherToutLesFormulaire();
-                     }
-                 };
-                 xhttp.open("POST", url, true)
-                 xhttp.send(donnees);*/
                 var variable = {
                     'name': $('#nameAdminAjout').val(),
                     'password': $('#passwordAdminAjout').val()
                 }
+
                 $.ajax({
-                    url: 'https://localhost:44308/api/Admins',
+                    url: url,
                     type: 'POST',
                     contentType: 'application/json',
                     datatype: 'json',
-                    data: JSON.stringify(donnees),
+                    data: JSON.stringify(variable),
                    
 
                     success: function (data) {
-                        alert('Data: ' + data);
+                        alert("Ajout du nouvel administrateur réussi.");
+
                     }
                 });
             }
-            
+
+            function rechercheUserParIDAdminModif() {
+                var id = document.getElementById("idRechercheAdminModif").value
+                var url = "https://localhost:44308/api/Admins/" + id
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+
+
+
+                        document.getElementById("adminIdModif").value = tableauReponse.adminId;
+                        document.getElementById("nameAdminModif").value = tableauReponse.name;
+                        document.getElementById("passwordAdminModif").value = tableauReponse.password;
+                        
+                        afficherFormulaireModification()
+
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
             
 
             function modifyAdmin() {
@@ -308,32 +363,83 @@
                 var id = document.getElementById("adminIdModif").value
                 var url = "https://localhost:44308/api/Admins/" + id
                 var donnees = new FormData(donneeFormulaire);
-                var xhttp = new XMLHttpRequest()
+                var variable = {
+                    'adminId': $('#adminIdModif').val(),
+                    'name': $('#nameAdminModif').val(),
+                    'password': $('#passwordAdminModif').val()
+                }
+                $.ajax({
+                    url: url,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    datatype: 'json',
+                    data: JSON.stringify(variable),
+
+
+                    success: function (data) {
+                        alert("Modifications à l'administrateur réussies.");
+                        
+                    }
+                });
+            }
+
+            function rechercheUserParIDUserModif() {
+                var id = document.getElementById("idRechercheUserModif").value
+                var url = "https://localhost:44308/api/Users/" + id
+                var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
-                        alert("Mise a jour réussie")
-                        getAllAdmins()
-                        cacherToutLesFormulaire()
+                    if (this.readyState == 4 && this.status == 200) {
+                        var divReponse = document.getElementById("reponse");
+                        divReponse.innerHTML = ""
+                        var reponse = this.responseText;
+                        var tableauReponse = JSON.parse(reponse);
+
+
+                        
+                        document.getElementById("userIdModif").value = tableauReponse.userId;
+                        document.getElementById("usernameModifUser").value = tableauReponse.userName;
+                        document.getElementById("passwordModifUser").value = tableauReponse.password;
+                        document.getElementById("emailModifUser").value = tableauReponse.email;
+                        document.getElementById("addressModifUser").value = tableauReponse.address;
+                        document.getElementById("phonenumberModifUser").value = tableauReponse.phoneNumber;
+                        afficherFormulaireModificationUser()
+
                     }
                 };
-                xhttp.open("PUT", url, true)
-                xhttp.send(donnees);
+                xhttp.open("GET", url, true);
+                xhttp.send();
             }
+
+
+
             function modifyUser() {
                 var donneeFormulaire = document.getElementById("formModifUser");
                 var id = document.getElementById("userIdModif").value
                 var url = "https://localhost:44308/api/Users/" +id
                 var donnees = new FormData(donneeFormulaire);
-                var xhttp = new XMLHttpRequest()
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
-                        alert("Mise a jour réussie")
-                        getAllUsers()
-                        cacherToutLesFormulaire()
+                var variable = {
+                    'userId': $('#userIdModif').val(),
+                    'userName': $('#usernameModifUser').val(),
+                    'password': $('#passwordModifUser').val(),
+                    'email': $('#emailModifUser').val(),
+                    'address': $('#addressModifUser').val(),
+                    'phoneNumber': $('#phonenumberModifUser').val()
+
+                }
+                
+                $.ajax({
+                    url: url,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    datatype: 'json',
+                    data: JSON.stringify(variable),
+
+
+                    success: function (data) {
+                        alert("Modifications à l'utilisateur réussies.");
+
                     }
-                };
-                xhttp.open("PUT", url, true)
-                xhttp.send(donnees);
+                });
             }
             
            function rechercheUserParID() {
@@ -391,7 +497,8 @@
 
             function seConnecter() {
                 var donnees = document.getElementById("connexionAdmin");
-                var url = "https://localhost:44308/api/Admin/Login"
+                var url = "https://localhost:44308/api/Admins/LogIn"
+
                 var xhttp = new XMLHttpRequest()
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
@@ -403,15 +510,16 @@
                 xhttp.open("GET", url, true)
                 xhttp.send(donnees);
 
-                afficherLesOptions()
+
+              
             }
 
             function seDeconnecter() {
 
                 cacherToutLesFormulaire()
                 cacherToutesLesOptions()
-                document.getElementById("usernameConnexion").value = "";
-                document.getElementById("passwordConnexion").value = "";
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
 
             }
 
