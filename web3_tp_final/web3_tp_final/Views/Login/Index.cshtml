@@ -1,4 +1,5 @@
 @model web3_tp_final.Models.User
+@using web3_tp_final.Helpers;
 
 @{ ViewData["Title"] = "Login"; }
 @{ Layout = "_Navbar-default";}
@@ -48,6 +49,9 @@
                         <div class="card-footer text-center">
                             <input type="submit" value="LogIn" class="btn btn-neutral btn-round btn-lg" />
                         </div>
+                        <div class="card-footer text-center" style="margin-top: 0px; padding-top: 0px">
+                            <a asp-action="CreateAccount" class="text-danger" data-color="caramel"> Don't have an account ? </a>
+</div>
                     </form>
                 </div>
             </div>
