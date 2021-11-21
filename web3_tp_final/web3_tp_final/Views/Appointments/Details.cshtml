@@ -1,53 +1,60 @@
 ﻿@model web3_tp_final.Models.Appointment
 
-<div class="row">
-    <div class="col-12">
-        <h2>Appointment Info</h2>
-    </div>
+<div id="AppointmentInfoSection" class="col-12">
+    <div class="row">
+        <div class="col-12">
+            <h2>Appointment Info</h2>
+        </div>
 
-    <div class="col-6">
-        Date Start
-    </div>
-    <div class="col-6">
-        Date End
-    </div>
+        <div class="col-6">
+            Date Start
+        </div>
+        <div class="col-6">
+            Date End
+        </div>
 
-    <div class="col-6">
-        @Model.StartDate
-    </div>
-    <div class="col-6">
-        @Model.EndDate
+        <div class="col-6">
+            @Model.StartDate
+        </div>
+        <div class="col-6">
+            @Model.EndDate
+        </div>
     </div>
 </div>
 
 </br>
-<div class="row">
-    <div class="col-12">
-        <h3>
-            Pets Info
-        </h3>
-    </div>
-    @foreach (var pet in Model.Pets)
-    {
+
+<div id="PetsInfoSection" class="col-12">
+    <div class="row">
         <div class="col-12">
-            <div class="col-6">
-                @pet.Photo
-            </div>
-
-            <div class="col-6">
-                <div class="col-12">
-                    Name: @pet.Name
-                </div>
-                <div class="col-12">
-                    Specie: @pet.SpecieString
-                </div>
-                <div class="col-12">
-                    Birth Year: @pet.BirthYear
-                </div>
-            </div>
+            <h3>
+                Pets Info
+            </h3>
         </div>
-    }
+        @foreach (Pet pet in Model.Pets)
+        {
+            <div class="col-3 m-3">
+                <div class="row card">
+                    <div class="col-12 card-header">
+                        @pet.Name
+                    </div>
+                    <div class="col-12 pt-2 pb-2">
+                        <img src="@(pet.Photo == null ? "/images/doglogo.png" : String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(pet.Photo)))" alt="Pet photo">
+                    </div>
+                    <div class="col-12 pt-2 pb-2">
+                        Date de naissance: @pet.BirthYear
+                    </div>
+                    <div class="col-12 pt-2 pb-2">
+                        Espèce: @pet.SpecieString
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
+
+<div id="ReviewSection" class="col-12">
     @if (Model.Reviews == null || Model.Reviews.Count == 0)
     {
         <form action="/Users/1/Appointments/@Model.AppointmentID/Review" method="post">
@@ -72,8 +79,10 @@
             </div>
         </form>
     }
-    else {
-        @foreach (Review review in Model.Reviews) { 
+    else
+    {
+        @foreach (Review review in Model.Reviews)
+        {
             <div class="row">
                 <div class="col-12">
                     Rating:
@@ -99,6 +108,7 @@
         }
     }
 </div>
+
 <script>
     function StarGlow(rating) {
         $('.StarsJs').each(function(){

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.DTO;
+using web3_tp_final.Helpers;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
@@ -19,6 +20,8 @@ namespace web3_tp_final.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+            ViewBag.CurrentUserID = user.UserID;
             IEnumerable<User> users = await _aPIController.Get<User>();
             return View(users);
         }

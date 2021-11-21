@@ -30,7 +30,7 @@
                     <td>@appointment.StartDate</td>
                     <td>@appointment.EndDate</td>
                     <td><a asp-controller="Users" asp-action="Details" asp-route-id="@appointment.Sitter.UserID">@appointment.Sitter.UserName</a></td>
-                    <td><a href="/Users/1/Appointments/@appointment.AppointmentID">Details</a></td>
+                    <td><a href="/Users/@ViewBag.CurrentUserID/Appointments/@appointment.AppointmentID">Details</a></td>
                 </tr>
             }
         </tbody>
