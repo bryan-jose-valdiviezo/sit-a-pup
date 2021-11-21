@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using web3_tp_final.API;
+using web3_tp_final.Helpers;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
@@ -28,8 +30,10 @@ namespace web3_tp_final.Controllers
 
             if (user != null)
             {
-                ViewBag.UserId = user.UserID;//test affichage html
-                //ajouter le id à la session
+                User newUser = new User();
+                newUser.UserID = user.UserID;
+                newUser.UserName = user.UserName;
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "user", newUser);
             }
             else
             {
@@ -37,6 +41,11 @@ namespace web3_tp_final.Controllers
             }
 
             return RedirectToAction("Index", "Home", user);
+        }
+
+        public IActionResult CreateAccount()
+        {
+            return RedirectToAction("Create", "Users");
         }
     }
 }

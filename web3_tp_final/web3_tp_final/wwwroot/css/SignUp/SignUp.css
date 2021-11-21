@@ -284,7 +284,7 @@ body {
         }
 
 .input-group.no-border .form-control {
-    padding: 11px 19px;
+    padding: 20px 19px;
 }
 
     .input-group.no-border .form-control + .input-group-text {
@@ -666,14 +666,14 @@ p {
     }
 
     .navbar.navbar-transparent {
-        background-color: rgb(161 187 220 / 38%) !important;
+        background-color: rgb(107 59 43 / 86%) !important;
         box-shadow: none;
         color: #FFFFFF;
         padding-top: 20px !important;
     }
 
 .footer {
-    background-color: rgb(161 187 220 / 70%) !important;
+    background-color: rgb(107 59 43 / 86%) !important;
     box-shadow: none;
     color: #FFFFFF;
 }
@@ -884,7 +884,7 @@ img {
     .card-signup .card-footer {
         margin-bottom: 10px;
         margin-top: 24px;
-        padding: 24px 0;
+        padding-top: 24px;
     }
 
     .card-signup .card-body {
