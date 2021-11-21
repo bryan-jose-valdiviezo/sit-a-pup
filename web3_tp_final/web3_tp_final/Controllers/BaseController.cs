@@ -11,7 +11,8 @@ namespace web3_tp_final.Controllers
 {
     public class BaseController : Controller
     {
-        private APIController api;
+        private APIController api = new APIController();
+
         public User CurrentUser()
         {
             return SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
