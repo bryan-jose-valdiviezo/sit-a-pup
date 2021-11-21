@@ -9,12 +9,11 @@ namespace Service_Final_Rest_API.Models
     {
         public long ReviewId { get; set; }
         public long Stars { get; set; }
+        public long AppointmentId { get; set; }
+        public long UserId { get; set; }
         public string Comment { get; set; }
-        public string TimeStamp { get; set; }
-        public long WrittenTo { get; set; }
-        public long WrittenBy { get; set; }
-        public long? UserId { get; set; }
 
+        public virtual Appointment Appointment { get; set; }
         public virtual User User { get; set; }
     }
 }

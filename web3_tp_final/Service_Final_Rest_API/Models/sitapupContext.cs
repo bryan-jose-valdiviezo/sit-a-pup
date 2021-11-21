@@ -44,6 +44,8 @@ namespace Service_Final_Rest_API.Models
 
             modelBuilder.Entity<Appointment>(entity =>
             {
+                entity.HasIndex(e => e.OwnerId, "IX_Appointments_OwnerId");
+
                 entity.HasIndex(e => e.SitterId, "IX_Appointments_UserId");
 
                 entity.Property(e => e.AppointmentId).HasColumnName("AppointmentID");
@@ -53,6 +55,11 @@ namespace Service_Final_Rest_API.Models
                 entity.Property(e => e.IsActive).HasColumnType("INTEGER(1)");
 
                 entity.Property(e => e.StartDate).IsRequired();
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnType("VARCHAR(255)")
+                    .HasDefaultValueSql("'pending'");
 
                 entity.HasOne(d => d.Owner)
                     .WithMany(p => p.AppointmentOwners)
@@ -132,17 +139,19 @@ namespace Service_Final_Rest_API.Models
 
             modelBuilder.Entity<Review>(entity =>
             {
-                entity.HasIndex(e => e.UserId, "IX_Reviews_UserID");
-
                 entity.Property(e => e.ReviewId).HasColumnName("ReviewID");
 
-                entity.Property(e => e.TimeStamp).IsRequired();
+                entity.Property(e => e.Stars).HasColumnType("INTEGER(5)");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.HasOne(d => d.Appointment)
+                    .WithMany(p => p.Reviews)
+                    .HasForeignKey(d => d.AppointmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
-                    .HasForeignKey(d => d.UserId);
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -81,6 +81,22 @@ namespace web3_tp_final.API
             }
         }
 
+        //Review API calls
+        public async Task<Review> PostReview(ReviewDTO form)
+        {
+            var response = await client.PostAsJsonAsync("https://localhost:44308/api/Reviews", form);
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                return (Review)JsonConvert.DeserializeObject<Review>(apiResponse);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         //Appointment API calls
         public async Task<Appointment> PostAppointment(AppointmentDTO form)
         {
@@ -96,6 +112,22 @@ namespace web3_tp_final.API
                 return null;
             }
         }
+
+        public async Task<List<Appointment>> GetAppointmentsForUser(int id)
+        {
+            var response = await client.GetAsync("https://localhost:44308/api/Users/" + id + "/Appointments");
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                return (List<Appointment>)JsonConvert.DeserializeObject<List<Appointment>>(apiResponse);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         //Pets API calls
         public async Task<List<Pet>> GetPetsForAppointment(int id)

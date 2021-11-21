@@ -51,7 +51,7 @@ namespace Service_Final_Rest_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(long id)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
+            var appointment = await _context.Appointments.Include(e => e.Reviews).FirstOrDefaultAsync(d => d.AppointmentId == id);
 
             if (appointment == null)
             {

@@ -17,6 +17,20 @@ namespace web3_tp_final.Models
 
         public DateTime EndDate { get; set; }
 
+        public string Status { get; set; }
+
+        public int IsActive { get; set; }
+
         public List<Pet> Pets { get; set; }
+
+        public List<Review> Reviews { get; set; }
+
+        public bool IsFinished()
+        {
+            if (EndDate < DateTime.Now && IsActive == 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

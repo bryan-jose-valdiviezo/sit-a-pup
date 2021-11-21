@@ -31,6 +31,8 @@ namespace Service_Final_Rest_API.Controllers
                 .Include(e => e.Reviews)
                 .Include(e => e.Pets)
                 .Include(e => e.Messages)
+                .Include(e => e.AppointmentOwners)
+                .Include(e => e.AppointmentSitters)
                 .ToListAsync();
         }
 
@@ -51,6 +53,15 @@ namespace Service_Final_Rest_API.Controllers
             }
 
             return user;
+        }
+
+        [HttpGet("{id}/Appointments")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointmentsForUsers(int id)
+        {
+            return await _context.Appointments
+                .Where(e => e.OwnerId == id)
+                .Include(e => e.Sitter)
+                .ToListAsync();
         }
 
         [HttpGet("LogIn")]
