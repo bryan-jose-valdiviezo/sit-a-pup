@@ -21,16 +21,23 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> Index()
         {
             User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
-            ViewBag.CurrentUserID = user.UserID;
-            IEnumerable<User> users = await _aPIController.Get<User>();
+            if (user != null)
+                ViewBag.CurrentUserID = user.UserID;
+            else
+                ViewBag.CurrentUserID = 0;
+            IEnumerable <User> users = await _aPIController.Get<User>();
             return View(users);
         }
 
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> BookAppointment(int id)
         {
+            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
             User sitter = await _aPIController.Get<User>(id);
-            User currentUser = await _aPIController.Get<User>(1);
+            User currentUser = await _aPIController.Get<User>(user.UserID);
             ViewBag.sitter = sitter;
             ViewBag.user = currentUser;
             return View("Form");

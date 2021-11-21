@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.API;
+using web3_tp_final.Helpers;
 using web3_tp_final.Models;
 
 namespace web3_tp_final
@@ -29,6 +30,7 @@ namespace web3_tp_final
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            User currentUser = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
             if (id == null)
             {
                 return NotFound();
@@ -39,7 +41,8 @@ namespace web3_tp_final
             {
                 return NotFound();
             }
-
+            if (currentUser != null)
+                ViewBag.CurrentID = currentUser.UserID;
             return View(user);
         }
 
