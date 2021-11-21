@@ -5,11 +5,11 @@
 ```mermaid
  classDiagram
       User "1" -- "0..n" Pet
-      User "1" -- "0..n" Review
+      User "1..n" -- "0..n" Review
       User "1..n" -- "0..n" Appointment
-      User "1" -- "0..n" Availability
-      User "1" -- "0..n" Message
-      Review "0..1" -- "0..1" Appointment
+      User "1..n" -- "0..n" Availability
+      User "1..n" -- "0..n" Message
+      Review "0..1" -- "1" Appointment
       Pet "0..1" -- "0..1" PetAppointment
       Appointment "1" -- "1" PetAppointment
       class Admin {
