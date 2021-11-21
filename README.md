@@ -75,7 +75,7 @@
             +ICollection<Review> Reviews
       }
       class Message {
-            +int MessageID
+            +long MessageID
             +string Content;
             +string TimeStamp;
             +long Sender
