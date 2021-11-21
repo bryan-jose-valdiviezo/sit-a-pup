@@ -75,7 +75,7 @@ namespace web3_tp_final
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            var user = await api.Get<User>(id);
             if (user == null)
             {
                 return NotFound();

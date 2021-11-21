@@ -1,9 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace web3_tp_final.Models
+namespace web3_tp_final.DTO
 {
-    public class Review
+    public class ReviewDTO
     {
         public int ReviewID { get; set; }
 
@@ -16,11 +18,5 @@ namespace web3_tp_final.Models
 
         //[Required]
         public string Comment { get; set; }
-
-        //[Required]
-        public Appointment Appointment { get; set; }
-
-        //[Required]
-        public User User { get; set; }
     }
 }

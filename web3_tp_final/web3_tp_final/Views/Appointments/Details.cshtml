@@ -33,7 +33,7 @@
             <div class="col-6">
                 @pet.Photo
             </div>
-            
+
             <div class="col-6">
                 <div class="col-12">
                     Name: @pet.Name
@@ -47,4 +47,75 @@
             </div>
         </div>
     }
+
+    @if (Model.Reviews == null || Model.Reviews.Count == 0)
+    {
+        <form action="/Users/1/Appointments/@Model.AppointmentID/Review" method="post">
+            <div class="row">
+                <input type="hidden" id="AppointmentId" name="AppointmentId" value="@Model.AppointmentID" />
+                <input type="hidden" id="UserId" name="UserId" value="1" />
+                <div class="form-group col-12">
+                    <label for="stars">Rating</label>
+                    <input type="hidden" id="stars" name="Stars" value="0" />
+                    @for (int i = 1; i < 6; i++)
+                    {
+
+                        <i class="far fa-star StarsJs" data-rating="@i" onmouseover="StarGlow(@i)" onmouseleave="StarHide()" onclick="$('#stars').val(@i);"></i>
+                    }
+                </div>
+                <div class="form-group col-12">
+                    <textarea class="form-control" name="Comment"></textarea>
+                </div>
+                <div class="form-group col-12">
+                    <input type="submit" value="Submit Review" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    }
+    else {
+        @foreach (Review review in Model.Reviews) { 
+            <div class="row">
+                <div class="col-12">
+                    Rating:
+                    @for (int i = 1; i < 6; i++)
+                    {
+                        @if (i > review.Stars)
+                        {
+                            <i class="far fa-star"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                    }
+                </div>
+                <div class="col-5">
+                    Comment by Test:
+                </div>
+                <div class="col-7">
+                    @review.Comment
+                </div>
+            </div>
+        }
+    }
 </div>
+<script>
+    function StarGlow(rating) {
+        $('.StarsJs').each(function(){
+            if ($(this).data('rating') <=  rating)
+                $(this).addClass('fas').removeClass('far');
+            else
+                $(this).addClass('far').removeClass('fas');
+        });
+    }
+
+    function StarHide() {
+        var currentStars = $('#stars').val();
+        $('.StarsJs').each(function () {
+            if ($(this).data('rating') > currentStars)
+                $(this).addClass('far').removeClass('fas');
+            else
+                $(this).addClass('fas').removeClass('far');
+        });
+    }
+</script>

@@ -58,9 +58,15 @@ namespace Service_Final_Rest_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(255)")
+                        .HasDefaultValueSql("'pending'");
+
                     b.HasKey("AppointmentId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex(new[] { "OwnerId" }, "IX_Appointments_OwnerId");
 
                     b.HasIndex(new[] { "SitterId" }, "IX_Appointments_UserId");
 
@@ -184,29 +190,23 @@ namespace Service_Final_Rest_API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("ReviewID");
 
+                    b.Property<long>("AppointmentId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Comment")
                         .HasColumnType("TEXT");
 
                     b.Property<long>("Stars")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER(5)");
 
-                    b.Property<string>("TimeStamp")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("UserID");
-
-                    b.Property<long>("WrittenBy")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("WrittenTo")
+                    b.Property<long>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex(new[] { "UserId" }, "IX_Reviews_UserID");
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -309,9 +309,17 @@ namespace Service_Final_Rest_API.Migrations
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.Review", b =>
                 {
+                    b.HasOne("Service_Final_Rest_API.Models.Appointment", "Appointment")
+                        .WithMany("Reviews")
+                        .HasForeignKey("AppointmentId")
+                        .IsRequired();
+
                     b.HasOne("Service_Final_Rest_API.Models.User", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
 
                     b.Navigation("User");
                 });
@@ -319,6 +327,8 @@ namespace Service_Final_Rest_API.Migrations
             modelBuilder.Entity("Service_Final_Rest_API.Models.Appointment", b =>
                 {
                     b.Navigation("PetAppointments");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Service_Final_Rest_API.Models.Pet", b =>

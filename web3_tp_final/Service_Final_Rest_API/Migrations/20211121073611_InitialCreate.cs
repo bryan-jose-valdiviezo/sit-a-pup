@@ -48,7 +48,8 @@ namespace Service_Final_Rest_API.Migrations
                     StartDate = table.Column<string>(type: "TEXT", nullable: false),
                     EndDate = table.Column<string>(type: "TEXT", nullable: false),
                     OwnerId = table.Column<long>(type: "INTEGER", nullable: true),
-                    IsActive = table.Column<long>(type: "INTEGER(1)", nullable: false)
+                    IsActive = table.Column<long>(type: "INTEGER(1)", nullable: false),
+                    Status = table.Column<string>(type: "VARCHAR(255)", nullable: false, defaultValueSql: "'pending'")
                 },
                 constraints: table =>
                 {
@@ -140,19 +141,23 @@ namespace Service_Final_Rest_API.Migrations
                 {
                     ReviewID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Stars = table.Column<long>(type: "INTEGER", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    TimeStamp = table.Column<string>(type: "TEXT", nullable: false),
-                    WrittenTo = table.Column<long>(type: "INTEGER", nullable: false),
-                    WrittenBy = table.Column<long>(type: "INTEGER", nullable: false),
-                    UserID = table.Column<long>(type: "INTEGER", nullable: true)
+                    Stars = table.Column<long>(type: "INTEGER(5)", nullable: false),
+                    AppointmentId = table.Column<long>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ReviewID);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Reviews_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "AppointmentID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
@@ -220,9 +225,14 @@ namespace Service_Final_Rest_API.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserID",
+                name: "IX_Reviews_AppointmentId",
                 table: "Reviews",
-                column: "UserID");
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -243,10 +253,10 @@ namespace Service_Final_Rest_API.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Appointments");
+                name: "Pets");
 
             migrationBuilder.DropTable(
-                name: "Pets");
+                name: "Appointments");
 
             migrationBuilder.DropTable(
                 name: "Users");
