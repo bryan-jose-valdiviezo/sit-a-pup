@@ -9,7 +9,7 @@ using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         private static APIController _aPIController;
 
