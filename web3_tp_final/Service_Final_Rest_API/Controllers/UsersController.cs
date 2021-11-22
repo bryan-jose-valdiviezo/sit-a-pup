@@ -59,8 +59,9 @@ namespace Service_Final_Rest_API.Controllers
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointmentsForUsers(int id)
         {
             return await _context.Appointments
-                .Where(e => e.OwnerId == id)
+                .Where(entity => entity.OwnerId == id || entity.SitterId == id) 
                 .Include(e => e.Sitter)
+                .Include(e => e.Owner)
                 .ToListAsync();
         }
 

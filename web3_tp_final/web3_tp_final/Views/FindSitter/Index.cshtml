@@ -1,33 +1,31 @@
 ﻿@model IEnumerable<User>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 
 <p>Trouver un gardien</p>
 
-@foreach (var user in Model)
-{   
-    @if (user.UserID != (int)ViewBag.CurrentUserID)
+<div class="row">
+    @foreach (User user in Model)
     {
-        <div class="row">
-            <a asp-controller="Users" asp-action="Details" asp-route-id="@user.UserID">
-                <div class="col-12">
-                    @user.UserName
-                    @for (int i = 0; i < 5; i++)
-                    {
-                        if (user.AverageRating() > i)
+        @if (user.UserID != (int)ViewBag.CurrentUserID)
+        {
+            <div class="col-12">
+
+                <a asp-controller="Users" asp-action="Details" asp-route-id="@user.UserID">
+                    <div class="col-12">
+                        @user.UserName
+                        @for (int i = 0; i < 5; i++)
                         {
-                            <i class="fas fa-star"></i>
+                            if (user.AverageRating() > i)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            else
+                            {
+                                <i class="far fa-star"></i>
+                            }
                         }
-                        else
-                        {
-                            <i class="far fa-star"></i>
-                        }
-                    }
-                </div>
-            </a>
-        </div>
+                    </div>
+                </a>
+            </div>
+        }
     }
-}
+</div>

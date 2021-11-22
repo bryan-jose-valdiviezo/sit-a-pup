@@ -28,7 +28,10 @@ namespace Service_Final_Rest_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
         {
-            return await _context.Appointments.Include(e => e.PetAppointments).ToListAsync();
+            return await _context.Appointments
+                .Include(e => e.Owner)
+                .Include(e => e.Sitter)
+                .ToListAsync();
         }
 
         [HttpGet("{id}/Pets")]
@@ -51,7 +54,11 @@ namespace Service_Final_Rest_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(long id)
         {
-            var appointment = await _context.Appointments.Include(e => e.Reviews).FirstOrDefaultAsync(d => d.AppointmentId == id);
+            var appointment = await _context.Appointments
+                .Include(e => e.Reviews)
+                .Include(e => e.Owner)
+                .Include(e => e.Sitter)
+                .FirstOrDefaultAsync(d => d.AppointmentId == id);
 
             if (appointment == null)
             {

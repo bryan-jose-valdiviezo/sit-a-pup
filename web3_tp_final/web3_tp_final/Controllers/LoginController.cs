@@ -40,7 +40,7 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("Index", "Home", user);
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult CreateAccount()

@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.API;
+using web3_tp_final.Controllers;
+using web3_tp_final.Helpers;
 using web3_tp_final.Models;
 
 namespace web3_tp_final
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private static APIController _aPIController;
         private IEnumerable<User> _users;
@@ -39,7 +41,8 @@ namespace web3_tp_final
             {
                 return NotFound();
             }
-
+            if (CurrentUser() != null)
+                ViewBag.CurrentID = CurrentUser().UserID;
             return View(user);
         }
 

@@ -11,7 +11,7 @@ using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
 {
-    public class FindSitterController : Controller
+    public class FindSitterController : BaseController
     {
         private static APIController _aPIController;
         public FindSitterController(APIController aPIController)
@@ -20,17 +20,23 @@ namespace web3_tp_final.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
-            ViewBag.CurrentUserID = user.UserID;
-            IEnumerable<User> users = await _aPIController.Get<User>();
+            if (CurrentUser() != null)
+                ViewBag.CurrentUserID = CurrentUser().UserID;
+            else
+                ViewBag.CurrentUserID = 0;
+
+            IEnumerable <User> users = await _aPIController.Get<User>();
             return View(users);
         }
 
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> BookAppointment(int id)
         {
+            if (CurrentUser() == null)
+                return RedirectToAction("Index", "Home");
+
             User sitter = await _aPIController.Get<User>(id);
-            User currentUser = await _aPIController.Get<User>(1);
+            User currentUser = await _aPIController.Get<User>(CurrentUser().UserID);
             ViewBag.sitter = sitter;
             ViewBag.user = currentUser;
             return View("Form");
@@ -40,19 +46,19 @@ namespace web3_tp_final.Controllers
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> Create(int id, [Bind("AppointmentID, OwnerId, SitterId, StartDate, EndDate, PetIds")] AppointmentDTO appointmentForm)
         {
-            Appointment newAppointment = await _aPIController.PostAppointment(appointmentForm);
-            if (newAppointment != null)
+            if (CurrentUser() == null)
+                RedirectToAction("Index", "Home");
+
+            if((appointmentForm.OwnerId != null && appointmentForm.OwnerId == CurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
             {
-                return RedirectToAction("Details", "Appointments", new {userID = appointmentForm.OwnerId, id = newAppointment.AppointmentID });
+                Appointment newAppointment = await _aPIController.PostAppointment(appointmentForm);
+                if (newAppointment != null)
+                {
+                    return RedirectToAction("Details", "Appointments", new { userID = CurrentUser().UserID, id = newAppointment.AppointmentID });
+                }
             }
-            else
-            {
-                User sitter = await _aPIController.Get<User>(id);
-                User currentUser = await _aPIController.Get<User>(1);
-                ViewBag.sitter = sitter;
-                ViewBag.user = currentUser;
-                return View("Form", appointmentForm);
-            }
+
+            return RedirectToAction("BookAppointment", "FindSitter", new { id = id });
         }
     }
 }
