@@ -23,7 +23,12 @@ namespace web3_tp_final
         {
             services.AddDistributedMemoryCache();
 
-            services.AddSession();
+            services.AddSession(options => 
+            {
+                options.IdleTimeout = System.TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddControllersWithViews();
             services.AddSignalR();
@@ -49,6 +54,7 @@ namespace web3_tp_final
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSession();

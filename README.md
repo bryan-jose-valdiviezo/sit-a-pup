@@ -6,48 +6,82 @@
  classDiagram
       User "1" -- "0..n" Pet
       User "1" -- "0..n" Review
+      User "1..n" -- "0..n" Appointment
       User "1" -- "0..n" Availability
       User "1" -- "0..n" Message
+      Review "0..1" -- "1" Appointment
+      Pet "1" -- "0..1" PetAppointment
+      Appointment "1" -- "1" PetAppointment
+      class Admin {
+            +long AdminId
+            +string Name
+            +string Password
+      }
       class User {
-            +int UserID
+            +long UserID
             +string UserName
+            +string Password
             +string Email
             +string Address
-            +int PhoneNumber
-            +List<Pet> Pets
-            +List<Availability> Availabilities
-            +List<Review> Reviews
-            +List<Message> Messages
+            +string PhoneNumber
+            +ICollection<Appointment> AppointmentOwners
+            +ICollection<Appointment> AppointmentSitters
+            +ICollection<Availability> Availabilities
+            +ICollection<Message> Messages
+            +ICollection<Pet> Pets
+            +ICollection<Review> Reviews
       }
       class Pet {
-		+int PetID
+		+long PetID
+            +long BirthYear
 		+string Name
-		+enum Specie
-            +int Age
-            +string PhotoURI
-            +bool isBeingSitted
-            +int UserID
+            +byte[] Photo
+		+string Specie
+            +long UserId
+            +User user
+            +ICollection<PetAppointment> PetAppointments
 	}
+      class PetAppointment {
+            +long PetAppointmentId
+            +long PetId
+            +long AppointmentId
+            +Appointment Appointment
+            +Pet Pet
+      }
       class Review {
-            +int ReviewID
-            +int Stars
+            +long ReviewID
+            +long Stars
+            +long AppointmentId
+            +long UserId
             +string Comment
-            +DateTime TimeStamp
-            +int WrittenTo
-            +int WrittenBy
       }
       class Availability {
-            +int AvailabilityID
-            +DateTime StartDate
-            +DateTime EndDate
-            +DateTime UserID
+            +long AvailabilityId
+            +string StartDate
+            +string EndDate
+            +long UserId
+      }
+      class Appointment {
+            +long AppointmentId
+            +long SitterId
+            +string StartDate
+            +string EndDate
+            +long OwnerId
+            +long IsActive
+            +string Status
+            +User Owner
+            +User SitterId
+            +ICollection<PetAppointment> PetAppointments
+            +ICollection<Review> Reviews
       }
       class Message {
-            +int MessageID
+            +long MessageID
             +string Content;
-            +DateTime TimeStamp;
-            +int Sender
-            +int Recipient
+            +string TimeStamp;
+            +long Sender
+            +long Recipient
+            +long UserID
+            +User user
       }
 ```
 #### Liens
