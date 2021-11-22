@@ -28,13 +28,11 @@ namespace web3_tp_final
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCustomAvailability([Bind("AvailabilityID,StartDate,EndDate,UserId")] Availability availability)
+        public async Task<IActionResult> Create([Bind("AvailabilityID,StartDate,EndDate,UserId")] Availability availability)
         {
             if (ModelState.IsValid)
             {
                 User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
-                Debug.WriteLine("StartDate: " + availability.StartDate.ToString());
-                Debug.WriteLine("EndDate: " + availability.EndDate.ToString());
                 availability.UserId = user.UserID;
                 _mockAvailability.Availabilities.Add(availability);
                 ViewBag.Availabilities = _mockAvailability.Availabilities;
