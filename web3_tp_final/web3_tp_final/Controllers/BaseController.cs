@@ -11,7 +11,7 @@ namespace web3_tp_final.Controllers
 {
     public class BaseController : Controller
     {
-        private APIController api = new APIController();
+        private APIController _api = new APIController();
 
         public User CurrentUser()
         {
@@ -20,7 +20,7 @@ namespace web3_tp_final.Controllers
 
         public APIController Api()
         {
-            return api;
+            return _api;
         }
     }
 }

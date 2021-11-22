@@ -38,7 +38,7 @@
                 @if (user != null)
                 {
                     <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="BecomeSitter">Devenir gardien</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Sitter" asp-action="Index">Devenir gardien</a>
                     </li>
                     <li class="nav-item website-navbar-link">
                         <a class="nav-link text-white" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
@@ -47,7 +47,7 @@
                         <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
                     </li>
                     <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" href="/Users/@user.UserID/Appointments">My Appointments</a>
+                        <a class="nav-link text-white" href="/Users/@user.UserID/Appointments">Périodes de gardiennage</a>
                     </li>
                 }
                 <li class="nav-item dropdown website-navbar-link">
@@ -60,7 +60,7 @@
                         <a asp-area="" asp-controller="Users" asp-action="Index" class="dropdown-item">All users</a>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header">Instant Log In</h6>
-                        @for (int i = 0; i < 5; i++)
+                        @for (int i = 1; i < 5; i++)
                         {
                             <a class="dropdown-item" asp-route-userID="@i" asp-controller="Home" asp-action="GenerateMockLogin">Login for User @i</a>
                         }

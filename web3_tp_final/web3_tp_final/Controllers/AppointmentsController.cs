@@ -8,7 +8,7 @@ using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
 {
-    public class AppointmentsController : Controller
+    public class AppointmentsController : BaseController
     {
         private static APIController _aPIController;
 

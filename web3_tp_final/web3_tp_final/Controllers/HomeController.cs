@@ -26,11 +26,6 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        public IActionResult BecomeSitter()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> FindSitter()
         {
             IEnumerable<User> users = await _aPIController.Get<User>();

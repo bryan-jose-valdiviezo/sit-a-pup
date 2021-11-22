@@ -1,0 +1,61 @@
+﻿@model web3_tp_final.Models.Availability
+
+@{
+}
+
+<div class="jumbotron">
+    Temporary title: Custom availability
+</div>
+
+<div>
+    <form asp-action="AddCustomAvailability">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="StartDate">Date début: </label>
+            <input type="date" asp-for="StartDate">
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate">Date fin: </label>
+            <input type="date" asp-for="EndDate">
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Ajouter">
+        </div>
+    </form>
+</div>
+
+<div class="jumbotron">
+    Availability periods:<br>
+    @{
+        if (ViewBag.Availabilities != null)
+        {
+            List<Availability> availabilities = (List<Availability>)ViewBag.Availabilities;
+            foreach (Availability availability in availabilities)
+            {
+                    @availability.StartDate.ToString();
+                    @availability.EndDate.ToString();
+                    <br>
+            }
+        }
+    }
+</div>
+
+<div class="jumbotron">
+    Temporary title: Recurrent availability
+</div>
+
+<div>
+    <form asp-action="AddRecurrentAvailability">
+        <label for="Dimanche">Dimanche</label>
+        <input type="checkbox" value="Dimanche"><br>
+        <label for="Dimanche">Lundi</label>
+        <input type="checkbox" value="Lundi"><br>
+        <label for="Dimanche">Mardi</label>
+        <input type="checkbox" value="Mardi"><br>
+        <label for="Dimanche">Etc.</label>
+        <input type="checkbox" value="Etc."><br>
+        <input type="submit" value="Ajouter">
+    </form>
+</div>
