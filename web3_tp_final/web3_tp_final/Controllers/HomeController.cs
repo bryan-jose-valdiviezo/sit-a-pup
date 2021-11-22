@@ -10,7 +10,7 @@ using static web3_tp_final.Models.Pet;
 
 namespace web3_tp_final.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private static APIController _aPIController;
