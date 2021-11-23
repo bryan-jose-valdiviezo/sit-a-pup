@@ -69,3 +69,15 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.tabs {
+    border: 1px solid #cccccc;
+    display: flex;
+
+}
+
+.tabs__sidebar {
+    width: 7.813rem;
+    flex-shrink: 0;
+    background: #6B3B2B;
+}
