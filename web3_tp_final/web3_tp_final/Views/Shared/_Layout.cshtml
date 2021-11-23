@@ -77,7 +77,7 @@
                         </a>
                         <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.UserID">Profile</a>
-                            <a class="dropdown-item" href="#">Log Out</a>
+                            <a class="dropdown-item" asp-controller="Login" asp-action="LogOut">Log Out</a>
                         </div>
                     </li>
                 }

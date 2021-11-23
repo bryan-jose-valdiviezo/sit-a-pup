@@ -43,6 +43,22 @@ namespace web3_tp_final.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult LogOut()
+        {
+            //var user = await _context.Users.FirstOrDefaultAsync(m => m.UserName == username && m.Password == password);
+            var user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
+
+            if (user != null)
+            {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         public IActionResult CreateAccount()
         {
             return RedirectToAction("Create", "Users");
