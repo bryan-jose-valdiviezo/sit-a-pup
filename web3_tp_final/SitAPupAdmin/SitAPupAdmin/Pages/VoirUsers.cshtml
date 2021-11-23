@@ -1,0 +1,30 @@
+﻿@page
+@model SitAPupAdmin.Pages.RechercherUsersModel
+@{
+}
+
+<button id="getAllUsers" class="btn btn-primary" onclick="getAllUsers()">Get all Users</button>
+<script>
+    function getAllUsers() {
+        var url = "https://localhost:44308/api/Users"
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var divReponse = document.getElementById("reponse");
+                divReponse.innerHTML = ""
+                var reponse = this.responseText;
+                var tableauReponse = JSON.parse(reponse);
+                var texte = document.createElement("p");
+                "<h2>Réussi</h2>"
+                for (i in tableauReponse) {
+
+                    texte.innerHTML += "ID :" + tableauReponse[i].userId + "<br> Username : " + tableauReponse[i].userName + "<br> email : " + tableauReponse[i].email + "<br> Phone Number " + tableauReponse[i].phoneNumber
+
+                }
+                divReponse.appendChild(texte);
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+</script>

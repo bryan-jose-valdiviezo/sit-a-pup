@@ -4,122 +4,123 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bienvenue à l'application administrative de SitAPup!</h1>
-    <h2>Connectez-vous en tant qu'administrateur pour avoir accès aux options</h2>
-    <div class="container">
-        <div class="col-3">
-            <form id="connexionAdmin">
-                <label for="username">Nom d'Utilisateur</label>
-                <input type="text" id="username" name="username" />
-                <label for="password">Mot De Passe</label>
-                <input type="password" name="password" id="password" />
-            </form>
-            <button id="seConnecter" class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
-            <button id="seDeconnecter" class="btn btn-primary" onclick="seDeconnecter()" style="visibility:hidden">Se Déconnecter</button>
-        </div>
-    </div>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Bienvenue à l'application administrative de SitAPup!</h1>
+        <h2>Connectez-vous en tant qu'administrateur pour avoir accès aux options</h2>
         <div class="container">
             <div class="col-3">
-                <div id="modifierUser" class="my-2" style="visibility:hidden">
-                    <form id="formModifUser">
-                        <label for="userId">Id</label>
-                        <input type="text" id="userIdModif" name="userId" />
-
-                        <label for="username">Nom d'utilisateur'</label>
-                        <input type="text" name="username" id="usernameModifUser" />
-
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="emailModifUser" />
-
-                        <label for="password">Mot de passe</label>
-                        <input type="password" name="password" id="passwordModifUser" />
-
-                        <label for="address">Adresse</label>
-                        <input type="text" name="address" id="addressModifUser" />
-
-                        <label for="phoneNumber">Numéro de Téléphone</label>
-                        <input type="text" name="phoneNumber" id="phonenumberModifUser" />
-
-                    </form>
-                    <button class="btn btn-primary" onclick="modifyUser()">Modifier</button>
-                </div>
-                <div id="rechercheParIDUserModif" class="my-2" style="visibility:hidden">
-                    <label for="idRechercheUserModif">ID du User recherché</label>
-                    <input type="text" name="idRechercheUserModif" id="idRechercheUserModif" />
-                    <button class="btn btn-primary" onclick="rechercheUserParIDUserModif()"> Rechercher </button>
-                </div>
-            </div>
-            <button id="getAllUsers" class="btn btn-primary" onclick="getAllUsers()" style="visibility:hidden">Get all Users</button>
-            <button id="RechercherUserParId" class="btn btn-primary" onclick="afficherFormulaireRechercheId()" style="visibility:hidden">Get User by ID </button>
-            <button id="AjoutAdmin" class="btn btn-primary" onclick="afficherFormulaireAjout()" style="visibility:hidden">Add an admin</button>
-            <button id="ModifierAdmin" class="btn btn-primary" onclick="afficherFormulaireRechercheIdAdminModif()" style="visibility:hidden">Modify an admin</button>
-            <button id="SupprimerAdmin" class="btn btn-primary" onclick="afficherFormulaireSuppressionAdmin()" style="visibility:hidden">Delete an admin</button>
-            <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireRechercheIdUserModif()" style="visibility:hidden">Modify a user</button>
-            <button id="SupprimerUser" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete a user</button>
-            <div class="row">
-                <div class="col-3">
-                   
-                    <div id="rechercheParID" class="my-2" style="visibility:hidden">
-                        <label for="idRecherche">ID du User recherché</label>
-                        <input type="text" name="idRecherche" id="idRecherche" />
-                        <button class="btn" onclick="rechercheUserParID()"> Rechercher </button>
-                    </div>
-
-                </div>
-                <div class="col-3">
-                    <div id="ajoutAdmin" class="my-2" style="visibility:hidden">
-                        <form id="formAjoutAdmin">
-                            <input type="text" name="name" id="nameAdminAjout" />
-                            <label for="name">Nom d'Utilisateur</label>
-                            <input type="text" name="password" id="passwordAdminAjout" />
-                            <label for="password">Mot de passe</label>
-                        </form>
-                        <button class="btn btn-primary" onclick="postAdmin()">Envoyer</button>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div id="rechercheParIDAdminModif" class="my-2" style="visibility:hidden">
-                        <label for="idRechercheAdminModif">ID de l'admin' recherché</label>
-                        <input type="text" name="idRechercheAdminModif" id="idRechercheAdminModif" />
-                        <button class="btn btn-primary" onclick="rechercheUserParIDAdminModif()"> Rechercher </button>
-                    </div>
-                    <div id="modifierAdmin" class="my-2" style="visibility:hidden">
-                        <form id="formModifAdmin">
-
-                            <label for="adminId">ID de l'admin à modifier</label>
-                            <input type="text" name="adminId" id="adminIdModif" />
-
-                            <label for="name">Nom d'Utilisateur'</label>
-                            <input type="text" name="name" id="nameAdminModif" />
-
-                            <label for="password">Mot de passe</label>
-                            <input type="text" name="password" id="passwordAdminModif" />
-
-                        </form>
-                        <button class="btn btn-primary" onclick="modifyAdmin()">Modifier</button>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div id="supprimerUser" style="visibility:hidden">
-                        <label for="idSupprimer">Id a supprimer</label>
-                        <input type="text" id="idSupprimer" />
-                        <button class="btn btn-primary" onclick="deleteUser()">Supprimer</button>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div id="supprimerAdmin" style="visibility:hidden">
-                        <label for="idSupprimerAdmin">Id a supprimer</label>
-                        <input type="text" id="idSupprimerAdmin" />
-                        <button class="btn btn-primary" onclick="deleteAdmin()">Supprimer</button>
-                    </div>
-                </div>
-            </div>
-            <div id="reponse">
-
+                <form id="connexionAdmin">
+                    <label for="username">Nom d'Utilisateur</label>
+                    <input type="text" id="username" name="username" />
+                    <label for="password">Mot De Passe</label>
+                    <input type="password" name="password" id="password" />
+                </form>
+                <button id="seConnecter" class="btn btn-primary" onclick="seConnecter()">Se Connecter</button>
+                <button id="seDeconnecter" class="btn btn-primary" onclick="seDeconnecter()" style="visibility:hidden">Se Déconnecter</button>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <div class="col-3">
+            <div id="modifierUser" class="my-2" style="visibility:hidden">
+                <form id="formModifUser">
+                    <label for="userId">Id</label>
+                    <input type="text" id="userIdModif" name="userId" />
+
+                    <label for="username">Nom d'utilisateur'</label>
+                    <input type="text" name="username" id="usernameModifUser" />
+
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="emailModifUser" />
+
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="passwordModifUser" />
+
+                    <label for="address">Adresse</label>
+                    <input type="text" name="address" id="addressModifUser" />
+
+                    <label for="phoneNumber">Numéro de Téléphone</label>
+                    <input type="text" name="phoneNumber" id="phonenumberModifUser" />
+
+                </form>
+                <button class="btn btn-primary" onclick="modifyUser()">Modifier</button>
+            </div>
+            <div id="rechercheParIDUserModif" class="my-2" style="visibility:hidden">
+                <label for="idRechercheUserModif">ID du User recherché</label>
+                <input type="text" name="idRechercheUserModif" id="idRechercheUserModif" />
+                <button class="btn btn-primary" onclick="rechercheUserParIDUserModif()"> Rechercher </button>
+            </div>
+        </div>
+        <button id="getAllUsers" class="btn btn-primary" onclick="getAllUsers()" style="visibility:hidden">Get all Users</button>
+        <button id="RechercherUserParId" class="btn btn-primary" onclick="afficherFormulaireRechercheId()" style="visibility:hidden">Get User by ID </button>
+        <button id="AjoutAdmin" class="btn btn-primary" onclick="afficherFormulaireAjout()" style="visibility:hidden">Add an admin</button>
+        <button id="ModifierAdmin" class="btn btn-primary" onclick="afficherFormulaireRechercheIdAdminModif()" style="visibility:hidden">Modify an admin</button>
+        <button id="SupprimerAdmin" class="btn btn-primary" onclick="afficherFormulaireSuppressionAdmin()" style="visibility:hidden">Delete an admin</button>
+        <button id="ModifierUser" class="btn btn-primary" onclick="afficherFormulaireRechercheIdUserModif()" style="visibility:hidden">Modify a user</button>
+        <button id="SupprimerUser" class="btn btn-primary" onclick="afficherFormulaireSuppression()" style="visibility:hidden">Delete a user</button>
+        <div class="row">
+            <div class="col-3">
+
+                <div id="rechercheParID" class="my-2" style="visibility:hidden">
+                    <label for="idRecherche">ID du User recherché</label>
+                    <input type="text" name="idRecherche" id="idRecherche" />
+                    <button class="btn" onclick="rechercheUserParID()"> Rechercher </button>
+                </div>
+
+            </div>
+            <div class="col-3">
+                <div id="ajoutAdmin" class="my-2" style="visibility:hidden">
+                    <form id="formAjoutAdmin">
+                        <input type="text" name="name" id="nameAdminAjout" />
+                        <label for="name">Nom d'Utilisateur</label>
+                        <input type="text" name="password" id="passwordAdminAjout" />
+                        <label for="password">Mot de passe</label>
+                    </form>
+                    <button class="btn btn-primary" onclick="postAdmin()">Envoyer</button>
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="rechercheParIDAdminModif" class="my-2" style="visibility:hidden">
+                    <label for="idRechercheAdminModif">ID de l'admin' recherché</label>
+                    <input type="text" name="idRechercheAdminModif" id="idRechercheAdminModif" />
+                    <button class="btn btn-primary" onclick="rechercheUserParIDAdminModif()"> Rechercher </button>
+                </div>
+                <div id="modifierAdmin" class="my-2" style="visibility:hidden">
+                    <form id="formModifAdmin">
+
+                        <label for="adminId">ID de l'admin à modifier</label>
+                        <input type="text" name="adminId" id="adminIdModif" />
+
+                        <label for="name">Nom d'Utilisateur'</label>
+                        <input type="text" name="name" id="nameAdminModif" />
+
+                        <label for="password">Mot de passe</label>
+                        <input type="text" name="password" id="passwordAdminModif" />
+
+                    </form>
+                    <button class="btn btn-primary" onclick="modifyAdmin()">Modifier</button>
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="supprimerUser" style="visibility:hidden">
+                    <label for="idSupprimer">Id a supprimer</label>
+                    <input type="text" id="idSupprimer" />
+                    <button class="btn btn-primary" onclick="deleteUser()">Supprimer</button>
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="supprimerAdmin" style="visibility:hidden">
+                    <label for="idSupprimerAdmin">Id a supprimer</label>
+                    <input type="text" id="idSupprimerAdmin" />
+                    <button class="btn btn-primary" onclick="deleteAdmin()">Supprimer</button>
+                </div>
+            </div>
+        </div>
+        <div id="reponse">
+
+        </div>
+    </div>
+
         <script>
 
             function cacherToutLesFormulaire() {
@@ -311,7 +312,6 @@
             function postAdmin() {
                 var donneeFormulaire = document.getElementById("formAjoutAdmin");
                 var url = "https://localhost:44308/api/Admins"
-                var donnees = new FormData(donneeFormulaire);
                 var variable = {
                     'name': $('#nameAdminAjout').val(),
                     'password': $('#passwordAdminAjout').val()
@@ -362,7 +362,6 @@
                 var donneeFormulaire = document.getElementById("formModifAdmin");
                 var id = document.getElementById("adminIdModif").value
                 var url = "https://localhost:44308/api/Admins/" + id
-                var donnees = new FormData(donneeFormulaire);
                 var variable = {
                     'adminId': $('#adminIdModif').val(),
                     'name': $('#nameAdminModif').val(),
@@ -416,7 +415,6 @@
                 var donneeFormulaire = document.getElementById("formModifUser");
                 var id = document.getElementById("userIdModif").value
                 var url = "https://localhost:44308/api/Users/" +id
-                var donnees = new FormData(donneeFormulaire);
                 var variable = {
                     'userId': $('#userIdModif').val(),
                     'userName': $('#usernameModifUser').val(),

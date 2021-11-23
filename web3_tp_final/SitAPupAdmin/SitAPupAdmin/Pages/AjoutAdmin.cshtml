@@ -1,0 +1,43 @@
+﻿@page
+@model SitAPupAdmin.Pages.AjoutAdminModel
+@{
+}
+
+    <h1>Ajouter un Administrateur</h1>
+
+    <div id="ajoutAdmin" class="my-2" style="visibility:hidden">
+        <form id="formAjoutAdmin">
+            <input type="text" name="name" id="nameAdminAjout" />
+            <label for="name">Nom d'Utilisateur</label>
+            <input type="text" name="password" id="passwordAdminAjout" />
+            <label for="password">Mot de passe</label>
+        </form>
+        <button class="btn btn-primary" onclick="postAdmin()">Envoyer</button>
+    </div>
+
+
+
+<script>
+    function postAdmin() {
+        var donneeFormulaire = document.getElementById("formAjoutAdmin");
+        var url = "https://localhost:44308/api/Admins"
+        var variable = {
+            'name': $('#nameAdminAjout').val(),
+            'password': $('#passwordAdminAjout').val()
+        }
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json',
+            datatype: 'json',
+            data: JSON.stringify(variable),
+
+
+            success: function (data) {
+                alert("Ajout du nouvel administrateur réussi.");
+
+            }
+        });
+    }
+</script>
