@@ -43,7 +43,7 @@ namespace web3_tp_final
             }
             if (CurrentUser() != null)
                 ViewBag.CurrentID = CurrentUser().UserID;
-            return View("DetailsUser", user);
+            return View(user);
         }
 
         // GET: Users/Create
