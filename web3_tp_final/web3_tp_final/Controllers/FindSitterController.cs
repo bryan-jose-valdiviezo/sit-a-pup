@@ -14,10 +14,12 @@ namespace web3_tp_final.Controllers
     public class FindSitterController : BaseController
     {
         private static APIController _aPIController;
+
         public FindSitterController(APIController aPIController)
         {
             _aPIController = aPIController;
         }
+
         public async Task<IActionResult> Index()
         {
             if (CurrentUser() != null)
@@ -27,6 +29,19 @@ namespace web3_tp_final.Controllers
 
             IEnumerable <User> users = await _aPIController.Get<User>();
             return View(users);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterByAvailability(DateTime startDate, DateTime endDate)
+        {
+            if (CurrentUser() != null)
+                ViewBag.CurrentUserID = CurrentUser().UserID;
+            else
+                ViewBag.CurrentUserID = 0;
+            IEnumerable<User> users = await _aPIController.Get<User>();
+            List<User> availableUsers = new();
+            availableUsers.Add(new Models.User { UserID = 12234565, UserName = "AvailableUser" });
+            return View(availableUsers);
         }
 
         [Route("FindSitter/{id}/BookAppointment")]
