@@ -31,20 +31,24 @@ namespace web3_tp_final.Models
 
         public List<Availability> Availabilities { get; set; } = new List<Availability>();
 
-        public List<Review> Reviews { get; set; } = new List<Review>();
-
         public List<Message> Messages { get; set; } = new List<Message>();
 
-        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public IEnumerable<Appointment> Appointments { get; set; } = new List<Appointment>();
+
+        public List<Appointment> AppointmentOwners { get; set; }
+
+        public List<Appointment> AppointmentSitters { get; set; }
 
         public int AverageRating()
         {
-            if (!Reviews.Any())
-                return 0;
+            IEnumerable<Appointment> appointmentsAsSitter = Appointments.Where(appointment => appointment.Sitter.UserID == UserID && appointment.Reviews.Any());
+            if(appointmentsAsSitter.Any())
+            {
+                IEnumerable<int> reviews = appointmentsAsSitter.SelectMany(appointment => appointment.Reviews).Select(review => review.Stars);
+                return reviews.Sum() / appointmentsAsSitter.Count();
+            }
 
-            int stars = Reviews.Select(o => o.Stars).ToList().Sum();
-
-            return stars / Reviews.Count;
+            return 0;
         }
     }
 }

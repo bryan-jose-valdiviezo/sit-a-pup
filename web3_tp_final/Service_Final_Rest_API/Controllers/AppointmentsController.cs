@@ -38,14 +38,11 @@ namespace Service_Final_Rest_API.Controllers
         public async Task<IEnumerable<Pet>> GetPetsFromAppointment(long id)
         {
             Appointment appointment = await _context.Appointments
+                .Where(e => e.AppointmentId == id)
                 .Include(e => e.PetAppointments)
                 .ThenInclude(x => x.Pet)
                 .FirstOrDefaultAsync();
-            List<Pet> pets = new List<Pet>();
-            foreach(var petAppointment in appointment.PetAppointments)
-            {
-                pets.Add(petAppointment.Pet);
-            }
+            List<Pet> pets = appointment.PetAppointments.Select(petAppointment => petAppointment.Pet).ToList();
 
             return pets;
         }
@@ -114,22 +111,26 @@ namespace Service_Final_Rest_API.Controllers
         public async Task<ActionResult<Appointment>> PostTest([FromBody] AppointmentDTO appointmentForm)
         {
             PetAppointment petAppointment;
-            Appointment appointment = new Appointment();
+            Appointment appointment = new Appointment
+            {
+                OwnerId = appointmentForm.OwnerId,
+                SitterId = appointmentForm.SitterId,
+                StartDate = appointmentForm.StartDate.ToString(),
+                EndDate = appointmentForm.EndDate.ToString(),
+                IsActive = 0
+            };
 
-            appointment.OwnerId = appointmentForm.OwnerId;
-            appointment.SitterId = appointmentForm.SitterId;
-            appointment.StartDate = appointmentForm.StartDate.ToString();
-            appointment.EndDate = appointmentForm.EndDate.ToString();
-            appointment.IsActive = 0;
             _context.Appointments.Add(appointment);
 
             await _context.SaveChangesAsync();
 
             foreach (var petId in appointmentForm.PetIds)
             {
-                petAppointment = new PetAppointment();
-                petAppointment.PetId = petId;
-                petAppointment.AppointmentId = appointment.AppointmentId;
+                petAppointment = new PetAppointment
+                {
+                    PetId = petId,
+                    AppointmentId = appointment.AppointmentId
+                };
                 _context.PetAppointments.Add(petAppointment);
             }
 

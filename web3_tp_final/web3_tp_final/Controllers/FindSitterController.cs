@@ -25,7 +25,9 @@ namespace web3_tp_final.Controllers
             else
                 ViewBag.CurrentUserID = 0;
 
-            IEnumerable <User> users = await _aPIController.Get<User>();
+            IEnumerable <User> users = await _aPIController.GetUsersWithAppointments();
+            if (users == null)
+                Debug.WriteLine("Error in fetching objects");
             return View(users);
         }
 
@@ -48,9 +50,13 @@ namespace web3_tp_final.Controllers
         {
             if (CurrentUser() == null)
                 RedirectToAction("Index", "Home");
-
-            if((appointmentForm.OwnerId != null && appointmentForm.OwnerId == CurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
+            Debug.WriteLine("Form OwnerID: " + appointmentForm.OwnerId);
+            Debug.WriteLine("Form SitterID: " + appointmentForm.SitterId);
+            Debug.WriteLine("CurrentUserID: " + CurrentUser().UserID);
+            Debug.WriteLine("Route ID: " + id);
+            if ((appointmentForm.OwnerId != null && appointmentForm.OwnerId == CurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
             {
+                Debug.WriteLine("Passed conditionnal, posting to api");
                 Appointment newAppointment = await _aPIController.PostAppointment(appointmentForm);
                 if (newAppointment != null)
                 {

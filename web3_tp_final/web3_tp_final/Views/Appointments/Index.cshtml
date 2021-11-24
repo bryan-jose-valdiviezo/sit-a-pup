@@ -1,38 +1,31 @@
 ﻿@model IEnumerable<web3_tp_final.Models.Appointment>
-<div class="container">
+<div class="container pt-3">
     <h1>
         My Appointments
     </h1>
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    Status
-                </th>
-                <th>
-                    Star Date
-                </th>
-                <th>
-                    End Date
-                </th>
-                <th>
-                    Sitter
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (Appointment appointment in Model)
-            {
-                <tr>
-                    <td>@appointment.Status</td>
-                    <td>@appointment.StartDate</td>
-                    <td>@appointment.EndDate</td>
-                    <td><a asp-controller="Users" asp-action="Details" asp-route-id="@appointment.Sitter.UserID">@appointment.Sitter.UserName</a></td>
-                    <td><a href="/Users/@ViewBag.CurrentUserID/Appointments/@appointment.AppointmentID">Details</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+  
+    <div class="row">
+        <div class="col-12 mt-4">
+            <h3>Appointments as Owner</h3>
+            @await Html.PartialAsync("_appointments_list",
+                                    (IEnumerable<Appointment>)ViewBag.AppointmentsAsOwner,
+                                    new ViewDataDictionary(ViewData)
+                                    {
+                                        { "TableStatus", "Owner" }
+                                    })
+        </div>
+        <div class="col-12 mt-4">
+            <h3>Appointments as Sitter</h3>
+            @await Html.PartialAsync("_appointments_list",
+                                    (IEnumerable<Appointment>)ViewBag.AppointmentsAsSitter,
+                                    new ViewDataDictionary(ViewData)
+                                    {
+                                        { "TableStatus", "Sitter" }
+                                    })
+        </div>
+    </div>
 </div>
+
+<script>
+    $('#website-body').addClass('website-background');
+</script>
