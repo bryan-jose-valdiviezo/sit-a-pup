@@ -1,0 +1,86 @@
+﻿@using SitAPupAdmin.Helpers
+@{ 
+
+    Admin admin = SessionHelper.GetObjectFromJson<Admin>(Context.Session, "admin");
+} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SitAPupAdmin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mystyle.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/fontawesome-free-5.15.4-web/css/all.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/select2/js/select2.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light website-navbar">
+            <a class="navbar-brand text-capitalize" href="#">
+                <img src="~/images/happy.png" class="d-inline-block align-top" width="30" height="30" alt="">
+                Sit-a-pup
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-grow-1">
+                    @if (admin != null)
+                    {
+                    <li class="nav-item dropdown website-navbar-link">
+                        <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Administrateurs
+                        </a>
+                        <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
+                            <h6 class="dropdown-header">Administrateurs</h6>
+                            <a asp-area="" asp-controller="Admins" asp-action="VoirAdmins" class="dropdown-item">Voir Administrateurs</a>
+                            <a asp-area="" asp-controller="Admins" asp-action="AjoutAdmin"class="dropdown-item">Ajouter Administrateur</a>
+                            <a asp-area="" asp-controller="Admins" asp-action="ModifierAdmin" class="dropdown-item">Modifier Administrateur</a>
+                            <a asp-area="" asp-controller="Admins" asp-action="SupprimerAdmin"class="dropdown-item">Supprimer Administrateur</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown website-navbar-link">
+                        <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Utilisateurs
+                        </a>
+                        <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
+                            <h6 class="dropdown-header">Utilisateurs</h6>
+                            <a asp-area="" asp-controller="Users" asp-action="VoirUsers" class="dropdown-item">Voir Utilisateurs</a>
+                            <a asp-area="" asp-controller="Users" asp-action="RechercherUser"class="dropdown-item">Rechercher Utilisateur</a>
+                            <a asp-area="" asp-controller="Users" asp-action="ModifierUser"class="dropdown-item">Modifier Utilisateur</a>
+                            <a asp-area="" asp-controller="Users" asp-action="SupprimerUser"class="dropdown-item">Supprimer Utilisateur</a>
+                        </div>
+                    </li>
+                    } 
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="container-fluid pl-0 pr-0">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - SitAPupAdmin - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

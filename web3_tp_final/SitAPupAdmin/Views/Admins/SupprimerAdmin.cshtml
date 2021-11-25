@@ -1,0 +1,40 @@
+﻿@using SitAPupAdmin.Helpers
+@{
+
+    Admin admin = SessionHelper.GetObjectFromJson<Admin>(Context.Session, "admin");
+}
+
+
+@if (admin != null)
+{
+<div class="row">
+    <div class="col-3">
+        <div id="supprimerAdmin">
+            <label for="idSupprimerAdmin">Id a supprimer</label>
+            <input type="text" id="idSupprimerAdmin" />
+            <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="deleteAdmin()">Supprimer</button>
+        </div>
+    </div>
+</div>
+    }
+    else
+    {
+    <a class="dropdown-item" asp-controller="Home" asp-action="Index">Veuillez Vous connecter pour avoir accès à cette page.</a>
+    }
+
+    <script>
+        function deleteAdmin() {
+            var id = document.getElementById("idSupprimerAdmin").value
+            var url = "https://localhost:44308/api/Admins/" + id
+            var xhttp = new XMLHttpRequest()
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                    alert("Suppression Réussie")
+                   
+                }
+            };
+            xhttp.open("DELETE", url, true)
+            xhttp.send();
+        }
+
+    </script>
