@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using web3_tp_final.DTO;
 using web3_tp_final.Models;
+using System.Linq;
 
 namespace web3_tp_final.API
 {
@@ -79,6 +80,32 @@ namespace web3_tp_final.API
                 Debug.WriteLine(response.Content.ReadAsStringAsync());
                 return null;
             }
+        }
+
+        //Users API calls
+        public async Task<List<User>> GetUsersWithAppointments()
+        {
+            IEnumerable<Appointment> appointmentss;
+            var response = await client.GetAsync("https://localhost:44308/api/Users/");
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                List<User> users = (List<User>)JsonConvert.DeserializeObject<List<User>>(apiResponse);
+
+                foreach (User user in users) {
+                    appointmentss = await GetAppointmentsForUser(user.UserID);
+                    if (appointmentss != null)
+                    {
+                        user.Appointments = appointmentss;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return users;
+            }
+            return null;
         }
 
         //Review API calls

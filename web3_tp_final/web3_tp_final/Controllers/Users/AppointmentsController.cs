@@ -16,11 +16,14 @@ namespace web3_tp_final.Controllers.Users
         [Route("Users/{userID}/Appointments")]
         public async Task<IActionResult> Index(int userID)
         {
-            if (CurrentUser() == null)
+            if (CurrentUser() == null || CurrentUser().UserID != userID)
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.CurrentUserID = CurrentUser().UserID;
-            List<Appointment> appointments = await Api().GetAppointmentsForUser(CurrentUser().UserID);
+            ViewBag.CurrentUserID = userID;
+            List<Appointment> appointments = await Api().GetAppointmentsForUser(userID);
+            ViewBag.AppointmentsAsOwner = appointments.Where(e => e.Owner.UserID == CurrentUser().UserID);
+            ViewBag.AppointmentsAsSitter = appointments.Where(e => e.Sitter.UserID == CurrentUser().UserID);
+
             return View(appointments);
         }
 
@@ -44,13 +47,16 @@ namespace web3_tp_final.Controllers.Users
 
         [HttpPost]
         [Route("Users/{userID}/Appointments/{id}/Review")]
-        public async Task<IActionResult> PostReview(int userID, [Bind("AppointmentId, UserId, Stars, Comment")] ReviewDTO review)
+        public async Task<IActionResult> PostReview(int userID, int id, [Bind("AppointmentId, UserId, Stars, Comment")] ReviewDTO review)
         {
-            Debug.WriteLine("Form appointment id: " + review.AppointmentId);
-            Debug.WriteLine("Form UsedId:" + review.UserId);
-            Debug.WriteLine("Form Stars:" + review.Stars);
-            Debug.WriteLine("Form Comment:" + review.Comment);
+            if (CurrentUser() == null || CurrentUser().UserID != userID)
+                return RedirectToAction("Index", "Home");
+
             Review postedReview = await Api().PostReview(review);
+            if (postedReview == null)
+            {
+                return RedirectToAction("Details", "Appointments", new { userID, id });
+            }
 
             return RedirectToAction("Details", "Appointments", new { userID = review.UserId, id = review.AppointmentId });
         }

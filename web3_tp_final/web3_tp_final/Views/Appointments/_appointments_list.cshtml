@@ -1,0 +1,50 @@
+﻿@model IEnumerable<web3_tp_final.Models.Appointment>
+
+<table class="table appointments-table">
+    <thead>
+        <tr>
+            <th>
+                Status
+            </th>
+            <th>
+                Star Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                @(ViewData["TableStatus"] == "Owner" ? "Sitter" : "Owner")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (Appointment appointment in Model)
+            {
+                <tr>
+                    <td>@appointment.Status</td>
+                    <td>@appointment.StartDate</td>
+                    <td>@appointment.EndDate</td>
+                    @if (ViewData["TableStatus"] == "Sitter")
+                    {
+                        <td><a asp-controller="Users" asp-action="Details" asp-route-id="@appointment.Owner.UserID">@appointment.Owner.UserName</a></td>
+                    }
+                    else
+                    {
+                        <td><a asp-controller="Users" asp-action="Details" asp-route-id="@appointment.Sitter.UserID">@appointment.Sitter.UserName</a></td>
+                    }
+                    <td><a href="/Users/@ViewBag.CurrentUserID/Appointments/@appointment.AppointmentID">Details</a></td>
+                </tr>
+            }
+        }
+        else 
+        {
+            <tr>
+                <td class="text-center" colspan="5">No appointments</td>
+            </tr>
+        }
+    </tbody>
+ </table>

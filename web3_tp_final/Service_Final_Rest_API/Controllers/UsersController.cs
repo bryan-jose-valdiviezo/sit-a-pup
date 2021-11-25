@@ -28,11 +28,8 @@ namespace Service_Final_Rest_API.Controllers
         {
             return await _context.Users
                 .Include(e => e.Availabilities)
-                .Include(e => e.Reviews)
                 .Include(e => e.Pets)
                 .Include(e => e.Messages)
-                .Include(e => e.AppointmentOwners)
-                .Include(e => e.AppointmentSitters)
                 .ToListAsync();
         }
 
@@ -59,7 +56,8 @@ namespace Service_Final_Rest_API.Controllers
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointmentsForUsers(int id)
         {
             return await _context.Appointments
-                .Where(entity => entity.OwnerId == id || entity.SitterId == id) 
+                .Where(entity => entity.OwnerId == id || entity.SitterId == id)
+                .Include(e => e.Reviews)
                 .Include(e => e.Sitter)
                 .Include(e => e.Owner)
                 .ToListAsync();

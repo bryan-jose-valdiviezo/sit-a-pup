@@ -25,6 +25,11 @@ namespace web3_tp_final.Models
 
         public List<Review> Reviews { get; set; }
 
+        public Review Review()
+        {
+            return Reviews.First();
+        }
+
         public bool IsFinished()
         {
             if (EndDate < DateTime.Now && IsActive == 0)

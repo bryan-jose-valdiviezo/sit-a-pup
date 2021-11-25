@@ -103,83 +103,96 @@
                     Pets Info
                 </h3>
             </div>
-            @foreach (Pet pet in Model.Pets)
-            {
-                <div class="col-3 m-3">
-                    <div class="row card">
-                        <div class="col-12 card-header">
-                            @pet.Name
+            <div class="col-12">
+                <div class="row">
+                    @foreach (Pet pet in Model.Pets)
+                    {
+                        <div class="col-4 m-3">
+                            <div class="card p-0 section-bubble-content">
+                                <div class="col-12 card-header">
+                                    @pet.Name
+                                </div>
+                                <div class="col-12 pb-2 pl-0 pr-0">
+                                    <img src="@(pet.Photo == null ? "~/images/doglogo.png" : String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(pet.Photo)))" alt="@(pet.Photo == null ? "Empty photo" : "Pet photo")">
+                                </div>
+                                <div class="col-12 pt-2 pb-2">
+                                    Date de naissance: @pet.BirthYear
+                                </div>
+                                <div class="col-12 pt-2 pb-2">
+                                    Espèce: @pet.SpecieString
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12 pt-2 pb-2">
-                            <img src="@(pet.Photo == null ? "/images/doglogo.png" : String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(pet.Photo)))" alt="Pet photo">
-                        </div>
-                        <div class="col-12 pt-2 pb-2">
-                            Date de naissance: @pet.BirthYear
-                        </div>
-                        <div class="col-12 pt-2 pb-2">
-                            Espèce: @pet.SpecieString
-                        </div>
-                    </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     </div>
 
-
-    <div id="ReviewSection" class="col-12">
-        @if (Model.Reviews == null || Model.Reviews.Count == 0)
-        {
-            <form action="/Users/1/Appointments/@Model.AppointmentID/Review" method="post">
-                <div class="row">
-                    <input type="hidden" id="AppointmentId" name="AppointmentId" value="@Model.AppointmentID" />
-                    <input type="hidden" id="UserId" name="UserId" value="1" />
-                    <div class="form-group col-12">
-                        <label for="stars">Rating</label>
-                        <input type="hidden" id="stars" name="Stars" value="0" />
-                        @for (int i = 1; i < 6; i++)
-                        {
-
-                            <i class="far fa-star StarsJs" data-rating="@i" onmouseover="StarGlow(@i)" onmouseleave="StarHide()" onclick="$('#stars').val(@i);"></i>
-                        }
-                    </div>
-                    <div class="form-group col-12">
-                        <textarea class="form-control" name="Comment"></textarea>
-                    </div>
-                    <div class="form-group col-12">
-                        <input type="submit" value="Submit Review" class="btn btn-primary" />
-                    </div>
+    @if((ViewBag.CurrentUser.UserID == Model.Owner.UserID) || (Model.Reviews != null && Model.Reviews.Count > 0))
+    {
+        <div id="ReviewSection" class="col-12">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Review</h3>
                 </div>
-            </form>
-        }
-        else
-        {
-            @foreach (Review review in Model.Reviews)
-            {
-                <div class="row">
-                    <div class="col-12">
-                        Rating:
-                        @for (int i = 1; i < 6; i++)
+                <div class="col-12 section-bubble-content">
+                    @if ((ViewBag.CurrentUser.UserID == Model.Owner.UserID) && (Model.Reviews == null || Model.Reviews.Count == 0))
+                    {
+                        <form action="/Users/@ViewBag.CurrentUser.UserID/Appointments/@Model.AppointmentID/Review" method="post">
+                            <div class="row">
+                                <input type="hidden" id="AppointmentId" name="AppointmentId" value="@Model.AppointmentID" />
+                                <input type="hidden" id="UserId" name="UserId" value="@ViewBag.CurrentUser.UserID" />
+                                <div class="form-group col-12">
+                                    <label for="stars">Rating</label>
+                                    <input type="hidden" id="stars" name="Stars" value="0" />
+                                    @for (int i = 1; i < 6; i++)
+                                    {
+
+                                        <i class="far fa-star StarsJs" data-rating="@i" onmouseover="StarGlow(@i)" onmouseleave="StarHide()" onclick="$('#stars').val(@i);"></i>
+                                    }
+                                </div>
+                                <div class="form-group col-12">
+                                    <textarea class="form-control" name="Comment"></textarea>
+                                </div>
+                                <div class="form-group col-12">
+                                    <input type="submit" value="Submit Review" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    else if (Model.Reviews != null && Model.Reviews.Count > 0)
+                    {
+                        @foreach (Review review in Model.Reviews)
                         {
-                            @if (i > review.Stars)
-                            {
-                                <i class="far fa-star"></i>
-                            }
-                            else
-                            {
-                                <i class="fas fa-star"></i>
-                            }
+                            <div class="row">
+                                <div class="col-12">
+                                    Rating:
+                                    @for (int i = 1; i < 6; i++)
+                                    {
+                                        @if (i > review.Stars)
+                                        {
+                                            <i class="far fa-star"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-5">
+                                    Comment by @Model.Owner.UserName:
+                                </div>
+                                <div class="col-7">
+                                    @review.Comment
+                                </div>
+                            </div>
                         }
-                    </div>
-                    <div class="col-5">
-                        Comment by @Model.Owner.UserName:
-                    </div>
-                    <div class="col-7">
-                        @review.Comment
-                    </div>
+                    }
                 </div>
-            }
-        }
-    </div>
+            </div>
+        </div>
+    }
 </div>
 <script>
     $('#website-body').removeClass("container");
