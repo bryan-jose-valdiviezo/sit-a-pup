@@ -63,6 +63,12 @@ namespace Service_Final_Rest_API.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet("{id}/Availabilities")]
+        public async Task<ActionResult<IEnumerable<Availability>>> GetAvailabilitiesForUser(int id)
+        {
+            return await _context.Availabilities.Where(availability => availability.UserId == id).ToListAsync();
+        }
+
         [HttpGet("LogIn")]
         public async Task<ActionResult<User>> LogIn([FromQuery]string username, [FromQuery]string password)
         {

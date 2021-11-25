@@ -155,6 +155,21 @@ namespace web3_tp_final.API
             }
         }
 
+        public async Task<List<Availability>> GetAvailabilitiesForUser(int id)
+        {
+            var response = await client.GetAsync("https://localhost:44308/api/Users/" + id + "/Availabilities");
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                return (List<Availability>)JsonConvert.DeserializeObject<List<Availability>>(apiResponse);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         //Pets API calls
         public async Task<List<Pet>> GetPetsForAppointment(int id)

@@ -11,18 +11,18 @@ using web3_tp_final.Models;
 
 namespace web3_tp_final
 {
-    public class SitterController : Controller
+    public class SitterController : BaseController
     {
         private static APIController _aPIController;
-        private static MockAvailability _mockAvailability = new();
 
         public SitterController(APIController aPIController)
         {
             _aPIController = aPIController;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            ViewBag.Availabilities = await _aPIController.GetAvailabilitiesForUser(CurrentUser().UserID);
             return View();
         }
 
@@ -32,10 +32,9 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
-                availability.UserId = user.UserID;
-                _mockAvailability.Availabilities.Add(availability);
-                ViewBag.Availabilities = _mockAvailability.Availabilities;
+                availability.UserId = CurrentUser().UserID;
+                await _aPIController.Post<Availability>(availability);
+                ViewBag.Availabilities = await _aPIController.GetAvailabilitiesForUser(CurrentUser().UserID);
             }
             return View("Index");
         }
