@@ -1,0 +1,37 @@
+﻿@model SitAPupAdmin.Models.Admin;
+@using SitAPupAdmin.Helpers
+@{
+    ViewData["Title"] = "Home page";
+    Admin admin = SessionHelper.GetObjectFromJson<Admin>(Context.Session, "admin");
+
+}
+@if (TempData["nonTrouve"] != "")
+{
+    <p class="alert-danger">@TempData["nonTrouve"]</p>
+}
+<div class="text-center">
+    <h1 class="display-4">Bienvenue à l'application administrative de SitAPup!</h1>
+    @if (admin == null)
+    {
+
+        <h2>Connectez-vous en tant qu'administrateur pour avoir accès aux options</h2>
+        <div class="container row">
+            <div class="col-3">
+                <form id="connexionAdmin" asp-action="Login">
+                    <label for="username">Nom d'Utilisateur</label>
+                    <input asp-for="Name" type="text" id="username" name="username" />
+                    <label for="password">Mot De Passe</label>
+                    <input asp-for="Password" type="password" name="password" id="password" />
+                    <div class="card-footer text-center">
+                        <input type="submit" value="Se Connecter" class="btn btn-neutral btn-round btn-lg border-dark" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <a class="dropdown-item" asp-controller="Home" asp-action="LogOut">Se Déconnecter</a>
+    }
+</div>

@@ -16,15 +16,16 @@ namespace web3_tp_final
 {
     public class SitterController : BaseController
     {
-        private static MockAvailability _mockAvailability = new();
+        private static APIController _aPIController;
 
         public SitterController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
             base(notificationUserHubContext, userConnectionManager, api)
         {
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            ViewBag.Availabilities = await _aPIController.GetAvailabilitiesForUser(CurrentUser().UserID);
             return View();
         }
 
@@ -34,10 +35,9 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
-                availability.UserId = user.UserID;
-                _mockAvailability.Availabilities.Add(availability);
-                ViewBag.Availabilities = _mockAvailability.Availabilities;
+                availability.UserId = CurrentUser().UserID;
+                await _aPIController.Post<Availability>(availability);
+                ViewBag.Availabilities = await _aPIController.GetAvailabilitiesForUser(CurrentUser().UserID);
             }
             return View("Index");
         }

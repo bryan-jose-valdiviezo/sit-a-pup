@@ -1,0 +1,51 @@
+﻿@using SitAPupAdmin.Helpers
+@{
+    ViewData["Title"] = "Ajouter un Administrateur";
+    Admin admin = SessionHelper.GetObjectFromJson<Admin>(Context.Session, "admin");
+}
+@if (admin != null)
+{
+    <h1>Ajouter un Administrateur</h1>
+
+    <div class="row">
+        <div class="col-3" id="ajoutAdmin">
+            <form id="formAjoutAdmin">
+                <label for="name">Nom d'Utilisateur</label>
+                <input type="text" name="name" id="nameAdminAjout" />
+                <label for="password">Mot de passe</label>
+                <input type="text" name="password" id="passwordAdminAjout" />
+
+            </form>
+            <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="postAdmin()">Ajouter Admin</button>
+        </div>
+    </div>
+        }
+        else {
+        <a class="dropdown-item" asp-controller="Home" asp-action="Index">Veuillez Vous connecter pour avoir accès à cette page.</a>
+        }
+
+
+        <script>
+            function postAdmin() {
+                var donneeFormulaire = document.getElementById("formAjoutAdmin");
+                var url = "https://localhost:44308/api/Admins"
+                var variable = {
+                    'name': $('#nameAdminAjout').val(),
+                    'password': $('#passwordAdminAjout').val()
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    datatype: 'json',
+                    data: JSON.stringify(variable),
+
+
+                    success: function (data) {
+                        alert("Ajout du nouvel administrateur réussi.");
+
+                    }
+                });
+            }
+        </script>
