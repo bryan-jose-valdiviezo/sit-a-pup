@@ -16,8 +16,6 @@ namespace web3_tp_final
 {
     public class SitterController : BaseController
     {
-        private static APIController _aPIController;
-
         public SitterController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
             base(notificationUserHubContext, userConnectionManager, api)
         {
@@ -25,7 +23,7 @@ namespace web3_tp_final
 
         public async Task<IActionResult> IndexAsync()
         {
-            ViewBag.Availabilities = await _aPIController.GetAvailabilitiesForUser(CurrentUser().UserID);
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(CurrentUser().UserID);
             return View();
         }
 
@@ -36,8 +34,8 @@ namespace web3_tp_final
             if (ModelState.IsValid)
             {
                 availability.UserId = CurrentUser().UserID;
-                await _aPIController.Post<Availability>(availability);
-                ViewBag.Availabilities = await _aPIController.GetAvailabilitiesForUser(CurrentUser().UserID);
+                await _api.Post<Availability>(availability);
+                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(CurrentUser().UserID);
             }
             return View("Index");
         }
