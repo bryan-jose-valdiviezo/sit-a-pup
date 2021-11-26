@@ -4,18 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using web3_tp_final.API;
+using web3_tp_final.Controllers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 
 namespace web3_tp_final
 {
-    public class ReviewsController : Controller
+    public class ReviewsController : BaseController
     {
-        private static APIController _aPIController;
-        public ReviewsController(APIController aPIController)
+        public ReviewsController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
+            base(notificationUserHubContext, userConnectionManager, api)
         {
-            _aPIController = aPIController;
         }
 
 //        GET: Reviews

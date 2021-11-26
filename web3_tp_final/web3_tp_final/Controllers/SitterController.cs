@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Controllers;
 using web3_tp_final.Helpers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 
 namespace web3_tp_final
@@ -15,9 +18,9 @@ namespace web3_tp_final
     {
         private static APIController _aPIController;
 
-        public SitterController(APIController aPIController)
+        public SitterController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
+            base(notificationUserHubContext, userConnectionManager, api)
         {
-            _aPIController = aPIController;
         }
 
         public async Task<IActionResult> IndexAsync()

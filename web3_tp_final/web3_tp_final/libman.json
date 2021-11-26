@@ -10,6 +10,11 @@
       "provider": "cdnjs",
       "library": "select2@4.0.13",
       "destination": "wwwroot/lib/select2/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "signalr.js@2.4.2",
+      "destination": "wwwroot/lib/signalr/signalr.js/"
     }
   ]
 }

@@ -3,19 +3,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using web3_tp_final.API;
 using web3_tp_final.Helpers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
 {
-    public class PetsController : Controller
+    public class PetsController : BaseController
     {
-        private static APIController _aPIController;
-
-        public PetsController(APIController aPIController)
+        public PetsController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) : 
+            base(notificationUserHubContext,userConnectionManager, api)
         {
-            _aPIController = aPIController;
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +28,7 @@ namespace web3_tp_final.Controllers
                 userID = user.UserID;
             }
 
-            List<Pet> pets = (List<Pet>)await _aPIController.Get<Pet>();
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
 
             return View(pets.FindAll(pet => pet.UserID == userID));
         }
@@ -39,7 +40,7 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            List<Pet> pets = (List<Pet>)await _aPIController.Get<Pet>();
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
             Pet pet = pets.Find(pet => pet.PetID == id);
             if (pet == null)
             {
@@ -71,7 +72,7 @@ namespace web3_tp_final.Controllers
                         pet.Photo = memoryStream.ToArray();
                     }
                     pet.UserID = user.UserID;
-                    await _aPIController.Post<Pet>(pet);
+                    await _api.Post<Pet>(pet);
                     return RedirectToAction(nameof(Index));
                 } 
                 else
@@ -89,7 +90,7 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            List<Pet> pets = (List<Pet>)await _aPIController.Get<Pet>();
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
             Pet pet = pets.Find(pet => pet.PetID == id);
 
             if (pet == null)
@@ -117,11 +118,11 @@ namespace web3_tp_final.Controllers
                             pet.Photo = memoryStream.ToArray();
                         } else
                         {
-                            Pet databasePet =  await _aPIController.Get<Pet>(id);
+                            Pet databasePet =  await _api.Get<Pet>(id);
                             pet.Photo = databasePet.Photo;
                         }
                         pet.UserID = user.UserID;
-                        await _aPIController.Put<Pet>(id, pet);
+                        await _api.Put<Pet>(id, pet);
                     } else
                     {
                         return RedirectToAction("Index", "Login");
@@ -138,7 +139,7 @@ namespace web3_tp_final.Controllers
                 return NotFound();
             }
 
-            List<Pet> pets = (List<Pet>)await _aPIController.Get<Pet>();
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
             Pet pet = pets.Find(pet => pet.PetID == id);
             if (pet == null)
             {
@@ -152,7 +153,7 @@ namespace web3_tp_final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _aPIController.Delete<Pet>(id);
+            await _api.Delete<Pet>(id);
             return RedirectToAction(nameof(Index));
         }
     }

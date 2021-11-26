@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Helpers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
 {
     public class LoginController : BaseController
     {
-        private static APIController _aPIController;
-
-        public LoginController(APIController aPIController)
+        public LoginController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) : 
+            base(notificationUserHubContext, userConnectionManager, api)
         {
-            _aPIController = aPIController;
         }
 
         public IActionResult Index()
@@ -26,7 +27,7 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> LogIn(string username, string password)
         {
             //var user = await _context.Users.FirstOrDefaultAsync(m => m.UserName == username && m.Password == password);
-            var user = await _aPIController.LogIn(username, password);
+            var user = await _api.LogIn(username, password);
 
             if (user != null)
             {
