@@ -11,6 +11,9 @@ namespace web3_tp_final.Hubs
         private static Dictionary<string, List<string>> userConnectionMap = new Dictionary<string, List<string>>();
         private static string userConnectionMapLocker = string.Empty;
 
+        private static Dictionary<string, List<string>> userIdentifierMap = new Dictionary<string, List<string>>();
+        private static string userIdentifierMapLocker = string.Empty;
+
         public List<string> GetUserConnections(string userId)
         {
             var conn = new List<string>();
@@ -20,6 +23,28 @@ namespace web3_tp_final.Hubs
             }
 
             return conn;
+        }
+
+        public List<string> GetUserIdentifiers(string userId)
+        {
+            var identifier = new List<string>();
+            lock (userIdentifierMapLocker)
+            {
+                identifier = userIdentifierMap[userId];
+            }
+
+            return identifier;
+        }
+        public void KeepUserIdentifier(string userId, string identifier)
+        {
+            lock (userIdentifierMapLocker)
+            {
+                if (!userIdentifierMap.ContainsKey(userId))
+                {
+                    userIdentifierMap[userId] = new List<string>();
+                }
+                userConnectionMap[userId].Add(identifier);
+            }
         }
 
         public void KeepUserConnection(string userId, string connectionId)

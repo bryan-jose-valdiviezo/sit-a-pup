@@ -28,12 +28,25 @@ namespace web3_tp_final.Hubs
             return Context.ConnectionId;
         }
 
+        public string GetUserIdentifier()
+        {
+            var httpContext = this.Context.GetHttpContext();
+
+            var userId = httpContext.Request.Query["userId"];
+
+            _userConnectionManager.KeepUserIdentifier(userId, Context.UserIdentifier);
+
+            return Context.UserIdentifier;
+        }
+
         public async override Task OnConnectedAsync()
         {
             var userId = Context.GetHttpContext().Request.Query["userId"];
             if (!string.IsNullOrEmpty(userId))
             {
                 _userConnectionManager.KeepUserConnection(userId, Context.ConnectionId);
+                _userConnectionManager.KeepUserIdentifier(userId, Context.UserIdentifier);
+                Debug.WriteLine("UserIdentity: " + Context.UserIdentifier);
             }
             Debug.WriteLine("Query Received: "+ userId);
             await base.OnConnectedAsync();
