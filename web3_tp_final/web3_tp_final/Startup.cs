@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using web3_tp_final.API;
 using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 
 namespace web3_tp_final
 {
@@ -33,6 +34,7 @@ namespace web3_tp_final
             services.AddControllersWithViews();
             services.AddSignalR();
 
+            services.AddSingleton<IUserConnectionManager>(new UserConnectionManager());
             services.AddSingleton<APIController>(new APIController());
         }
 
@@ -64,6 +66,8 @@ namespace web3_tp_final
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<NotificationHub>("/NotificationHub");
+                endpoints.MapHub<NotificationUserHub>("/NotificationUserHub");
                 endpoints.MapHub<ChatHub>("/chatHub");
             });
         }

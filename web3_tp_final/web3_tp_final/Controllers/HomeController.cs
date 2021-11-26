@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Helpers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 using static web3_tp_final.Models.Pet;
 
@@ -13,11 +16,15 @@ namespace web3_tp_final.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private static APIController _aPIController;
 
-        public HomeController(ILogger<HomeController> logger, APIController aPIController)
+        public HomeController(ILogger<HomeController> logger,
+                              IHubContext<NotificationUserHub> notificationUserHubContext,
+                              IUserConnectionManager userConnectionManager,
+                              APIController api) : 
+                                  base(notificationUserHubContext,
+                                       userConnectionManager,
+                                       api)
         {
-            _aPIController = aPIController;
             _logger = logger;
         }
 
@@ -28,7 +35,7 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> FindSitter()
         {
-            IEnumerable<User> users = await _aPIController.Get<User>();
+            IEnumerable<User> users = await _api.Get<User>();
             return View(users);
         }
 
@@ -50,17 +57,17 @@ namespace web3_tp_final.Controllers
             pets4.Add(new Pet { Name = "Render", BirthYear = 2019, Specie = Species.RONGEUR });
             User user4 = new User { UserName = "Sophhai Rusell", Password = "crosemont2021", Email = "rusell@ciuss.qc.ca", PhoneNumber = "514-250-2118", Address = "23e Avenue Montréal", Pets = pets4 };
 
-            await _aPIController.Post<User>(user1);
-            await _aPIController.Post<User>(user2);
-            await _aPIController.Post<User>(user3);
-            await _aPIController.Post<User>(user4);
+            await _api.Post<User>(user1);
+            await _api.Post<User>(user2);
+            await _api.Post<User>(user3);
+            await _api.Post<User>(user4);
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> GenerateMockLogin(int userID)
         {
-            User mockUser = await _aPIController.Get<User>(userID);
+            User mockUser = await _api.Get<User>(userID);
             SessionHelper.SetObjectAsJson(HttpContext.Session, "user", mockUser);
             return RedirectToAction(nameof(Index));
         }
@@ -69,6 +76,39 @@ namespace web3_tp_final.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> SendToSpecificUser(int userId)
+        {
+            var connections = _userConnectionManager.GetUserConnections(userId.ToString());
+            Debug.WriteLine("Sending to user : " + userId);
+            if (connections != null && connections.Count > 0)
+            {
+                foreach (var connectionId in connections)
+                {
+                    await _notificationUserHubContext.Clients.Client(connectionId).SendAsync("sendNewFormToUser", 5);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Connection not found, sending to nobody");
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> SendToAllUsers()
+        {
+            await _notificationUserHubContext.Clients.All.SendAsync("sendToAll", "Heres my message to all");
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> GetNotification(int appointmentId)
+        {
+            Appointment appointment = await _api.Get<Appointment>(appointmentId);
+
+            Debug.WriteLine("Accessed GetNotification Method");
+            return PartialView("_ToastNotification", appointment);
         }
     }
 }

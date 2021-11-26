@@ -1,131 +1,140 @@
-﻿@using web3_tp_final.Helpers;
-@{
-    User user = SessionHelper.GetObjectFromJson<User>(Context.Session, "user");
-}﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title> @ViewData["Title"] Sit-A-Pup</title>
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/mystyle.css" />
-        <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
-        <link rel="stylesheet" href="~/lib/select2/css/select2.css" />
-        <link rel="stylesheet" href="~/lib/fontawesome/fontawesome-free-5.15.4-web/css/all.css" />
-        <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/lib/select2/js/select2.full.min.js"></script>
-        <script src="~/lib/select2/js/select2.js"></script>
-    </head>
-    <body>
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light website-navbar">
-            <a class="navbar-brand text-capitalize" href="#">
-                <img src="~/images/happy.png" class="d-inline-block align-top" width="30" height="30" alt="">
-                Sit-a-pup
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
-                    </li>
-                    <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" asp-area="" asp-controller="FindSitter" asp-action="Index">Trouver un gardien</a>
-                    </li>
-                    @if (user != null)
-                    {
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> @ViewData["Title"] Sit-A-Pup</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/mystyle.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/fontawesome-free-5.15.4-web/css/all.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/select2/js/select2.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/notification.js"></script>
+</head>
+<body>
+    <div id="website-body" class="container-fluid pl-0 pr-0">
+        <div class="sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-light website-navbar">
+                <a class="navbar-brand text-capitalize" href="#">
+                    <img src="~/images/happy.png" class="d-inline-block align-top" width="30" height="30" alt="">
+                    Sit-a-pup
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="BecomeSitter">Devenir gardien</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
                         </li>
                         <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="FindSitter" asp-action="Index">Trouver un gardien</a>
                         </li>
-                        <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
-                        </li>
-                        <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" href="/Users/@user.UserID/Appointments">My Appointments</a>
-                        </li>
-                        <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" href="/Users/@user.UserID/Appointments">Périodes de gardiennage</a>
-                        </li>
-                    }
-                    <li class="nav-item dropdown website-navbar-link">
-                        <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Liens Temporaires
-                        </a>
-                        <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
-                            <h6 class="dropdown-header">Mock Generation</h6>
-                            <a asp-area="" asp-controller="Home" asp-action="GenerateMockData" class="dropdown-item">Generate mock data</a>
-                            <a asp-area="" asp-controller="Users" asp-action="Index" class="dropdown-item">All users</a>
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Instant Log In</h6>
-                            @for (int i = 1; i < 5; i++)
-                            {
-                                <a class="dropdown-item" asp-route-userID="@i" asp-controller="Home" asp-action="GenerateMockLogin">Login for User @i</a>
-                            }
-                        </div>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav">
-                    @if (user != null)
-                    {
+                        @if (ViewBag.CurrentUser != null)
+                        {
+                            <li class="nav-item website-navbar-link">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="BecomeSitter">Devenir gardien</a>
+                            </li>
+                            <li class="nav-item website-navbar-link">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
+                            </li>
+                            <li class="nav-item website-navbar-link">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
+                            </li>
+                            <li class="nav-item website-navbar-link">
+                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">My Appointments</a>
+                            </li>
+                            <li class="nav-item website-navbar-link">
+                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">Périodes de gardiennage</a>
+                            </li>
+                        }
                         <li class="nav-item dropdown website-navbar-link">
                             <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Account
+                                Liens Temporaires
                             </a>
                             <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.UserID">Profile</a>
-                                <a class="dropdown-item" href="#">Log Out</a>
+                                <h6 class="dropdown-header">Mock Generation</h6>
+                                <a asp-area="" asp-controller="Home" asp-action="GenerateMockData" class="dropdown-item">Generate mock data</a>
+                                <a asp-area="" asp-controller="Users" asp-action="Index" class="dropdown-item">All users</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Instant Log In</h6>
+                                @for (int i = 1; i < 5; i++)
+                                {
+                                    <a class="dropdown-item" asp-route-userID="@i" asp-controller="Home" asp-action="GenerateMockLogin">Login for User @i</a>
+                                }
                             </div>
                         </li>
-                    }
-                    else
-                    {
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (ViewBag.CurrentUser != null)
+                        {
+                            <li class="nav-item dropdown website-navbar-link">
+                                <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Account
+                                </a>
+                                <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@ViewBag.CurrentUser.UserID">Profile</a>
+                                    <a class="dropdown-item" asp-controller="Login" asp-action="LogOut">Log Out</a>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item website-navbar-link">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Connexion</a>
+                            </li>
+                        }
                         <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Connexion</a>
+                            <a class="nav-link text-white" href="https://github.com/creativetimofficial/now-ui-kit/issues">Have an issue?</a>
                         </li>
-                    }
-                    <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" href="https://github.com/creativetimofficial/now-ui-kit/issues">Have an issue?</a>
-                    </li>
-                    <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://twitter.com/CreativeTim" target="_blank" data-original-title="Follow us on Twitter">
-                            <i class="fab fa-twitter"></i>
-                            <p class="d-lg-none d-xl-none">Twitter</p>
-                        </a>
-                    </li>
-                    <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/CreativeTim" target="_blank" data-original-title="Like us on Facebook">
-                            <i class="fab fa-facebook-square"></i>
-                            <p class="d-lg-none d-xl-none">Facebook</p>
-                        </a>
-                    </li>
-                    <li class="nav-item website-navbar-link">
-                        <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/CreativeTimOfficial" target="_blank" data-original-title="Follow us on Instagram">
-                            <i class="fab fa-instagram"></i>
-                            <p class="d-lg-none d-xl-none">Instagram</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://twitter.com/CreativeTim" target="_blank" data-original-title="Follow us on Twitter">
+                                <i class="fab fa-twitter"></i>
+                                <p class="d-lg-none d-xl-none">Twitter</p>
+                            </a>
+                        </li>
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/CreativeTim" target="_blank" data-original-title="Like us on Facebook">
+                                <i class="fab fa-facebook-square"></i>
+                                <p class="d-lg-none d-xl-none">Facebook</p>
+                            </a>
+                        </li>
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/CreativeTimOfficial" target="_blank" data-original-title="Follow us on Instagram">
+                                <i class="fab fa-instagram"></i>
+                                <p class="d-lg-none d-xl-none">Instagram</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div aria-live="polite" aria-atomic="true" class="notification-center">
+                <!-- Position it -->
+                <div style="position: absolute; top: 0; right: 0;" id="notification-section">
 
-        <div id="website-body" class="container-fluid pl-0 pr-0">
-            <main role="main" class="pb-3 h-100">
-                @RenderBody()
-            </main>
+                    <!-- Then put toasts within -->
+                </div>
+            </div>
         </div>
-        <footer id="footer">
-            <div class="container-fluid">
-                &copy; 2021 - web3_tp_final - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
-</html>
+        <main role="main" class="pb-3 h-100">
 
+            @RenderBody()
+        </main>
+    </div>
+    <footer id="footer">
+        <div class="container-fluid">
+            &copy; 2021 - web3_tp_final - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script>
+        SetUserConnection('@(ViewBag.CurrentUser == null ? 0 : ViewBag.CurrentUser.UserID)');
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

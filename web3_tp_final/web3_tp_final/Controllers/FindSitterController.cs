@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.DTO;
 using web3_tp_final.Helpers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers
 {
     public class FindSitterController : BaseController
     {
-        private static APIController _aPIController;
-
-        public FindSitterController(APIController aPIController)
+        public FindSitterController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
+            base(notificationUserHubContext, userConnectionManager, api)
         {
-            _aPIController = aPIController;
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +28,7 @@ namespace web3_tp_final.Controllers
             else
                 ViewBag.CurrentUserID = 0;
 
-            IEnumerable <User> users = await _aPIController.GetUsersWithAppointments();
+            IEnumerable <User> users = await _api.GetUsersWithAppointments();
             if (users == null)
                 Debug.WriteLine("Error in fetching objects");
             return View(users);
@@ -40,7 +41,7 @@ namespace web3_tp_final.Controllers
                 ViewBag.CurrentUserID = CurrentUser().UserID;
             else
                 ViewBag.CurrentUserID = 0;
-            IEnumerable<User> users = await _aPIController.Get<User>();
+            IEnumerable<User> users = await _api.Get<User>();
             List<User> availableUsers = new();
             availableUsers.Add(new Models.User { UserID = 12234565, UserName = "AvailableUser" });
             return View(availableUsers);
@@ -52,8 +53,8 @@ namespace web3_tp_final.Controllers
             if (CurrentUser() == null)
                 return RedirectToAction("Index", "Home");
 
-            User sitter = await _aPIController.Get<User>(id);
-            User currentUser = await _aPIController.Get<User>(CurrentUser().UserID);
+            User sitter = await _api.Get<User>(id);
+            User currentUser = await _api.Get<User>(CurrentUser().UserID);
             ViewBag.sitter = sitter;
             ViewBag.user = currentUser;
             return View("Form");
@@ -72,9 +73,10 @@ namespace web3_tp_final.Controllers
             if ((appointmentForm.OwnerId != null && appointmentForm.OwnerId == CurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
             {
                 Debug.WriteLine("Passed conditionnal, posting to api");
-                Appointment newAppointment = await _aPIController.PostAppointment(appointmentForm);
+                Appointment newAppointment = await _api.PostAppointment(appointmentForm);
                 if (newAppointment != null)
                 {
+                    SendNewAppointmentNotification(appointmentForm.SitterId, newAppointment.AppointmentID);
                     return RedirectToAction("Details", "Appointments", new { userID = CurrentUser().UserID, id = newAppointment.AppointmentID });
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,12 +8,19 @@ using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.DTO;
 using web3_tp_final.Helpers;
+using web3_tp_final.Hubs;
+using web3_tp_final.Interface;
 using web3_tp_final.Models;
 
 namespace web3_tp_final.Controllers.Users
 {
     public class AppointmentsController : BaseController
     {
+        public AppointmentsController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
+            base(notificationUserHubContext, userConnectionManager, api)
+        { 
+        }
+
         [Route("Users/{userID}/Appointments")]
         public async Task<IActionResult> Index(int userID)
         {
@@ -20,7 +28,7 @@ namespace web3_tp_final.Controllers.Users
                 return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentUserID = userID;
-            List<Appointment> appointments = await Api().GetAppointmentsForUser(userID);
+            List<Appointment> appointments = await _api.GetAppointmentsForUser(userID);
             ViewBag.AppointmentsAsOwner = appointments.Where(e => e.Owner.UserID == CurrentUser().UserID);
             ViewBag.AppointmentsAsSitter = appointments.Where(e => e.Sitter.UserID == CurrentUser().UserID);
 
@@ -35,12 +43,12 @@ namespace web3_tp_final.Controllers.Users
                 return RedirectToAction("Index", "Home");
 
 
-            Appointment appointment = await Api().Get<Appointment>(id);
+            Appointment appointment = await _api.Get<Appointment>(id);
 
             if (CurrentUser().UserID != appointment.Owner.UserID && CurrentUser().UserID != appointment.Sitter.UserID)
                 return RedirectToAction("Index", "Home");
 
-            appointment.Pets = await Api().GetPetsForAppointment((int)id);
+            appointment.Pets = await _api.GetPetsForAppointment((int)id);
             ViewBag.CurrentUser = CurrentUser();
             return View(appointment);
         }
@@ -52,7 +60,7 @@ namespace web3_tp_final.Controllers.Users
             if (CurrentUser() == null || CurrentUser().UserID != userID)
                 return RedirectToAction("Index", "Home");
 
-            Review postedReview = await Api().PostReview(review);
+            Review postedReview = await _api.PostReview(review);
             if (postedReview == null)
             {
                 return RedirectToAction("Details", "Appointments", new { userID, id });
