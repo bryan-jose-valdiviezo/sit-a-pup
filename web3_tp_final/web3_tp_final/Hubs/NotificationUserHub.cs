@@ -12,6 +12,7 @@ namespace web3_tp_final.Hubs
     {
         private readonly IUserConnectionManager _userConnectionManager;
 
+
         public NotificationUserHub(IUserConnectionManager userConnectionManager)
         {
             _userConnectionManager = userConnectionManager;
@@ -34,6 +35,7 @@ namespace web3_tp_final.Hubs
             if (!string.IsNullOrEmpty(userId))
             {
                 _userConnectionManager.KeepUserConnection(userId, Context.ConnectionId);
+               
             }
             Debug.WriteLine("Query Received: "+ userId);
             await base.OnConnectedAsync();
@@ -46,5 +48,24 @@ namespace web3_tp_final.Hubs
             _userConnectionManager.RemoveUserConnection(connectionId);
             var value = await Task.FromResult(0);
         }
+
+        public async void SendNewMessage(string receiverId,string username, string message)
+        {
+            var connections = _userConnectionManager.GetUserConnections(receiverId.ToString());
+            var user = username;
+
+            if (connections != null && connections.Count > 0)
+            {
+                foreach (var connectionId in connections)
+                {
+                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Connection not found, sending to nobody");
+            }
+        }
+
     }
 }
