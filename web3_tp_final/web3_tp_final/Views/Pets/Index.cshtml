@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container">
+<div class="text-center">
     <h1>Mes animaux</h1>
 </div>
 
@@ -13,7 +13,7 @@
         Pet pet;
         List<Pet> pets = Model.ToList();
         int numberOfPets = pets.Count();
-        int numberOfColumns = 3; //Peut être personnalisé + tri de liste effectué
+        int numberOfColumns = 3;
         int numberOfRows = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(numberOfPets) / Convert.ToDouble(numberOfColumns)));
         if (numberOfPets > 0)
         {
@@ -22,7 +22,7 @@
                 @:<div class="row pt-3">
                     for (int i = 0; i < numberOfColumns; i++)
                     {
-                        @:<div class="col-sm">
+                        @:<div class="col-md">
                             pet = pets[numberOfPets - 1];
                             @:<div class="card p-3" style="width: 20rem;">
                                 string imgSrc = "/images/doglogo.png";
@@ -34,11 +34,10 @@
                                 <h5 class="card-header">@pet.Name</h5>
                                 <img class="card-img-top" src=@imgSrc alt="Pet photo">
                                 <div class="card-body">
-                                    <p class="card-text">Date naissance: @pet.BirthYear</p>
+                                    <p class="card-text">Année de naissance: @pet.BirthYear</p>
                                     <p class="card-text">Espèce: @pet.SpecieString</p>
                                     <p class="card-text">Gardé par: </p>
                                     <a asp-action="Edit" asp-route-id="@pet.PetID" class="btn btn-primary">Modifier</a>
-                                    <a asp-action="Details" asp-route-id="@pet.PetID" class="btn btn-primary">Détails</a>
                                     <a asp-action="Delete" asp-route-id="@pet.PetID" class="btn btn-danger">Désinscrire</a>
                                 </div>
                             @:</div>

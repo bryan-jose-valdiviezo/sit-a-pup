@@ -44,10 +44,7 @@
                                 <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
                             </li>
                             <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">My Appointments</a>
-                            </li>
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">Périodes de gardiennage</a>
+                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">Rendez-vous</a>
                             </li>
                         }
                         <li class="nav-item dropdown website-navbar-link">
@@ -76,12 +73,9 @@
                                     Account
                                 </a>
                                 <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@ViewBag.CurrentUser.UserID">Profile</a>
-                                    <a class="dropdown-item" asp-controller="Login" asp-action="LogOut">Log Out</a>
+                                    <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@ViewBag.CurrentUser.UserID">Profil</a>
+                                    <a class="dropdown-item" asp-controller="Login" asp-action="LogOut">Déconnexion</a>
                                 </div>
-                            </li>
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">Périodes de gardiennage</a>
                             </li>
                         }
                         else
@@ -90,18 +84,6 @@
                                 <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Connexion</a>
                             </li>
                         }
-                        <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/CreativeTim" target="_blank" data-original-title="Like us on Facebook">
-                                <i class="fab fa-facebook-square"></i>
-                                <p class="d-lg-none d-xl-none">Facebook</p>
-                            </a>
-                        </li>
-                        <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/CreativeTimOfficial" target="_blank" data-original-title="Follow us on Instagram">
-                                <i class="fab fa-instagram"></i>
-                                <p class="d-lg-none d-xl-none">Instagram</p>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </nav>

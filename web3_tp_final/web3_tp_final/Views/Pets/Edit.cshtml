@@ -1,15 +1,13 @@
 ﻿@model web3_tp_final.Models.Pet
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modifier";
 }
 
-<h1>Edit</h1>
+<h1>Modifier</h1>
 
-<h4>Pet</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="container">
+    <div class="card p-3 bg-neutral-100">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PetID" />
@@ -47,10 +45,13 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Retourner à la liste</a>
-</div>
+<a asp-action="Index">Retourner à la liste</a>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $('#website-body').addClass('website-background');
+</script>
