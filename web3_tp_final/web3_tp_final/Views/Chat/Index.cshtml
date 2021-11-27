@@ -4,27 +4,28 @@
     var sender = ViewBag.sender;
     var receiver = ViewBag.receiver;
 }
-<h1>Chat avec: @receiver.UserName</h1>
+<h1><h1 id="senderUserName">@sender.UserName</h1>Chat avec: @receiver.UserName</\h1><h1 id="receiverId">@receiver.UserID</h1>
+
 <div class="container">
     <div class="row">&nbsp;</div>
     <div class="row">
-        <input type="hidden" id="senderInput" value="@sender.UserID" />
-        <input type="hidden" id="receiverInput" value="@receiver.UserID" />
+        <input type="text" id="senderInput" value="@sender.UserName" style="visibility:visible" enabled />
+        <input type="text" id="receiverInput" value="@receiver.UserID" style="visibility:visible" enabled/>
     </div>
 </div>
-    
-    <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4">
-            <input type="text" id="messageInput" />
-        </div>
+
+<div class="row">
+    <div class="col-2">Message</div>
+    <div class="col-4">
+        <input type="text" id="messageInput" />
     </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
-        </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-6">
+        <input type="button" id="sendButton" value="Send Message" />
     </div>
+</div>
 <div class="row">
     <div class="col-12">
         <hr />

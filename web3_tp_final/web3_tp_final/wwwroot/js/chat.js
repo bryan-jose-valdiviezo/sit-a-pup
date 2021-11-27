@@ -1,12 +1,19 @@
 ﻿"use strict";
+function SetUserConnection(userId) {
+    if (userId == null || userId == '' || userId == '0')
+        var connection = new signalR.HubConnectionBuilder().withUrl("/NotificationUserHub").build();
+    else
+        var connection = new signalR.HubConnectionBuilder().withUrl("/NotificationUserHub?userId=" + userId).build();
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
- 
-    connection.on("ReceiveMessage", function (sender, message) {
+
+    document.getElementById("sendButton").disabled = true;
+
+
+    connection.on("SendMessageToUser", function (user, message) {
         var li = document.createElement("li");
         document.getElementById("messagesList").appendChild(li);
 
-        li.textContent = `${sender} says ${message}`;
+        li.textContent = `${user} says ${message}`;
     });
 
     connection.start().then(function () {
@@ -15,28 +22,14 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         return console.error(err.toString());
     });
 
-document.getElementById("sendButton").addEventListener("click", function
-    (event) {
-
-    var sender = document.getElementById("senderInput").value;
-    var user = document.getElementById("receiverInput").value;
-    var message = document.getElementById("messageInput").value;
-
-    connection.invoke("SendPrivateMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-        /* if (receiver != "") {
- 
-             connection.invoke("SendMessageToGroup", sender, receiver, message).catch(function (err) {
-                 return console.error(err.toString());
-             });
-         }
-         else {
-             connection.invoke("SendMessage", sender, message).catch(function (err) {
-                 return console.error(err.toString());
-             });
-         }*/
-
-
+    document.getElementById("sendButton").addEventListener("click", function
+        (event) {
+        var username = document.getElementById("senderInput").value;
+        var receiverId = document.getElementById("receiverInput").value;
+        var message = document.getElementById("messageInput").value;
+        connection.invoke("SendNewMessage", receiverId, username, message).catch(function (err) {
+            return console.error(err.toString());
+        });
         event.preventDefault();
     });
-});
+}
