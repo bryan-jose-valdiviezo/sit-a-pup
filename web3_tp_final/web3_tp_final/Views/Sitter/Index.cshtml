@@ -1,47 +1,52 @@
 ﻿@model web3_tp_final.Models.Availability
 
-@{
-}
-
-<div class="jumbotron">
-    Temporary title: Custom availability
-</div>
-
-<div class="m-4">
-    <form asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="StartDate">Date début: </label>
-            <input type="date" asp-for="StartDate">
-            <span asp-validation-for="StartDate" class="text-danger"></span>
+<div class="container pt-3">
+    <div class="row mt-3">
+        <div class="col-12">
+            <h3 class="mb-0">Ajouter des dates de disponibilité</h3>
+            <div class="col-12 sap-card-header sap-card-header-round">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-12 row">
+                        <div class="col-6 text-center">
+                            <label>Date début</label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label>Date fin</label>
+                        </div>
+                    </div>
+                    <div class="col-12 row">
+                        <div class="col-6 form-group">
+                            <input type="date" asp-for="StartDate">
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="col-6 form-group">
+                            <input type="date" asp-for="EndDate">
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 text-center">
+                        <input type="submit" value="Ajouter" class="sap-submit">
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="EndDate">Date fin: </label>
-            <input type="date" asp-for="EndDate">
-            <span asp-validation-for="EndDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Ajouter">
-        </div>
-    </form>
-</div>
-
-<div class="jumbotron">
-    Availability periods:<br>
-    @{
-        if (ViewBag.Availabilities != null)
-        {
-            List<Availability> availabilities = (List<Availability>)ViewBag.Availabilities;
-            foreach (Availability availability in availabilities)
-            {
-                    @availability.StartDate.ToString();
-                    @availability.EndDate.ToString();
-                    <br>
+        <div class="jumbotron">
+            Availability periods:<br>
+            @{
+                if (ViewBag.Availabilities != null)
+                {
+                    List<Availability> availabilities = (List<Availability>)ViewBag.Availabilities;
+                    foreach (Availability availability in availabilities)
+                    {
+                        @availability.StartDate.ToString();
+                        @availability.EndDate.ToString();
+                        <br>
+                    }
+                }
             }
-        }
-    }
-</div>
-
-<script>
-    $('#website-body').addClass('website-background');
-</script>
+        </div>
+    </div>
+    <script>
+        $('#website-body').addClass('website-background');
+    </script>

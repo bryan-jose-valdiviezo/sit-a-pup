@@ -3,79 +3,86 @@
 @{
     ViewData["Title"] = "Accueil";
     var user = SessionHelper.GetObjectFromJson<User>(Context.Session, "user");
-    string username = "No active session";
+    string username = "";
     if (user != null)
     {
         username = user.UserName;
     }
 }
-<header class="text-center">
-    <div class="container">
-        <p class="p-header"> Simplifiez-vous la vie</p>
-        <h1> Faites garder votre animal lorsque vous en avez besoin</h1>
+
+@{
+    <div>
+        <h3 class="text-center p-3">
+            Bonjour @username
+        </h3>
     </div>
-</header>
-<section class="bg-primary-100">
-    <div class="container">
+}
 
-        <h2 class="text-center">
-            Publiez une annonce reflétant vos besoins
-        </h2>
-        <div class="split">
-            <div>
-                <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+<div class="container">
 
+    <div class="row">
+
+        <div class="col">
+            <div class="card bg-neutral-100 m-3 p-3">
+                <div class="split">
+                    <div class="d-flex align-items-center">
+                        <h2>Faites garder votre animal lorsque vous en avez besoin</h2>
+                    </div>
+                    <div>
+                        <img src="~/images/pet_clock.jpg" class="img-size padding-image-accueil" />
+                    </div>
+                </div>
             </div>
-            <div>
-                <p> It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <a class="stretched-link" asp-controller="FindSitter" asp-action="Index"></a>
+        </div>
+
+        <div class="col">
+            <div class="card bg-primary-200 m-3 p-3">
+                <div class="split">
+                    <div class="d-flex align-items-center">
+                        <h2>Créez un compte pour vous et pour votre animal</h2>
+                    </div>
+                    <div>
+                        <img src="~/images/chienchat.jpg" class="img-size padding-image-accueil" />
+                    </div>
+                </div>
+            </div>
+            <a class="stretched-link" asp-controller="Login" asp-action="Index"></a>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col">
+            <div class="card bg-primary-400 m-3 p-3">
+                <div class="split">
+                    <div>
+                        <img src="~/images/grenouilleordi.jpg" class="img-size padding-image-accueil" />
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <h2>Communiquez entre utilisateurs pour fixer des dates</h2>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
 
-<section class="bg-primary-200">
-    <div class="container">
-        <div class="split">
-            <div>
-                <h2>Créez un compte pour vous et pour votre animal</h2>
-                <p> It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</p>
-
-            </div>
-            <div>
-                <img src="~/images/chienchat.jpg" class="img-size padding-image-accueil" />
+        <div class="col">
+            <div class="card bg-neutral-200 m-3 p-3">
+                <div class="split">
+                    <div>
+                        <img src="~/images/pet_reviews.jpg" class="img-size padding-image-accueil" />
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <h2>Évaluez les gardiens pour améliorer l'expérience de tous</h2>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
-</section>
-<section class="bg-primary-400">
-    <div class="container">
-        <div class="split">
-            <div>
-                <img src="~/images/grenouilleordi.jpg" class="img-size padding-image-accueil" />
+</div>
 
-            </div>
-            <div>
-                <h2>Communiquez entre utilisateurs pour fixer des dates</h2>
-                <p> Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-
-            </div>
-        </div>
-    </div>
-</section>
-<section class="bg-neutral-200">
-    <div class="container">
-
-        <div class="split">
-            <div>
-                <h2>Attribuez des notes aux autres utilisateurs et aux animaux pour améliorer l'expérience de tous'</h2>
-                <p> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. </p>
-
-            </div>
-            <div>
-                <img src="~/images/chienordi.jpg" class="img-size padding-image-accueil" />
-            </div>
-        </div>
-    </div>
-</section>
 <script>
+    $('#website-body').addClass('website-background');
 </script>
