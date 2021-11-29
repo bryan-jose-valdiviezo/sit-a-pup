@@ -38,6 +38,10 @@ namespace web3_tp_final
             }
 
             var user = await _api.Get<User>(id);
+            user.Appointments = await _api.GetAppointmentsForUser((int)id);
+            user.AppointmentSitters = user.AppointmentAsSitter();
+            
+
             if (user == null)
             {
                 return NotFound();
