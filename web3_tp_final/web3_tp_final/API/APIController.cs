@@ -235,5 +235,30 @@ namespace web3_tp_final.API
                 return word + "s";
             }
         }
+
+        public async Task<List<Message>> GetConversationBetweenTwoUsers(int id)
+        {
+            IEnumerable<Appointment> appointmentss;
+            var response = await client.GetAsync("https://localhost:44308/api/Messages/");
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                List<Message> messages = (List<Message>)JsonConvert.DeserializeObject<List<Message>>(apiResponse);
+
+                foreach (Message message in messages)
+                {
+                    
+                    if (message.Sender == id || message.Recipient==id)
+                    {
+                        messages.Add(message);
+                    }
+                    
+                }
+                return messages;
+            }
+            return null;
+        }
+
+
     }
 }

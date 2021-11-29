@@ -53,6 +53,7 @@ namespace web3_tp_final.Hubs
         {
             var connections = _userConnectionManager.GetUserConnections(receiverId.ToString());
             var user = username;
+            
 
             if (connections != null && connections.Count > 0)
             {
