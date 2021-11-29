@@ -38,14 +38,6 @@ namespace web3_tp_final.Controllers
             return SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
         }
 
-        public void UpdateCurrentUser(User user)
-        {
-            User newUser = new User();
-            newUser.UserID = user.UserID;
-            newUser.UserName = user.UserName;
-            SessionHelper.SetObjectAsJson(HttpContext.Session, "user", newUser);
-        }
-
         public async void SendNewAppointmentNotification(int sitterId, int appointmentId)
         {
             var connections = _userConnectionManager.GetUserConnections(sitterId.ToString());
