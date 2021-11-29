@@ -8,10 +8,10 @@ else
 {
     @foreach (User user in Model)
     {
-        <div class="col-12 sitter-card my-3" id="Card-User-@user.UserID">
-            <div class="col-12 sitter-info">
+        <div class="col-12 sap-card" id="Card-User-@user.UserID">
+            <div class="col-12 sap-card-header sap-card-header-round">
                 <a asp-controller="Users" asp-action="Details" asp-route-id="@user.UserID">
-                    <div class="col-12" id="User-Overall-Rating">
+                    <div class="col-12">
                         <div class="row">
                             <div class="col-6" id="Sitter-Name">
                                 @user.UserName

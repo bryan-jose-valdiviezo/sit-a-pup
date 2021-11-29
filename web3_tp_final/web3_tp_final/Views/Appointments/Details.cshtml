@@ -11,83 +11,72 @@
     }
 }
 <div class="container">
-    <div id="@(Model.Owner.UserID != ViewBag.CurrentUser.UserID ? "OwnerInfoSection" : "SitterInfoSection")" class="col-12 section-bubble">
-        <div class="row">
+    <div id="@(Model.Owner.UserID != ViewBag.CurrentUser.UserID ? "OwnerInfoSection" : "SitterInfoSection")" class="col-12 sap-card">
+        <div class="sap-card-header col-12">
+            @(Model.Owner.UserID != ViewBag.CurrentUser.UserID ? "Owner Info." : "Sitter Info.")
+        </div>
+        <div class="sap-card-content col-12">
             <div class="col-12">
-                <h3>@(Model.Owner.UserID != ViewBag.CurrentUser.UserID ? "Owner Info." : "Sitter Info.")</h3>
-            </div>
-
-            <div class="col-12 section-bubble-content">
                 <div class="row">
-                    <div class="col-12">
-                        <class class="row">
-                            <div class="col-6">
-                                Username:
-                            </div>
-                            <div class="col-6">
-                                @user.UserName
-                            </div>
-                        </class>
+                    <div class="col-6 sap-card-content-headings">
+                        Username
                     </div>
-
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-6">
-                                E-mail:
-                            </div>
-                            <div class="col-6">
-                                @user.Email
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-6">
-                                Address:
-                            </div>
-                            <div class="col-6">
-                                @user.Address
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-6">
-                                Phone Number:
-                            </div>
-                            <div class="col-6">
-                                @user.PhoneNumber
-                            </div>
-                        </div>
+                    <div class="col-6 sap-card-content-headings">
+                        E-mail
                     </div>
                 </div>
             </div>
-
+            <div class="sap-card-content-info col-12">
+                <div class="row">
+                    <div class="col-6">
+                        @user.UserName
+                    </div>
+                    <div class="col-6">
+                        @user.Email
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6 sap-card-content-headings">
+                        Address
+                    </div>
+                    <div class="col-6 sap-card-content-headings">
+                        Phone Number
+                    </div>
+                </div>
+            </div>
+            <div class="sap-card-content-info col-12">
+                <div class="row">
+                    <div class="col-6">
+                        @user.Address
+                    </div>
+                    <div class="col-6">
+                        @user.PhoneNumber
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="AppointmentInfoSection" class="col-12 section-bubble">
-        <div class="row">
+
+    <div id="AppointmentInfoSection" class="col-12 sap-card">
+        <div class="col-12 sap-card-header">
+            Appointment Info
+        </div>
+        <div class="sap-card-content">
             <div class="col-12">
-                <h2>Appointment Info</h2>
-            </div>
-
-            <div class="col-12 section-bubble-content">
                 <div class="row">
-                    <div class="col-6">
-                        Date Start
+                    <div class="col-5 row">
+                        <div class="col-12 sap-card-content-headings">Date Start</div>
+                        <div class="col-12 sap-card-content-info">@Model.StartDate</div>
                     </div>
-                    <div class="col-6">
-                        Date End
-                    </div>
+                    <div class="col-2 w-100">
 
-                    <div class="col-6">
-                        @Model.StartDate
                     </div>
-                    <div class="col-6">
-                        @Model.EndDate
+                    <div class="col-5 row">
+                        <div class="col-12 sap-card-content-headings">Date End</div>
+                        <div class="col-12 sap-card-content-info">@Model.EndDate</div>
                     </div>
                 </div>
             </div>
@@ -99,7 +88,7 @@
     <div id="PetsInfoSection" class="col-12">
         <div class="row">
             <div class="col-12">
-                <h3>
+                <h3 class="m-0">
                     Pets Info
                 </h3>
             </div>
@@ -107,19 +96,13 @@
                 <div class="row">
                     @foreach (Pet pet in Model.Pets)
                     {
-                        <div class="col-4 m-3">
-                            <div class="card p-0 section-bubble-content">
-                                <div class="col-12 card-header">
+                        <div class="col-4">
+                            <div class="card p-0 sap-card">
+                                <div class="col-12 sap-card-header">
                                     @pet.Name
                                 </div>
                                 <div class="col-12 pb-2 pl-0 pr-0">
                                     <img src="@(pet.Photo == null ? "~/images/doglogo.png" : String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(pet.Photo)))" alt="@(pet.Photo == null ? "Empty photo" : "Pet photo")">
-                                </div>
-                                <div class="col-12 pt-2 pb-2">
-                                    Date de naissance: @pet.BirthYear
-                                </div>
-                                <div class="col-12 pt-2 pb-2">
-                                    Espèce: @pet.SpecieString
                                 </div>
                             </div>
                         </div>

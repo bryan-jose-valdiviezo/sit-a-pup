@@ -361,3 +361,45 @@ section {
 .toast-body a {
     color: black;
 }
+
+.sap-card {
+    border-radius: 10px;
+    background-color: white;
+    padding: 0px;
+    margin-top: 30px;
+}
+
+.sap-card-header {
+    background: linear-gradient(to right, rgb(107 59 43 / 86%), rgb(161 93 24 / 75%));
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 15px;
+}
+
+.sap-card-header a {
+    color: white;
+}
+
+.sap-card-header.sap-card-header-round {
+    border-radius: 10px;
+}
+
+.sap-submit {
+    background: linear-gradient(to right, rgb(107 59 43 / 86%), rgb(161 93 24 / 75%));
+    color: white;
+    border: 2px solid white;
+    border-radius: 15px;
+}
+
+.sap-card-content {
+    padding: 10px;
+}
+
+.sap-card-content-headings {
+    border-bottom: 1px solid #e0e0e0;
+    margin-top: 5px;
+}
+
+.sap-card-content-info {
+    color: #919aa3 !important;
+}
