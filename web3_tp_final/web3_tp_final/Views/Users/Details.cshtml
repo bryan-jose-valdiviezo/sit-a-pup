@@ -4,76 +4,101 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="container">
-    <h1>Details</h1>
-    <div class="row">
-        <div class="col-12" id="UserDetailsCard">
-            <div class="row">
-                <div class="col-3" id="UserSection">
-                    <div class="h-75 text-center w-100 d-flex" style="align-items:center;">
-                        <div class="w-100">
-                            <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="mx-auto" />
-                            @Model.UserName
+<head>
+    <link rel="stylesheet" href="~/css/Details/Details.css" />
+</head>
+    <h1 class="text-center margin">Details</h1>    
+    <div class="row margin">
+        <div class="col-6" id="UserDetailsCard">
+            <form class="form" asp-action="Edit">
+                <div class="row">
+                    <div class="col-3" id="UserSection">
+                        <div class="h-75 text-center w-100 d-flex" style="align-items:center;">
+                            <div class="w-100">
+                                <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="mx-auto" />
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input asp-for="UserName" class="form-control" placeholder="@Model.UserName">
+                                <span asp-validation-for="UserName" class="text-danger" data-color="caramel"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="h-25">
-                        @if (ViewBag.CurrentID != null && ViewBag.CurrentID != Model.UserID)
-                        {
-                            <a asp-controller="FindSitter" asp-route-id="@Model.UserID" asp-action="BookAppointment" class="btn btn-primary">
-                                Book an appointment
-                            </a>
-                            <a asp-controller="Chat" asp-route-id="@Model.UserID" asp-action="Index" class="btn btn-primary">
-                                Commencer Chat
-                            </a>
-                        }
+                        <div class="row align-items-center">
+                            @if (ViewBag.CurrentID != null && ViewBag.CurrentID != Model.UserID)
+                            {
+                                <div class="col-6">
+                                    <a asp-controller="FindSitter" asp-route-id="@Model.UserID" asp-action="BookAppointment">
+                                        <img src="https://img.icons8.com/external-prettycons-solid-prettycons/60/ffffff/external-appointment-business-and-finance-prettycons-solid-prettycons.png" class="btn bouton-size"/>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a asp-controller="Chat" asp-route-id="@Model.UserID" asp-action="Index">
+                                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/chat.png" class="btn bouton-size"/>                                    
+                                    </a>
+                                </div>
+                            }
+                                </div>
+                            </div>
+                    <div class="col-9" id="UserInputInfo">
+                        <div class="row">
+                            <div class="col-12 User-information-main-title">
+                                Information
+                            </div>
+                            <div class="col-12 User-Info-Input-Title">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Email
+                                    </div>
+                                    <div class="col-6">
+                                        Phone
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 User-Information-Input">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input asp-for="Email" class="form-control" placeholder="@Model.Email">
+                                        <span asp-validation-for="Email" class="text-danger" data-color="caramel"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <input asp-for="PhoneNumber" class="form-control" placeholder="@Model.PhoneNumber">
+                                        <span asp-validation-for="PhoneNumber" class="text-danger" data-color="caramel"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 User-Info-Input-Title">
+                                <div class="row">
+                                    <div class="col-12">
+                                        Address
+                                    </div>
+                                    <div class="col-12 User-Information-Input">
+                                        <input asp-for="Address" class="form-control" placeholder="@Model.Address">
+                                        <span asp-validation-for="Address" class="text-danger" data-color="caramel"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 User-Info-Input-Title">
+                                <div class="row">
+                                    @if (ViewBag.CurrentID == @Model.UserID)
+                                    {
+                                        <div class="col-12 h-25" style="padding-top: 15px;">
+                                            <input type="submit" value="Sauvegarder" asp-controller="Users" asp-action="Edit" asp-route-id="@Model.UserID" class="btn btn-primary">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-9" id="UserInputInfo">
-                    <div class="row">
-                        <div class="col-12 User-information-main-title">
-                            Information
-                        </div>
-                        <div class="col-12 User-Info-Input-Title">
-                            <div class="row">
-                                <div class="col-6">
-                                    Email
-                                </div>
-                                <div class="col-6">
-                                    Phone
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 User-Information-Input">
-                            <div class="row">
-                                <div class="col-6">
-                                    @Model.Email
-                                </div>
-                                <div class="col-6">
-                                    @Model.PhoneNumber
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 User-Info-Input-Title">
-                            <div class="row">
-                                <div class="col-12">
-                                    Address
-                                </div>
-                                <div class="col-12 User-Information-Input">
-                                    @Model.Address
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            </form>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.UserID">Edit</a> |
-</div>
+        </div>
+            <div class="col-6">
+
+            </div>
+    </div>    
 
 <script>
     $('#website-body').addClass('website-background');
 </script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

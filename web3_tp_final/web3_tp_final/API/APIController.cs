@@ -51,7 +51,6 @@ namespace web3_tp_final.API
 
             var response = await client.PutAsJsonAsync("https://localhost:44308/api/" + className + "/" + id, model);
             string apiResponse = await response.Content.ReadAsStringAsync();
-
             return (T)JsonConvert.DeserializeObject<T>(apiResponse);
         }
 

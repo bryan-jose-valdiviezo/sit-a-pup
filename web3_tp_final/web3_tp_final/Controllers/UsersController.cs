@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +44,10 @@ namespace web3_tp_final
                 return NotFound();
             }
             if (CurrentUser() != null)
+            {
                 ViewBag.CurrentID = CurrentUser().UserID;
+            }
+
             return View(user);
         }
 
@@ -72,8 +76,8 @@ namespace web3_tp_final
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
+        /*public async Task<IActionResult> Edit(int? id)
+        {            
             if (id == null)
             {
                 return NotFound();
@@ -84,8 +88,11 @@ namespace web3_tp_final
             {
                 return NotFound();
             }
-            return View(user);
-        }
+            else
+            {
+                return View("Details", user);
+            }            
+        }*/
 
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -94,17 +101,15 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,Email,Address,PhoneNumber")] User user)
         {
-            if (id != user.UserID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
-                {
+                {                    
                     user.UserID = id;
-                    User updatedUser = await _api.Put<User>(id, user);
+                    var currentUser = await _api.Get<User>(id);
+                    user.Password = currentUser.Password;
+                    await _api.Put<User>(id, user);                   
+                    UpdateCurrentUser(await _api.Get<User>(id));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,9 +122,9 @@ namespace web3_tp_final
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View("Details", user);
         }
 
         // GET: Users/Delete/5
