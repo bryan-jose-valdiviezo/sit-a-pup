@@ -1,0 +1,88 @@
+﻿@model Appointment
+
+@if ((ViewBag.CurrentUser.UserID == Model.Owner.UserID) || (Model.Reviews != null && Model.Reviews.Count > 0) && Model.Status == "done")
+{
+    <div id="ReviewSection" class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <h3>Review</h3>
+            </div>
+            <div class="col-12 section-bubble-content">
+                @if ((ViewBag.CurrentUser.UserID == Model.Owner.UserID) && (Model.Reviews == null || Model.Reviews.Count == 0))
+                {
+                    <form action="/Users/@ViewBag.CurrentUser.UserID/Appointments/@Model.AppointmentID/Review" method="post">
+                        <div class="row">
+                            <input type="hidden" id="AppointmentId" name="AppointmentId" value="@Model.AppointmentID" />
+                            <input type="hidden" id="UserId" name="UserId" value="@ViewBag.CurrentUser.UserID" />
+                            <div class="form-group col-12">
+                                <label for="stars">Rating</label>
+                                <input type="hidden" id="stars" name="Stars" value="0" />
+                                @for (int i = 1; i < 6; i++)
+                                {
+
+                                    <i class="far fa-star StarsJs" data-rating="@i" onmouseover="StarGlow(@i)" onmouseleave="StarHide()" onclick="$('#stars').val(@i);"></i>
+                                }
+                            </div>
+                            <div class="form-group col-12">
+                                <textarea class="form-control" name="Comment"></textarea>
+                            </div>
+                            <div class="form-group col-12">
+                                <input type="submit" value="Submit Review" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                }
+                else if (Model.Reviews != null && Model.Reviews.Count > 0)
+                {
+                    @foreach (Review review in Model.Reviews)
+                    {
+                        <div class="row">
+                            <div class="col-12">
+                                Rating:
+                                @for (int i = 1; i < 6; i++)
+                                {
+                                    @if (i > review.Stars)
+                                    {
+                                        <i class="far fa-star"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                }
+                            </div>
+                            <div class="col-5">
+                                Comment by @Model.Owner.UserName:
+                            </div>
+                            <div class="col-7">
+                                @review.Comment
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}
+else if ((Model.Status == "pending" || Model.Status == "accepted") && ViewBag.CurrentUser.UserID == Model.Sitter.UserID)
+{
+    <div class="col-12" id="AppointmentsStatusButtonsChange">
+        <div class="row">
+            @if (Model.Status == "pending")
+            {
+                <div class="col-6">
+                    <button type="button" class="btn btn-success" onclick="ChangeAppointmentStatus('accepted')">Accept</button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btn btn-danger" onclick="ChangeAppointmentStatus('cancelled')">Refuse</button>
+                </div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary" onclick="ChangeAppointmentStatus('done')">Terminate</button>
+                </div>
+            }
+        </div>
+    </div>
+}

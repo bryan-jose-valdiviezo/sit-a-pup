@@ -80,7 +80,7 @@ namespace Service_Final_Rest_API.Controllers
             _context.Availabilities.Add(availability);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAvailability", new { id = availability.AvailabilityId }, availability);
+             return CreatedAtAction("GetAvailability", new { id = availability.AvailabilityId }, availability);
         }
 
         // DELETE: api/Availabilities/5

@@ -65,6 +65,43 @@ namespace Service_Final_Rest_API.Controllers
             return appointment;
         }
 
+        [HttpGet("UpdateAppointmentStatus")]
+        public async Task<IActionResult> UpdateAppointmentStatus([FromQuery] long id, [FromQuery] string newStatus)
+        {
+            Appointment appointment = _context.Appointments.Find(id);
+            appointment.Status = newStatus;
+            _context.Entry(appointment).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                if (appointment.Status == "accepted")
+                {
+                    await _context.Database.ExecuteSqlRawAsync(@"UPDATE Appointments SET Appointments.Status == 'cancelled'
+	                                                            WHERE
+	                                                            Appointments.AppointmentID != {0}
+	                                                            AND
+                                                                Appointments.SitterId == {2}
+                                                                AND
+	                                                            Appointments.Status LIKE '%pending%'
+	                                                            AND
+	                                                            (Appointments.StartDate BETWEEN {3} AND {4})
+	                                                            AND
+	                                                            (Appointments.EndDate BETWEEN {3} AND {4})
+	                                                            AND
+	                                                            (Appointments.StartDate <= {3} AND Appointments.EndDate >= {4});",
+                                                                id,
+                                                                appointment.SitterId,
+                                                                appointment.StartDate.ToString(),
+                                                                appointment.EndDate.ToString());
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -80,6 +117,26 @@ namespace Service_Final_Rest_API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                if (appointment.Status == "accepted")
+                {
+                    await _context.Database.ExecuteSqlRawAsync(@"UPDATE Appointments SET Appointments.Status == 'cancelled'
+	                                                            WHERE
+	                                                            Appointments.AppointmentID != {0}
+	                                                            AND
+                                                                Appointments.SitterId == {2}
+                                                                AND
+	                                                            Appointments.Status LIKE '%pending%'
+	                                                            AND
+	                                                            (Appointments.StartDate BETWEEN {3} AND {4})
+	                                                            AND
+	                                                            (Appointments.EndDate BETWEEN {3} AND {4})
+	                                                            AND
+	                                                            (Appointments.StartDate <= {3} AND Appointments.EndDate >= {4});",
+                                                                id,
+                                                                appointment.SitterId,
+                                                                appointment.StartDate.ToString(),
+                                                                appointment.EndDate.ToString());
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
