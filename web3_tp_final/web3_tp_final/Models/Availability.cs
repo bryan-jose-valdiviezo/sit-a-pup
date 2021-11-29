@@ -9,11 +9,11 @@ namespace web3_tp_final.Models
     {
         public int AvailabilityID { get; set; }
 
-        //Required est implicite
+        [Display(Name = "Date de début")]
         [DateValidation] //Classe custom dans Helpers
         public DateTime StartDate { get; set; }
 
-        //Required est implicite
+        [Display(Name = "Date de fin")]
         [DateValidation] //Classe custom dans Helpers
         public DateTime EndDate { get; set; }
 

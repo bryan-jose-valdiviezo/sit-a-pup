@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Http;
-using System.Text.Json.Serialization;
 
 namespace web3_tp_final.Models
 {
@@ -10,21 +8,27 @@ namespace web3_tp_final.Models
     {
         public int UserID { get; set; }
 
+        [Display(Name = "Nom d'utilisateur")]
         [Required(ErrorMessage = "Minimum 3 caractères, maximum 20 caractères")]
         [MinLength(3), MaxLength(20)]
         public string UserName { get; set; }
 
+        [Display(Name = "Mot de passe")]
+        [Required(ErrorMessage = "Minimum 6 caractères, maximum 32 caractères")]
+        [MinLength(3), MaxLength(20)]
         public string Password { get; set; }
 
+        [Display(Name = "Courriel")]
         [Required(ErrorMessage = "Entrez une adresse valide (ex: nom@courriel.com)")]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
         public string Email { get; set; }
 
+        [Display(Name = "Adresse")]
         [Required(ErrorMessage = "Vous devez entrer une adresse")]
         public string Address { get; set; }
 
+        [Display(Name = "Numéro de téléphone")]
         [Required(ErrorMessage = "Vous devez entrer un numéro de téléphone valide")]
-        //[RegularExpression(@"\d{3}[-]\d{3}[-]\d{4}")]
         public string PhoneNumber { get; set; }
 
         public List<Pet> Pets { get; set; } = new List<Pet>();
