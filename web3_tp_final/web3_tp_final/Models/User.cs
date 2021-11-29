@@ -41,7 +41,7 @@ namespace web3_tp_final.Models
 
         public List<Appointment> AppointmentOwners { get; set; }
 
-        public List<Appointment> AppointmentSitters { get; set; }
+        public IEnumerable<Appointment> AppointmentSitters { get; set; }
 
         public int AverageRating()
         {
@@ -53,6 +53,11 @@ namespace web3_tp_final.Models
             }
 
             return 0;
+        }
+
+        public IEnumerable<Appointment> AppointmentAsSitter()
+        {
+            return Appointments.Where(appointment => appointment.Sitter.UserID == UserID && appointment.Reviews.Any());           
         }
     }
 }

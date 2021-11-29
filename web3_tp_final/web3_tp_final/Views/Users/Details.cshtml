@@ -91,9 +91,34 @@
             </form>
 
         </div>
-            <div class="col-6">
-
-            </div>
+        <div class="col-6">
+            <div class="col-12 section-bubble-content">
+                @foreach (Appointment appointment in Model.AppointmentSitters)
+                {
+                    <div class="row">
+                        <div class="col-12">
+                            Rating:
+                            @for (int i = 1; i < 6; i++)
+                            {
+                                @if (i > appointment.Review().Stars)
+                                {
+                                    <i class="far fa-star"></i> }
+                                else
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                            }
+                        </div>
+                        <div class="col-5">
+                            Comment by @appointment.Owner.UserName:
+                        </div>
+                        <div class="col-7">
+                            @appointment.Review().Comment;
+                        </div>
+                    </div>
+                }
+             </div>        
+        </div>
     </div>    
 
 <script>

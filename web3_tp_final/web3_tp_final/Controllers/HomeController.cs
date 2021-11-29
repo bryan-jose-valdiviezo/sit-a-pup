@@ -44,8 +44,24 @@ namespace web3_tp_final.Controllers
             List<Pet> pets1 = new List<Pet>();
             pets1.Add(new Pet { Name = "Skye", BirthYear = 2016, Specie = Species.CHIEN });
             User user1 = new User { UserName = "Quigid Trunslo", Password = "crosemont2021", Email = "trunslo@gmail.com", PhoneNumber = "514-250-2121", Address = "20e Avenue Montréal", Pets = pets1 };
+            /*List<Appointment> appointments= new List<Appointment>();            
+            for (int i = 0; i < 10; i++)
+            {
+                Appointment appointment = new Appointment();
+                appointment.Reviews = new List<Review>();
+                User owner = new User { UserName = "User " + i, Password = "crosemont2021", Email = "trunslo" + i + "@gmail.com", PhoneNumber = "514-25" + i + "-2121", Address = "20e Avenue Montréal"};
 
-            List<Pet> pets2 = new List<Pet>();
+                Review review = new Review();
+                review.Stars = i;
+                review.Comment = "Test " + i;
+                appointment.Owner = owner;
+                appointment.Reviews.Add(review);
+
+                appointments.Add(appointment);
+            }
+            user1.AppointmentSitters = appointments;*/
+
+            List <Pet> pets2 = new List<Pet>();
             pets2.Add(new Pet { Name = "Astro", BirthYear = 2017, Specie = Species.CHAT } );
             User user2 = new User { UserName = "Gertrev Framab", Password = "crosemont2021", Email = "framab@yahoo.fr", PhoneNumber = "514-250-2120", Address = "21e Avenue Montréal", Pets = pets2 };
 
