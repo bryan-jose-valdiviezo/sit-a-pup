@@ -53,6 +53,14 @@ namespace web3_tp_final.Controllers.Users
             return View(appointment);
         }
 
+        [Route("Users/{userID}/Appointments/{id}/UpdateAppointmentStatus")]
+        public async Task<IActionResult> UpdateAppointmentStatus(int userID, int id, string? newStatus)
+        {
+            await _api.UpdateAppointmentStatus(id, newStatus);
+            Appointment appointment = await _api.Get<Appointment>(id);
+            return PartialView("_appointment_details_footer", appointment);
+        }
+
         [HttpPost]
         [Route("Users/{userID}/Appointments/{id}/Review")]
         public async Task<IActionResult> PostReview(int userID, int id, [Bind("AppointmentId, UserId, Stars, Comment")] ReviewDTO review)

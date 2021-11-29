@@ -81,7 +81,6 @@ namespace web3_tp_final.API
             }
         }
 
-        //Users API calls
         public async Task<List<User>> GetUsersWithAppointments()
         {
             IEnumerable<Appointment> appointmentss;
@@ -105,6 +104,37 @@ namespace web3_tp_final.API
                 return users;
             }
             return null;
+        }
+
+        public async Task<IEnumerable<User>> GetAvailableSittersForDate(DateTime StartDate, DateTime EndDate)
+        {
+            IEnumerable<Appointment> appointments;
+            string start = StartDate.ToString("yyyy-MM-dd HH:mm:ss");
+            string end = EndDate.ToString("yyyy-MM-dd HH:mm:ss");
+            var response = await client.GetAsync("https://localhost:44308/api/Users/GetAvailableSittersForDates?StartDate=" + start + "&EndDate=" + end);
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                List<User> users = (List<User>)JsonConvert.DeserializeObject<List<User>>(apiResponse);
+
+                foreach (User user in users)
+                {
+                    appointments = await GetAppointmentsForUser(user.UserID);
+                    if (appointments != null)
+                    {
+                        user.Appointments = appointments;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return users;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //Review API calls
@@ -150,6 +180,21 @@ namespace web3_tp_final.API
             }
             else
             {
+                return null;
+            }
+        }
+
+        public async Task<Appointment> UpdateAppointmentStatus(int id, string newStatus)
+        {
+            var response = await client.GetAsync("https://localhost:44308/api/Appointments/UpdateAppointmentStatus?id=" + id + "&newStatus=" + newStatus);
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Success in api call");
+                return null;
+            }
+            else
+            {
+                Debug.WriteLine(response.Content.ToString());
                 return null;
             }
         }

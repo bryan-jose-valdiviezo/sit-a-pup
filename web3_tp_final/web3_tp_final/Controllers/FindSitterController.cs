@@ -23,28 +23,34 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (CurrentUser() != null)
-                ViewBag.CurrentUserID = CurrentUser().UserID;
-            else
-                ViewBag.CurrentUserID = 0;
+            IEnumerable<User> users = await _api.GetUsersWithAppointments();
 
-            IEnumerable <User> users = await _api.GetUsersWithAppointments();
+            if (CurrentUser() != null)
+                users = users.Where(user => user.UserID != CurrentUser().UserID);
+
             if (users == null)
                 Debug.WriteLine("Error in fetching objects");
             return View(users);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> FilterByAvailability(DateTime startDate, DateTime endDate)
+        [HttpGet]
+        public async Task<IActionResult> FilterByAvailability(DateTime? startDate, DateTime? endDate)
         {
-            if (CurrentUser() != null)
-                ViewBag.CurrentUserID = CurrentUser().UserID;
+            IEnumerable<User> availableSitters;
+
+            if (startDate != null || endDate != null)
+            {
+                availableSitters = await _api.GetAvailableSittersForDate((DateTime)startDate, (DateTime)endDate);
+            }
             else
-                ViewBag.CurrentUserID = 0;
-            IEnumerable<User> users = await _api.Get<User>();
-            List<User> availableUsers = new();
-            availableUsers.Add(new Models.User { UserID = 12234565, UserName = "AvailableUser" });
-            return View(availableUsers);
+            {
+                availableSitters = await _api.GetUsersWithAppointments();
+            }
+
+            if (CurrentUser() != null)
+                availableSitters = availableSitters.Where(user => user.UserID != CurrentUser().UserID);
+
+            return PartialView("_AvailableSittersList", availableSitters);
         }
 
         [Route("FindSitter/{id}/BookAppointment")]
@@ -66,10 +72,7 @@ namespace web3_tp_final.Controllers
         {
             if (CurrentUser() == null)
                 RedirectToAction("Index", "Home");
-            Debug.WriteLine("Form OwnerID: " + appointmentForm.OwnerId);
-            Debug.WriteLine("Form SitterID: " + appointmentForm.SitterId);
-            Debug.WriteLine("CurrentUserID: " + CurrentUser().UserID);
-            Debug.WriteLine("Route ID: " + id);
+
             if ((appointmentForm.OwnerId != null && appointmentForm.OwnerId == CurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
             {
                 Debug.WriteLine("Passed conditionnal, posting to api");

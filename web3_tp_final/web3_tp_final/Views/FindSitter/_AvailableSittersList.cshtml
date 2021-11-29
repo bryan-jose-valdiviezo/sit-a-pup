@@ -1,0 +1,67 @@
+﻿@model IEnumerable<User>
+
+@if (Model.Count() == 0)
+{
+    <p>No sitters available for those dates</p>
+}
+else
+{
+    @foreach (User user in Model)
+    {
+        <div class="col-12 sitter-card my-3" id="Card-User-@user.UserID">
+            <div class="col-12 sitter-info">
+                <a asp-controller="Users" asp-action="Details" asp-route-id="@user.UserID">
+                    <div class="col-12" id="User-Overall-Rating">
+                        <div class="row">
+                            <div class="col-6" id="Sitter-Name">
+                                @user.UserName
+                            </div>
+                            <div class="col-6" id="Overall-Rating">
+                                <span class="fa-pull-right">
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        if (user.AverageRating() > i)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star"></i>
+                                        }
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @foreach (Appointment appointment in user.Appointments.Take(2))
+            {
+                @if (appointment.Reviews.Any())
+                {
+                    <div class="col-12 preview-review-row">
+                        <div class="row">
+                            <div class="col-4">
+                                @appointment.Review().User.UserName
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (appointment.Review().Stars > i)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star"></i>
+                                    }
+                                }
+                            </div>
+                            <div class="col-8 text-center">
+                                @appointment.Review().Comment
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+}

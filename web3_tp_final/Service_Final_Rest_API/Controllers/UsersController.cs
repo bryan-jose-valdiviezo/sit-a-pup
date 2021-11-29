@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
@@ -50,6 +51,28 @@ namespace Service_Final_Rest_API.Controllers
             }
 
             return user;
+        }
+
+        [HttpGet("GetAvailableSittersForDates")]
+        public async Task<ActionResult<IEnumerable<User>>> GetAvailableSitterForDates([FromQuery] string StartDate, [FromQuery] string EndDate)
+        {
+            Debug.WriteLine("Start Date: " + StartDate);
+            Debug.WriteLine("Start Date: " + EndDate);
+            string sqlQuery = @"SELECT Users.* FROM Users
+                                WHERE Users.UserID NOT IN (
+	                                SELECT Appointments.SitterId FROM Appointments
+	                                WHERE ({0} <= Appointments.EndDate AND {1} >= Appointments.StartDate)
+                                    AND
+                                    Appointments.Status == 'accepted'
+                                ) AND
+                                Users.UserID IN (
+	                                SELECT Availabilities.UserId FROM Availabilities
+	                                WHERE ({0} >= Availabilities.StartDate AND {1} <= Availabilities.EndDate)
+                                ) GROUP BY Users.UserID;";
+
+            return await _context.Users
+                .FromSqlRaw(sqlQuery, StartDate, EndDate)
+                .ToListAsync();
         }
 
         [HttpGet("{id}/Appointments")]
