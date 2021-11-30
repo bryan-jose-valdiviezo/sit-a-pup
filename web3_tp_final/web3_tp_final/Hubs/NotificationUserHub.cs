@@ -59,7 +59,9 @@ namespace web3_tp_final.Hubs
             {
                 foreach (var connectionId in connections)
                 {
+
                     await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message);
+
                 }
             }
             else

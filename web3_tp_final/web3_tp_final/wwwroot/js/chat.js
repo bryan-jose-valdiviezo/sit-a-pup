@@ -52,12 +52,6 @@ function SetUserConnection(userId) {
     connection.on("SendMessageToUser", function (user, message) {
         var currentUserName = document.getElementById("userChat").value;
         
-
-        console.log("Receiver Username " + currentUserName);
-        
-        console.log("User recu: " + user);
-        
-
         if (user.localeCompare(currentUserName) == 0) {
             var li = document.createElement("li");
             document.getElementById("messagesList").appendChild(li);
