@@ -24,13 +24,13 @@ namespace web3_tp_final.Controllers.Users
         [Route("Users/{userID}/Appointments")]
         public async Task<IActionResult> Index(int userID)
         {
-            if (CurrentUser() == null || CurrentUser().UserID != userID)
+            if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
                 return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentUserID = userID;
             List<Appointment> appointments = await _api.GetAppointmentsForUser(userID);
-            ViewBag.AppointmentsAsOwner = appointments.Where(e => e.Owner.UserID == CurrentUser().UserID);
-            ViewBag.AppointmentsAsSitter = appointments.Where(e => e.Sitter.UserID == CurrentUser().UserID);
+            ViewBag.AppointmentsAsOwner = appointments.Where(e => e.Owner.UserID == GetCurrentUser().UserID);
+            ViewBag.AppointmentsAsSitter = appointments.Where(e => e.Sitter.UserID == GetCurrentUser().UserID);
 
             return View(appointments);
         }
@@ -39,17 +39,17 @@ namespace web3_tp_final.Controllers.Users
         public async Task<IActionResult> Details(int userID, int? id)
         {
 
-            if (CurrentUser() == null || CurrentUser().UserID != userID)
+            if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
                 return RedirectToAction("Index", "Home");
 
 
             Appointment appointment = await _api.Get<Appointment>(id);
 
-            if (CurrentUser().UserID != appointment.Owner.UserID && CurrentUser().UserID != appointment.Sitter.UserID)
+            if (GetCurrentUser().UserID != appointment.Owner.UserID && GetCurrentUser().UserID != appointment.Sitter.UserID)
                 return RedirectToAction("Index", "Home");
 
             appointment.Pets = await _api.GetPetsForAppointment((int)id);
-            ViewBag.CurrentUser = CurrentUser();
+            ViewBag.CurrentUser = GetCurrentUser();
             return View(appointment);
         }
 
@@ -65,7 +65,7 @@ namespace web3_tp_final.Controllers.Users
         [Route("Users/{userID}/Appointments/{id}/Review")]
         public async Task<IActionResult> PostReview(int userID, int id, [Bind("AppointmentId, UserId, Stars, Comment")] ReviewDTO review)
         {
-            if (CurrentUser() == null || CurrentUser().UserID != userID)
+            if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
                 return RedirectToAction("Index", "Home");
 
             Review postedReview = await _api.PostReview(review);

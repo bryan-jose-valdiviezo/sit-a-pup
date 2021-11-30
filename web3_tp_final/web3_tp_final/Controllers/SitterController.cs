@@ -23,7 +23,7 @@ namespace web3_tp_final
 
         public async Task<IActionResult> IndexAsync()
         {
-            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(CurrentUser().UserID);
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             return View();
         }
 
@@ -33,9 +33,9 @@ namespace web3_tp_final
         {
             if (ModelState.IsValid)
             {
-                availability.UserId = CurrentUser().UserID;
+                availability.UserId = GetCurrentUser().UserID;
                 await _api.Post<Availability>(availability);
-                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(CurrentUser().UserID);
+                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             }
             return View("Index");
         }

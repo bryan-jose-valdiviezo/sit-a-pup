@@ -46,8 +46,8 @@ namespace web3_tp_final
             {
                 return NotFound();
             }
-            if (CurrentUser() != null)
-                ViewBag.CurrentID = CurrentUser().UserID;
+            if (GetCurrentUser() != null)
+                ViewBag.CurrentID = GetCurrentUser().UserID;
             return View(user);
         }
 

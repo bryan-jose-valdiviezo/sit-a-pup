@@ -29,11 +29,11 @@ namespace web3_tp_final.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            ViewBag.CurrentUser = CurrentUser();
+            ViewBag.CurrentUser = GetCurrentUser();
             base.OnActionExecuting(filterContext);
         }
 
-        public User CurrentUser()
+        public User GetCurrentUser()
         {
             return SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
         }

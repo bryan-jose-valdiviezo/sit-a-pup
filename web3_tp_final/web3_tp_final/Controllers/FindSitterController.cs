@@ -25,8 +25,8 @@ namespace web3_tp_final.Controllers
         {
             IEnumerable<User> users = await _api.GetUsersWithAppointments();
 
-            if (CurrentUser() != null)
-                users = users.Where(user => user.UserID != CurrentUser().UserID);
+            if (GetCurrentUser() != null)
+                users = users.Where(user => user.UserID != GetCurrentUser().UserID);
 
             if (users == null)
                 Debug.WriteLine("Error in fetching objects");
@@ -47,8 +47,8 @@ namespace web3_tp_final.Controllers
                 availableSitters = await _api.GetUsersWithAppointments();
             }
 
-            if (CurrentUser() != null)
-                availableSitters = availableSitters.Where(user => user.UserID != CurrentUser().UserID);
+            if (GetCurrentUser() != null)
+                availableSitters = availableSitters.Where(user => user.UserID != GetCurrentUser().UserID);
 
             return PartialView("_AvailableSittersList", availableSitters);
         }
@@ -56,11 +56,11 @@ namespace web3_tp_final.Controllers
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> BookAppointment(int id)
         {
-            if (CurrentUser() == null)
+            if (GetCurrentUser() == null)
                 return RedirectToAction("Index", "Home");
 
             User sitter = await _api.Get<User>(id);
-            User currentUser = await _api.Get<User>(CurrentUser().UserID);
+            User currentUser = await _api.Get<User>(GetCurrentUser().UserID);
             ViewBag.sitter = sitter;
             ViewBag.user = currentUser;
             return View("Form");
@@ -70,17 +70,17 @@ namespace web3_tp_final.Controllers
         [Route("FindSitter/{id}/BookAppointment")]
         public async Task<IActionResult> Create(int id, [Bind("AppointmentID, OwnerId, SitterId, StartDate, EndDate, PetIds")] AppointmentDTO appointmentForm)
         {
-            if (CurrentUser() == null)
+            if (GetCurrentUser() == null)
                 RedirectToAction("Index", "Home");
 
-            if ((appointmentForm.OwnerId != null && appointmentForm.OwnerId == CurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
+            if ((appointmentForm.OwnerId != null && appointmentForm.OwnerId == GetCurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
             {
                 Debug.WriteLine("Passed conditionnal, posting to api");
                 Appointment newAppointment = await _api.PostAppointment(appointmentForm);
                 if (newAppointment != null)
                 {
                     SendNewAppointmentNotification(appointmentForm.SitterId, newAppointment.AppointmentID);
-                    return RedirectToAction("Details", "Appointments", new { userID = CurrentUser().UserID, id = newAppointment.AppointmentID });
+                    return RedirectToAction("Details", "Appointments", new { userID = GetCurrentUser().UserID, id = newAppointment.AppointmentID });
                 }
             }
 

@@ -29,11 +29,11 @@ namespace web3_tp_final.Controllers
 
         [Route("Chat/{userId}")]
         public async Task<IActionResult> Index(int userId) {
-            if (CurrentUser() == null)
+            if (GetCurrentUser() == null)
                 return RedirectToAction("Index", "Home");
            
             User receiver = await _api.Get<User>(userId);
-            User sender = await _api.Get<User>(CurrentUser().UserID);
+            User sender = await _api.Get<User>(GetCurrentUser().UserID);
            
 
             ViewBag.receiver = receiver;
