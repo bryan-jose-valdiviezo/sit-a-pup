@@ -238,7 +238,7 @@ namespace web3_tp_final.API
 
         public async Task<List<Message>> GetConversationBetweenTwoUsers(int id)
         {
-            IEnumerable<Appointment> appointmentss;
+           
             var response = await client.GetAsync("https://localhost:44308/api/Messages/");
             if (response.IsSuccessStatusCode)
             {
