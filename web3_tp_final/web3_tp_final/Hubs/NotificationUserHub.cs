@@ -53,14 +53,14 @@ namespace web3_tp_final.Hubs
         {
             var connections = _userConnectionManager.GetUserConnections(receiverId.ToString());
             var user = username;
-            
+            DateTime dateTime = DateTime.Now;
 
             if (connections != null && connections.Count > 0)
             {
                 foreach (var connectionId in connections)
                 {
 
-                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message);
+                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message,dateTime);
 
                 }
             }
