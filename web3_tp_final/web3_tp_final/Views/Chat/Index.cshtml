@@ -60,19 +60,45 @@
             divReponse.innerHTML = ""
             var reponse = this.responseText;
             var tableauReponse = JSON.parse(reponse);
-            var texte = document.createElement("p");
+            
 
             for (i in tableauReponse) {
+                var div = document.createElement("div");
 
                 if (tableauReponse[i].sender == id) {
-                    texte.innerHTML += "<ul style='list-style-type:none'> <li>" + currentUsername +" said " + tableauReponse[i].content + "</li><li> Date : " + tableauReponse[i].timeStamp + "</li></ul>"
-                }
-                if (tableauReponse[i].recipient == id) {
-                    texte.innerHTML += "<ul style='list-style-type:none'> <li>" + receiverUsername + " said " + tableauReponse[i].content + "</li><li> Date : " + tableauReponse[i].timeStamp + "</li></ul>"
+                    div.className = "col-md-6 offset-md-6";
+                    var div2 = document.createElement("div");
+
+                    div2.className == "container darker bg-primary";
+                    var p = document.createElement("p");
+                    p.className = "sender text-right text-white";
+                    p.innerHTML = document.getElementById("senderInput").value
+                    div2.appendChild(p);
+                    var p2 = document.createElement("p");
+                    p2.className = "text-right text-white";
+                    p2.innerHTML = tableauResposne[i].content;
+                    div2.appendChild(p2);
+                    div.appendChild(div2);
 
                 }
+                if (tableauReponse[i].recipient == id) {
+                    div.className = ""
+                    var div2 = document.createElement("div");
+
+                    div2.className == "container bg-light";
+                    var p = document.createElement("p");
+                    p.className = "sender text-left";
+                    p.innerHTML = document.getElementById("userChat").value
+                    div2.appendChild(p);
+                    var p2 = document.createElement("p");
+                    p2.className = "text-left";
+                    p2.innerHTML = tableauResposne[i].content;
+                    div2.appendChild(p2);
+                    div.appendChild(div2);
+                }
+                divReponse.appendChild(div);
             }
-            divReponse.appendChild(texte);
+           
         }
     };
     xhttp.open("GET", url, true);
