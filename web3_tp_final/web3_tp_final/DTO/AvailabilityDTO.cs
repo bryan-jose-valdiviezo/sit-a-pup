@@ -1,13 +1,11 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using web3_tp_final.Helpers;
 
 namespace web3_tp_final.DTO
 {
-    public class AvailabilityDTO : IValidatableObject
+    public class AvailabilityDTO: IValidatableObject
     {
         [Display(Name = "Date de début")]
         [DateValidation] //Classe custom dans Helpers

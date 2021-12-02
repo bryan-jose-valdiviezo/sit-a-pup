@@ -26,7 +26,6 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> LogIn(string username, string password)
         {
-            //var user = await _context.Users.FirstOrDefaultAsync(m => m.UserName == username && m.Password == password);
             var user = await _api.LogIn(username, password);
 
             if (user != null)
@@ -46,7 +45,6 @@ namespace web3_tp_final.Controllers
 
         public IActionResult LogOut()
         {
-            //var user = await _context.Users.FirstOrDefaultAsync(m => m.UserName == username && m.Password == password);
             var user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
 
             if (user != null)

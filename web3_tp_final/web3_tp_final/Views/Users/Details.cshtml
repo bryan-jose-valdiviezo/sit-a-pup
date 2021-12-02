@@ -47,10 +47,10 @@
                             <div class="col-12 User-Info-Input-Title">
                                 <div class="row">
                                     <div class="col-6">
-                                        Email
+                                        @Html.DisplayNameFor(model => model.Email)
                                     </div>
                                     <div class="col-6">
-                                        Phone
+                                        @Html.DisplayNameFor(model => model.PhoneNumber)
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                             <div class="col-12 User-Info-Input-Title">
                                 <div class="row">
                                     <div class="col-12">
-                                        Address
+                                        @Html.DisplayNameFor(model => model.Address)
                                     </div>
                                     <div class="col-12 User-Information-Input">
                                         <input asp-for="Address" class="form-control" placeholder="@Model.Address">

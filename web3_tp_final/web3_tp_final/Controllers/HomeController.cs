@@ -123,7 +123,6 @@ namespace web3_tp_final.Controllers
         {
             Appointment appointment = await _api.Get<Appointment>(appointmentId);
 
-            Debug.WriteLine("Accessed GetNotification Method");
             return PartialView("_ToastNotification", appointment);
         }
     }
