@@ -16,7 +16,8 @@ namespace web3_tp_final.Hubs
             var conn = new List<string>();
             lock (userConnectionMapLocker)
             {
-                conn = userConnectionMap[userId];
+                if (userConnectionMap.ContainsKey(userId))
+                    conn = userConnectionMap[userId];
             }
 
             return conn;
