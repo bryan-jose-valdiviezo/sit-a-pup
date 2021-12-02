@@ -130,15 +130,13 @@ namespace Service_Final_Rest_API.Controllers
         }
 
         [HttpPost("DeleteAvailability")]
-        public async Task<IActionResult> DeleteAvailabilityDTO([FromBody] AvailabilityDTO availabilityDTO)
+        public async Task<IActionResult> DeleteAvailabilityDTO([FromBody] long availabilityID)
         {
-            Availability availability = new Availability
+            var availability = await _context.Availabilities.FindAsync(availabilityID);
+            if (availability == null)
             {
-                //AvailabilityId = availabilityDTO.
-                UserId = availabilityDTO.UserId,
-                StartDate = availabilityDTO.StartDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                EndDate = availabilityDTO.EndDate.ToString("yyyy-MM-dd HH:mm:ss")
-            };
+                return NotFound();
+            }
 
             _context.Availabilities.Remove(availability);
             await _context.SaveChangesAsync();

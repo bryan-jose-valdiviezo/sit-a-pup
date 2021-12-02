@@ -173,12 +173,14 @@ namespace web3_tp_final.API
             }
         }
 
-        public async Task<Availability> DeleteAvailability(AvailabilityDTO form)
+        public async Task<Availability> DeleteAvailability(long availabilityID)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/DeleteAvailability/", form);
+            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/DeleteAvailability/", availabilityID);
             if (response.IsSuccessStatusCode)
             {
+                Debug.WriteLine("Response success");
                 string apiResponse = await response.Content.ReadAsStringAsync();
+
                 return null;
             }
             else
