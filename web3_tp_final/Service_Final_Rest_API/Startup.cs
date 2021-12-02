@@ -41,6 +41,16 @@ namespace Service_Final_Rest_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service_Final_Rest_API", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://localhost:44337")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed((host) => true));
+            });
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options
@@ -63,6 +73,8 @@ namespace Service_Final_Rest_API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

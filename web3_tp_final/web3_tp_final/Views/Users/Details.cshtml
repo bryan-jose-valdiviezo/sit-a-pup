@@ -25,7 +25,7 @@
                             @if (ViewBag.CurrentID != null && ViewBag.CurrentID != Model.UserID)
                             {
                                 <div class="col-6">
-                                    <a asp-controller="FindSitter" asp-route-id="@Model.UserID" asp-action="BookAppointment">
+                                    <a id="BookAppointmentModal" asp-controller="FindSitter" asp-route-id="@Model.UserID" asp-action="BookAppointment">
                                         <img src="https://img.icons8.com/external-prettycons-solid-prettycons/60/ffffff/external-appointment-business-and-finance-prettycons-solid-prettycons.png" class="btn bouton-size"/>
                                     </a>
                                 </div>
@@ -123,6 +123,21 @@
 
 <script>
     $('#website-body').addClass('website-background');
+    let form;
+    $('#BookAppointmentModal').click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/FindSitter/@Model.UserID/BookAppointment',
+            type: 'get',
+            dataType: 'html',
+            success: function (data) {
+                $('#ModalSize').addClass('modal-lg');
+                $('#SitAPupModalTitle').text("Book an appointment");
+                $('#modal-body').html(data);
+                $('#SitAPupModal').modal('show');
+            }
+        });
+    });
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

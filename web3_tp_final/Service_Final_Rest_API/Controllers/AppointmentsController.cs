@@ -172,8 +172,8 @@ namespace Service_Final_Rest_API.Controllers
             {
                 OwnerId = appointmentForm.OwnerId,
                 SitterId = appointmentForm.SitterId,
-                StartDate = appointmentForm.StartDate.ToString(),
-                EndDate = appointmentForm.EndDate.ToString(),
+                StartDate = appointmentForm.StartDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                EndDate = appointmentForm.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
                 IsActive = 0
             };
 

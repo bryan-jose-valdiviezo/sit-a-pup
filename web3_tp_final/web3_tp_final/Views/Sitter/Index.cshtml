@@ -1,4 +1,4 @@
-﻿@model web3_tp_final.Models.Availability
+﻿@model web3_tp_final.DTO.AvailabilityDTO
 
 <div class="container pt-3">
     <div class="row mt-3">
@@ -17,11 +17,11 @@
                     </div>
                     <div class="col-12 row">
                         <div class="col-6 form-group">
-                            <input type="date" asp-for="StartDate">
+                            <input type="datetime-local" asp-for="StartDate">
                             <span asp-validation-for="StartDate" class="text-danger"></span>
                         </div>
                         <div class="col-6 form-group">
-                            <input type="date" asp-for="EndDate">
+                            <input type="datetime-local" asp-for="EndDate">
                             <span asp-validation-for="EndDate" class="text-danger"></span>
                         </div>
                     </div>
