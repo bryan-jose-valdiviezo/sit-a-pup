@@ -7,7 +7,7 @@ using web3_tp_final.Helpers;
 
 namespace web3_tp_final.DTO
 {
-    public class AvailabilityDTO
+    public class AvailabilityDTO : IValidatableObject
     {
         [Display(Name = "Date de début")]
         [DateValidation] //Classe custom dans Helpers
