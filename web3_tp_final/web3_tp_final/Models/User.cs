@@ -19,7 +19,7 @@ namespace web3_tp_final.Models
         public string Password { get; set; }
 
         [Display(Name = "Courriel")]
-        [Required(ErrorMessage = "Entrez une adresse valide (ex: nom@courriel.com)")]
+        [Required(ErrorMessage = "Entrez un courriel valide (ex: nom@courriel.com)")]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
         public string Email { get; set; }
 
