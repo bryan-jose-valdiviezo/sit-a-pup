@@ -31,22 +31,35 @@
                 </form>
             </div>
         </div>
-        <div class="jumbotron">
-            Availability periods:<br>
-            @{
-                if (ViewBag.Availabilities != null)
+        Périodes de disponibilités:<br>
+        @{
+            if (ViewBag.Availabilities != null)
+            {
+                List<Availability> availabilities = (List<Availability>)ViewBag.Availabilities;
+                foreach (Availability availability in availabilities)
                 {
-                    List<Availability> availabilities = (List<Availability>)ViewBag.Availabilities;
-                    foreach (Availability availability in availabilities)
-                    {
-                        @availability.StartDate.ToString();
-                        @availability.EndDate.ToString();
-                        <br>
-                    }
+                    <div class="col-12 sap-card">
+                                <div class="col-12 sap-card-header sap-card-header-round">
+                                    <div class="col-12">
+                                        <div class="row">
+                                                    <div class="col-6" id="Overall-Rating">
+                                                        <span class="fa-pull-left">
+                                                            @availability.StartDate.ToString();
+                                                            À @availability.EndDate.ToString();
+                                                        </span>
+                                                        <span class="fa-pull-right">
+                                                            <a asp-action="Delete" asp-route-id="@availability.AvailabilityID" class="btn btn-danger">Supprimer</a>
+                                                        </span>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
                 }
             }
-        </div>
+        }
     </div>
-    <script>
-        $('#website-body').addClass('website-background');
-    </script>
+</div>
+<script>
+    $('#website-body').addClass('website-background');
+</script>

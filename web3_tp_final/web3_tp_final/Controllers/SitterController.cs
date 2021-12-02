@@ -27,16 +27,21 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AvailabilityID,StartDate,EndDate,UserId")] AvailabilityDTO availability)
         {
-            Debug.WriteLine("Form StartDate: " + availability.StartDate.ToString());
-            Debug.WriteLine("Form EndDate: " + availability.EndDate.ToString());
-            Debug.WriteLine("Form userId: " + availability.UserId);
-            Debug.WriteLine("Is valid: " + ModelState.IsValid);
             if (ModelState.IsValid)
             {
                 availability.UserId = GetCurrentUser().UserID;
                 await _api.PostAvailability(availability);
                 ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             }
+            return View("Index");
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(AvailabilityDTO availability)
+        {
+            availability.UserId = GetCurrentUser().UserID;
+            await _api.DeleteAvailability(availability);
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             return View("Index");
         }
     }

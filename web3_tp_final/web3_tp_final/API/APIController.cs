@@ -173,6 +173,21 @@ namespace web3_tp_final.API
             }
         }
 
+        public async Task<Availability> DeleteAvailability(AvailabilityDTO form)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/DeleteAvailability/", form);
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                return null;
+            }
+            else
+            {
+                Debug.WriteLine("API Error: " + response.StatusCode.ToString());
+                return null;
+            }
+        }
+
         //Appointment API calls
         public async Task<Appointment> PostAppointment(AppointmentDTO form)
         {
@@ -278,7 +293,5 @@ namespace web3_tp_final.API
             }
             return null;
         }
-
-
     }
 }
