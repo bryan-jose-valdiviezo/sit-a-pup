@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Service_Final_Rest_API.DTO;
 using Service_Final_Rest_API.Models;
 
 namespace Service_Final_Rest_API.Controllers
@@ -18,6 +20,22 @@ namespace Service_Final_Rest_API.Controllers
         public AvailabilitysController(sitapupContext context)
         {
             _context = context;
+        }
+
+        [HttpGet("{id}/AvailabilitiesFor")]
+        public async Task<ActionResult<bool>> GetAvailabilitiesForDate(long id, [FromQuery] DateTime StartDate, [FromQuery] DateTime EndDate)
+        {
+            Debug.WriteLine("DateStart: " + StartDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            Debug.WriteLine("DateEnd: " + EndDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            Debug.WriteLine("ID: " + id);
+            return _context.Availabilities.FromSqlRaw(@"SELECT * FROM Availabilities
+                                                        WHERE UserId == {0} AND 
+                                                        Availabilities.StartDate <= {1} AND
+                                                        Availabilities.EndDate >= {2}", 
+                                                        id, 
+                                                        StartDate.ToString("yyyy-MM-dd HH:mm:ss"), 
+                                                        EndDate.ToString("yyyy-MM-dd HH:mm:ss")).Any();
+
         }
 
         // GET: api/Availabilities
@@ -75,12 +93,40 @@ namespace Service_Final_Rest_API.Controllers
         // POST: api/Availabilities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Availability>> PostAvailability(Availability availability)
+        public async Task<ActionResult<Availability>> PostAvailability([FromBody] AvailabilityDTO availabilityDTO)
         {
+            Debug.WriteLine("Form StartDate: " + availabilityDTO.StartDate.ToString());
+            Debug.WriteLine("Form EndDate: " + availabilityDTO.EndDate.ToString());
+            Debug.WriteLine("Form userId: " + availabilityDTO.UserId);
+            Availability availability = new Availability {
+                UserId = availabilityDTO.UserId,
+                StartDate = availabilityDTO.StartDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                EndDate = availabilityDTO.EndDate.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
             _context.Availabilities.Add(availability);
             await _context.SaveChangesAsync();
 
              return CreatedAtAction("GetAvailability", new { id = availability.AvailabilityId }, availability);
+        }
+
+        [HttpPost("CreateAvailability")]
+        public async Task<ActionResult<Availability>> PostAvailabilityDTO([FromBody] AvailabilityDTO availabilityDTO)
+        {
+            Debug.WriteLine("Form StartDate: " + availabilityDTO.StartDate.ToString());
+            Debug.WriteLine("Form EndDate: " + availabilityDTO.EndDate.ToString());
+            Debug.WriteLine("Form userId: " + availabilityDTO.UserId);
+            Availability availability = new Availability
+            {
+                UserId = availabilityDTO.UserId,
+                StartDate = availabilityDTO.StartDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                EndDate = availabilityDTO.EndDate.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
+            _context.Availabilities.Add(availability);
+            await _context.SaveChangesAsync();
+
+            return availability;
         }
 
         // DELETE: api/Availabilities/5

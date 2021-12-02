@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using web3_tp_final.DTO;
 using web3_tp_final.Models;
 using System.Linq;
+using System.Web.Http;
 
 namespace web3_tp_final.API
 {
@@ -149,6 +150,25 @@ namespace web3_tp_final.API
             }
             else
             {
+                return null;
+            }
+        }
+
+        //Availability API calls
+        public async Task<Availability> PostAvailability(AvailabilityDTO form)
+        {
+            Debug.WriteLine("In PostAvailability api controller method");
+            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/CreateAvailability/", form);
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Response success");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                return (Availability)JsonConvert.DeserializeObject<Availability>(apiResponse);
+            }
+            else
+            {
+                Debug.WriteLine("API Error: " + response.StatusCode.ToString());
                 return null;
             }
         }

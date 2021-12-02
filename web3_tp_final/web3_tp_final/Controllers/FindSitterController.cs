@@ -63,7 +63,7 @@ namespace web3_tp_final.Controllers
             User currentUser = await _api.Get<User>(GetCurrentUser().UserID);
             ViewBag.sitter = sitter;
             ViewBag.user = currentUser;
-            return View("Form");
+            return PartialView("_Form");
         }
 
         [HttpPost]
