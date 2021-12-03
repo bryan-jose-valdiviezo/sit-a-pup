@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Controllers;
@@ -37,8 +41,14 @@ namespace web3_tp_final
             return View("Index");
         }
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
+        {
+            await _api.Delete<Availability>(id);
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+            return View("Index");
+        }
+
+        public async Task<IActionResult> ConfirmDeletion(int id)
         {
             await _api.Delete<Availability>(id);
             ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);

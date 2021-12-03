@@ -426,11 +426,35 @@ section {
     padding-bottom: 40px;
     display: flex;
     flex-flow: column;
+    position: relative;
+    z-index: 1;
+}
+
+.sap-background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    min-height: 100%;
+    background: url("/images/sap_background.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    z-index: 1;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    transform: scale(1.1);
 }
 
 #sap-footer {
     height: 40px;
     margin-top: -40px;
+    position: relative;
+    z-index: 1;
+    background-color: rgb(107 59 43 / 86%);
+    color: white;
 }
 
 #LoginContainer {
@@ -519,6 +543,9 @@ section {
     color: #e09650 !important;
     font-weight: 100;
     padding: 10px 45px;
+    background-color: white;
+    border-radius: 30px;
+    border: none;
 }
 
 .log-card ::placeholder {
@@ -529,4 +556,13 @@ section {
     color: #e09650 !important;
     text-align: center;
     font-size: 15px;
+}
+
+#SignUpCard {
+    display: none;
+    opacity: 0;
+}
+
+#LogInAlert {
+    display: none;
 }

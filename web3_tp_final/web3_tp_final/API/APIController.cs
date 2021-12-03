@@ -12,7 +12,7 @@ namespace web3_tp_final.API
 {
     public class APIController
     {
-        private static HttpClient client = new HttpClient();
+        private static HttpClient _client = new HttpClient();
         public APIController() {
         }
 
@@ -21,7 +21,7 @@ namespace web3_tp_final.API
         {
             string className = this.Pluralize<T>();
 
-            var response = await client.GetAsync("https://localhost:44308/api/" + className);
+            var response = await _client.GetAsync("https://localhost:44308/api/" + className);
             string apiResponse = await response.Content.ReadAsStringAsync();
             return (List<T>)JsonConvert.DeserializeObject<List<T>>(apiResponse);
         }
@@ -30,7 +30,7 @@ namespace web3_tp_final.API
         {
             string className = Pluralize<T>(model.GetType().Name);
 
-            var response = await client.PostAsJsonAsync("https://localhost:44308/api/" + className, model);
+            var response = await _client.PostAsJsonAsync("https://localhost:44308/api/" + className, model);
             string apiResponse = await response.Content.ReadAsStringAsync();
 
             return (T)JsonConvert.DeserializeObject<T>(apiResponse);
@@ -40,7 +40,7 @@ namespace web3_tp_final.API
         {
             string className = Pluralize<T>();
 
-            var response = await client.GetAsync("https://localhost:44308/api/" + className + "/" + id);
+            var response = await _client.GetAsync("https://localhost:44308/api/" + className + "/" + id);
             string apiResponse = await response.Content.ReadAsStringAsync();
             return (T)JsonConvert.DeserializeObject<T>(apiResponse);
         }
@@ -49,7 +49,7 @@ namespace web3_tp_final.API
         {
             string className = Pluralize<T>(model.GetType().Name);
 
-            var response = await client.PutAsJsonAsync("https://localhost:44308/api/" + className + "/" + id, model);
+            var response = await _client.PutAsJsonAsync("https://localhost:44308/api/" + className + "/" + id, model);
             string apiResponse = await response.Content.ReadAsStringAsync();
             return (T)JsonConvert.DeserializeObject<T>(apiResponse);
         }
@@ -58,7 +58,7 @@ namespace web3_tp_final.API
         {
             string className = Pluralize<T>();
 
-            var response = await client.DeleteAsync("https://localhost:44308/api/" + className + "/" + id);
+            var response = await _client.DeleteAsync("https://localhost:44308/api/" + className + "/" + id);
 
             return response;
         }
@@ -67,7 +67,7 @@ namespace web3_tp_final.API
 
         public async Task<User> LogIn(string username, string password)
         {
-            var response = await client.GetAsync("https://localhost:44308/api/Users/LogIn?username=" + username + "&password=" + password);
+            var response = await _client.GetAsync("https://localhost:44308/api/Users/LogIn?username=" + username + "&password=" + password);
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -84,7 +84,7 @@ namespace web3_tp_final.API
         public async Task<List<User>> GetUsersWithAppointments()
         {
             IEnumerable<Appointment> appointmentss;
-            var response = await client.GetAsync("https://localhost:44308/api/Users/");
+            var response = await _client.GetAsync("https://localhost:44308/api/Users/");
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -111,7 +111,7 @@ namespace web3_tp_final.API
             IEnumerable<Appointment> appointments;
             string start = StartDate.ToString("yyyy-MM-dd HH:mm:ss");
             string end = EndDate.ToString("yyyy-MM-dd HH:mm:ss");
-            var response = await client.GetAsync("https://localhost:44308/api/Users/GetAvailableSittersForDates?StartDate=" + start + "&EndDate=" + end);
+            var response = await _client.GetAsync("https://localhost:44308/api/Users/GetAvailableSittersForDates?StartDate=" + start + "&EndDate=" + end);
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -140,7 +140,7 @@ namespace web3_tp_final.API
         //Review API calls
         public async Task<Review> PostReview(ReviewDTO form)
         {
-            var response = await client.PostAsJsonAsync("https://localhost:44308/api/Reviews", form);
+            var response = await _client.PostAsJsonAsync("https://localhost:44308/api/Reviews", form);
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -157,7 +157,7 @@ namespace web3_tp_final.API
         public async Task<Availability> PostAvailability(AvailabilityDTO form)
         {
             Debug.WriteLine("In PostAvailability api controller method");
-            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/CreateAvailability/", form);
+            HttpResponseMessage response = await _client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/CreateAvailability/", form);
             if (response.IsSuccessStatusCode)
             {
                 Debug.WriteLine("Response success");
@@ -175,7 +175,7 @@ namespace web3_tp_final.API
         //Appointment API calls
         public async Task<Appointment> PostAppointment(AppointmentDTO form)
         {
-            var response = await client.PostAsJsonAsync("https://localhost:44308/api/Appointments/CreateAppointment/", form );
+            var response = await _client.PostAsJsonAsync("https://localhost:44308/api/Appointments/CreateAppointment/", form );
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -190,7 +190,7 @@ namespace web3_tp_final.API
 
         public async Task<List<Appointment>> GetAppointmentsForUser(int id)
         {
-            var response = await client.GetAsync("https://localhost:44308/api/Users/" + id + "/Appointments");
+            var response = await _client.GetAsync("https://localhost:44308/api/Users/" + id + "/Appointments");
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -205,7 +205,7 @@ namespace web3_tp_final.API
 
         public async Task<Appointment> UpdateAppointmentStatus(int id, string newStatus)
         {
-            var response = await client.GetAsync("https://localhost:44308/api/Appointments/UpdateAppointmentStatus?id=" + id + "&newStatus=" + newStatus);
+            var response = await _client.GetAsync("https://localhost:44308/api/Appointments/UpdateAppointmentStatus?id=" + id + "&newStatus=" + newStatus);
             if (response.IsSuccessStatusCode)
             {
                 Debug.WriteLine("Success in api call");
@@ -220,7 +220,7 @@ namespace web3_tp_final.API
 
         public async Task<List<Availability>> GetAvailabilitiesForUser(int id)
         {
-            var response = await client.GetAsync("https://localhost:44308/api/Users/" + id + "/Availabilities");
+            var response = await _client.GetAsync("https://localhost:44308/api/Users/" + id + "/Availabilities");
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
@@ -237,7 +237,7 @@ namespace web3_tp_final.API
         //Pets API calls
         public async Task<List<Pet>> GetPetsForAppointment(int id)
         {
-            var response = await client.GetAsync("https://localhost:44308/api/Appointments/" + id + "/Pets");
+            var response = await _client.GetAsync("https://localhost:44308/api/Appointments/" + id + "/Pets");
             string apiResponse = await response.Content.ReadAsStringAsync();
             return (List<Pet>)JsonConvert.DeserializeObject<List<Pet>>(apiResponse);
         }
@@ -258,7 +258,7 @@ namespace web3_tp_final.API
         public async Task<List<Message>> GetConversationBetweenTwoUsers(int id)
         {
            
-            var response = await client.GetAsync("https://localhost:44308/api/Messages/");
+            var response = await _client.GetAsync("https://localhost:44308/api/Messages/");
             if (response.IsSuccessStatusCode)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();

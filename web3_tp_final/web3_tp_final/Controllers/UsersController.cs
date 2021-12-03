@@ -69,7 +69,14 @@ namespace web3_tp_final
                 user.UserID = 0;
                 User createdUser = await _api.Post<User>(user);
                 if (createdUser != null)
-                    return RedirectToAction("Index");
+                {
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "user", new User { 
+                        UserName = createdUser.UserName,
+                        UserID = createdUser.UserID
+                    });
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             return View("Signup");
