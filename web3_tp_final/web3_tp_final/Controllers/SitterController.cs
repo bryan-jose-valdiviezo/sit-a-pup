@@ -7,6 +7,7 @@ using web3_tp_final.Controllers;
 using web3_tp_final.DTO;
 using web3_tp_final.Hubs;
 using web3_tp_final.Interface;
+using web3_tp_final.Models;
 
 namespace web3_tp_final
 {
@@ -39,7 +40,7 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(long id)
         {
-            await _api.Delete<Availability>(id);
+            await _api.Delete<Availability>((int)id);
             ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             return View("Index");
         }

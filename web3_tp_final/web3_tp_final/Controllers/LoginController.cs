@@ -24,9 +24,9 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LogIn(string username, string password)
+        public async Task<IActionResult> LogIn(string usernameLogin, string passwordLogin)
         {
-            var user = await _api.LogIn(username, password);
+            var user = await _api.LogIn(usernameLogin, passwordLogin);
 
             if (user != null)
             {
@@ -37,7 +37,7 @@ namespace web3_tp_final.Controllers
             }
             else
             {
-                return NotFound();
+                return RedirectToAction("Index", "Login");
             }
 
             return RedirectToAction("Index", "Home");
