@@ -1,106 +1,199 @@
-﻿
+﻿@model List<Message>
 @{
     ViewData["Title"] = "Chat";
     var sender = ViewBag.sender;
     var receiver = ViewBag.receiver;
 
 }
-<h1>Chat avec: @receiver.UserName</h1>
+<head>
+    <link rel="stylesheet" href="~/css/Chat/chat.css" />
+</head>
+<div class="margin-div-principal">
+    <h1>Chat avec: @receiver.UserName</h1>
 
+    <div class="row margin-div">
+        <div class="col-2">Message</div>
+        <div class="col-4">
+            <input type="text" id="messageInput" />
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" onClick="postMessage()" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+    <h2>Historique des messages</h2>
+    <div class="row">
+        <div class="col-6">
+            <ul id="historique"></ul>
+            @if (Model != null)
+            {
+
+                foreach (Message message in Model)
+                {
+                    string containerClass, textAlign, offset, username;
+                    if (message.Recipient == sender.UserID)
+                    {
+                        containerClass = "container-chat darker";
+                        textAlign = "text-right text-white";
+
+                        offset = "col-md-6 offset-md-6";
+                        username = sender.UserName;
+
+                        <div class="row">
+                            <div class="@offset">
+                                <div class="@containerClass">
+
+                                    <p class="sender @textAlign">@username</p>
+                                    <p class="@textAlign">@message.Content</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    }
+                    if (message.Sender == sender.UserID)
+                    {
+                        containerClass = "container-chat";
+                        textAlign = "text-left";
+                        offset = "col-md-6";
+                        username = receiver.UserName;
+
+                        <div class="row">
+                            <div class="@offset">
+                                <div class="@containerClass">
+
+                                    <p class="sender @textAlign">@username</p>
+                                    <p class="@textAlign">@message.Content</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                }
+
+            }
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">&nbsp;</div>
     <div class="row">
-        <input type="text" id="senderInput" value="@sender.UserName" style="visibility:visible" readonly="true" />
-        <input type="text" id="senderId" value="@sender.UserID" style="visibility:visible" readonly="true" />
-        <input type="text" id="receiverInput" value="@receiver.UserID" style="visibility:visible" readonly="true" />
-        <input type="text" id="userChat" value="@receiver.UserName" style="visibility:visible" readonly="true" />
+        <input type="text" id="senderInput" value="@sender.UserName" style="visibility:hidden" readonly="true" name="senderInput" />
+        <input type="text" id="senderId" value="@sender.UserID" style="visibility:hidden" readonly="true" name="senderId" />
+        <input type="text" id="receiverInput" value="@receiver.UserID" style="visibility:hidden" readonly="true" name="receiverInput" />
+        <input type="text" id="userChat" value="@receiver.UserName" style="visibility:hidden" readonly="true" name="userChat" />
+        <input type="text" id="timeStamp" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" style="visibility:hidden" readonly="true" name="timeStamp" />
+        <input type="text" id="content" value="" style="visibility:hidden" readonly="true" name="content" />
     </div>
 </div>
-
-<div class="row">
-    <div class="col-2">Message</div>
-    <div class="col-4">
-        <input type="text" id="messageInput" />
-    </div>
-</div>
-<div class="row">&nbsp;</div>
-<div class="row">
-    <div class="col-6">
-        <input type="button" id="sendButton" value="Send Message" />
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <hr />
-    </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
-    </div>
-</div>
- <div class="row">
-    <div class="col-6">
-        <ul id="historique"></ul>
-    </div>
- </div>
-
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
 <script>
-    var id = document.getElementById("senderId").value
-    var currentUsername = document.getElementById("senderInput").value
-    var receiverUsername = document.getElementById("userChat").value
-    var url = "https://localhost:44308/api/Messages/" + id
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var divReponse = document.getElementById("historique");
-            divReponse.innerHTML = ""
-            var reponse = this.responseText;
-            var tableauReponse = JSON.parse(reponse);
-            
+    /*  var id = document.getElementById("senderId").value
+       var currentUsername = document.getElementById("senderInput").value
+       var receiverUsername = document.getElementById("userChat").value
+       var url = "https://localhost:44308/api/Messages/" + id
+       var xhttp = new XMLHttpRequest();
+       xhttp.onreadystatechange = function () {
+           if (this.readyState == 4 && this.status == 200) {
+               var divReponse = document.getElementById("messageList");
+               divReponse.innerHTML = ""
+               var reponse = this.responseText;
+               var tableauReponse = JSON.parse(reponse);
 
-            for (i in tableauReponse) {
-                var div = document.createElement("div");
 
-                if (tableauReponse[i].sender == id) {
-                    div.className = "col-md-6 offset-md-6";
-                    var div2 = document.createElement("div");
+               for (i in tableauReponse) {
+                   var div = document.createElement("div");
 
-                    div2.className == "container darker bg-primary";
-                    var p = document.createElement("p");
-                    p.className = "sender text-right text-white";
-                    p.innerHTML = document.getElementById("senderInput").value
-                    div2.appendChild(p);
-                    var p2 = document.createElement("p");
-                    p2.className = "text-right text-white";
-                    p2.innerHTML = tableauResposne[i].content;
-                    div2.appendChild(p2);
-                    div.appendChild(div2);
+                   if (tableauReponse[i].sender == id) {
+                       div.className = "col-md-6 offset-md-6";
+                       var div2 = document.createElement("div");
 
-                }
-                if (tableauReponse[i].recipient == id) {
-                    div.className = ""
-                    var div2 = document.createElement("div");
+                       div2.className == "container darker bg-primary";
+                       var p = document.createElement("p");
+                       p.className = "sender text-right text-white";
+                       p.innerHTML = document.getElementById("senderInput").value
+                       div2.appendChild(p);
+                       var p2 = document.createElement("p");
+                       p2.className = "text-right text-white";
+                       p2.innerHTML = tableauResposne[i].content;
+                       div2.appendChild(p2);
+                       div.appendChild(div2);
 
-                    div2.className == "container bg-light";
-                    var p = document.createElement("p");
-                    p.className = "sender text-left";
-                    p.innerHTML = document.getElementById("userChat").value
-                    div2.appendChild(p);
-                    var p2 = document.createElement("p");
-                    p2.className = "text-left";
-                    p2.innerHTML = tableauResposne[i].content;
-                    div2.appendChild(p2);
-                    div.appendChild(div2);
-                }
-                divReponse.appendChild(div);
-            }
-           
+                   }
+                   if (tableauReponse[i].recipient == id) {
+                       div.className = ""
+                       var div2 = document.createElement("div");
+
+                       div2.className == "container bg-light";
+                       var p = document.createElement("p");
+                       p.className = "sender text-left";
+                       p.innerHTML = document.getElementById("userChat").value
+                       div2.appendChild(p);
+                       var p2 = document.createElement("p");
+                       p2.className = "text-left";
+                       p2.innerHTML = tableauResposne[i].content;
+                       div2.appendChild(p2);
+                       div.appendChild(div2);
+                   }
+                   divReponse.appendChild(div);
+               }
+
+           }
+       };
+       xhttp.open("GET", url, true);
+       xhttp.send();*/
+    function postMessage() {
+        var url = "https://localhost:44308/api/Messages"
+        var userIdInt = parseInt(document.getElementById("senderId").value);
+        var recipientIdInt = parseInt(document.getElementById("receiverInput").value);
+        var content = document.getElementById("messageInput").value;
+        var dateTime = document.getElementById("timeStamp").value;
+        console.log(dateTime);
+        var variable = {
+
+            'content': content,
+            'timeStamp': dateTime,
+            'sender': userIdInt,
+            'recipient': recipientIdInt,
+            'userId': null,
+            'user': null
+
         }
-    };
-    xhttp.open("GET", url, true);
-    xhttp.send();
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json',
+            datatype: 'json',
+            data: JSON.stringify(variable),
+
+
+            success: function (data) {
+                console.log("Ajout du message réussi.");
+
+            },
+            error: function (data) {
+                alert("Error: " + data.responseText);
+            }
+        });
+
+    }
+
 </script>

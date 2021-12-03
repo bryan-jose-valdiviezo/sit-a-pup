@@ -27,20 +27,20 @@ namespace web3_tp_final.Controllers
             return View();
         }
 
-        [Route("Chat/{userId}")]
+        [Route("Chat/Index/{userId}")]
         public async Task<IActionResult> Index(int userId) {
             if (GetCurrentUser() == null)
                 return RedirectToAction("Index", "Home");
            
             User receiver = await _api.Get<User>(userId);
             User sender = await _api.Get<User>(GetCurrentUser().UserID);
-           
+            List<Message> messages= await _api.GetConversationBetweenTwoUsers(userId);
 
             ViewBag.receiver = receiver;
             ViewBag.sender = sender;
            
             
-            return View();
+            return View(messages);
         }
 
        

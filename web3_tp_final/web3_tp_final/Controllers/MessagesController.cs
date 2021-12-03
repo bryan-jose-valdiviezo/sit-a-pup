@@ -28,7 +28,7 @@ namespace web3_tp_final.Controllers
             return (List<Message>)_messages;
         }
 
-        [HttpPost]
+       /* [HttpPost]
        // [ValidateAntiForgeryToken]
         public async Task<Message> Create([Bind("MessageID,Content, TimeStamp,Sender,Recipient")] Message message)
         {
@@ -97,6 +97,6 @@ namespace web3_tp_final.Controllers
         private bool MessageExists(int id)
         {
             return _messages.Any(e => e.MessageID == id);
-        }
+        }*/
     }
 }

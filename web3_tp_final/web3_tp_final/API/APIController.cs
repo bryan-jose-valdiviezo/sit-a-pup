@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using web3_tp_final.DTO;
@@ -262,17 +263,20 @@ namespace web3_tp_final.API
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 List<Message> messages = (List<Message>)JsonConvert.DeserializeObject<List<Message>>(apiResponse);
-
-                foreach (Message message in messages)
+                List<Message> messagesARenvoyer = new List<Message>();
+                foreach (Message message in messages.ToList())
                 {
-                    
+                    Debug.WriteLine("Nombre de messages dans liste: " + messages.ToList().Count());
                     if (message.Sender == id || message.Recipient==id)
                     {
-                        messages.Add(message);
+
+                        messagesARenvoyer.Add(message);
+                        Debug.WriteLine(message.Sender + "  " + message.Content);
+
                     }
                     
                 }
-                return messages;
+                return messagesARenvoyer;
             }
             return null;
         }
