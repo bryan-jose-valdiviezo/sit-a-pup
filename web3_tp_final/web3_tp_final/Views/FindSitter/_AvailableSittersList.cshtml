@@ -35,7 +35,7 @@ else
                     </div>
                 </a>
             </div>
-            @foreach (Appointment appointment in user.Appointments.Take(2))
+            @foreach (Appointment appointment in user.AppointmentSitters.Take(2))
             {
                 @if (appointment.Reviews.Any())
                 {
