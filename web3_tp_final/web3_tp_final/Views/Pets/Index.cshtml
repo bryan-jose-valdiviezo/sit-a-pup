@@ -41,15 +41,15 @@
                                     <a asp-action="Delete" asp-route-id="@pet.PetID" class="btn btn-danger">Désinscrire</a>
                                 </div>
                             @:</div>
-                            if (numberOfPets > 1)
-                            {
-                                numberOfPets--;
-                            }
-                            else
-                            {
-                                break;
-                            }
                         @:</div>
+                        if (numberOfPets > 1)
+                        {
+                            numberOfPets--;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 @:</div>
             }
