@@ -91,9 +91,11 @@ namespace web3_tp_final.API
 
                 foreach (User user in users) {
                     appointmentss = await GetAppointmentsForUser(user.UserID);
+
                     if (appointmentss != null)
                     {
                         user.Appointments = appointmentss;
+                        user.AppointmentSitters = user.AppointmentAsSitter();
                     }
                     else
                     {
