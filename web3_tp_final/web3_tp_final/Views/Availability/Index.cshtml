@@ -48,7 +48,7 @@
                                                             À @availability.EndDate.ToString();
                                                         </span>
                                                         <span class="fa-pull-right">
-                                                            <a asp-action="Delete" asp-route-id="@availability.AvailabilityID" class="btn btn-danger">Supprimer</a>
+                                                            <a asp-controller="Availability" asp-action="Delete" asp-route-id="@availability.AvailabilityID" class="btn btn-danger" data-toggle="confirmation">Supprimer</a>
                                                         </span>
                                                     </div>
                                         </div>
@@ -59,7 +59,6 @@
             }
         }
     </div>
-</div>
 <script>
     $('#website-body').addClass('website-background');
 </script>
