@@ -76,19 +76,18 @@ namespace Service_Final_Rest_API.Controllers
                 await _context.SaveChangesAsync();
                 if (appointment.Status == "accepted")
                 {
-                    await _context.Database.ExecuteSqlRawAsync(@"UPDATE Appointments SET Appointments.Status == 'cancelled'
+                    Debug.WriteLine("Appointment is accepted, making changes");
+                    await _context.Database.ExecuteSqlRawAsync(@"UPDATE Appointments SET Status == 'cancelled'
 	                                                            WHERE
 	                                                            Appointments.AppointmentID != {0}
 	                                                            AND
-                                                                Appointments.SitterId == {2}
+                                                                Appointments.SitterId == {1}
                                                                 AND
 	                                                            Appointments.Status LIKE '%pending%'
 	                                                            AND
-	                                                            (Appointments.StartDate BETWEEN {3} AND {4})
-	                                                            AND
-	                                                            (Appointments.EndDate BETWEEN {3} AND {4})
-	                                                            AND
-	                                                            (Appointments.StartDate <= {3} AND Appointments.EndDate >= {4});",
+                                                                Appointments.EndDate >= {2}
+                                                                AND
+                                                                Appointments.StartDate <= {3}",
                                                                 id,
                                                                 appointment.SitterId,
                                                                 appointment.StartDate.ToString(),
@@ -107,6 +106,7 @@ namespace Service_Final_Rest_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAppointment(long id, Appointment appointment)
         {
+
             if (id != appointment.AppointmentId)
             {
                 return BadRequest();
@@ -119,23 +119,24 @@ namespace Service_Final_Rest_API.Controllers
                 await _context.SaveChangesAsync();
                 if (appointment.Status == "accepted")
                 {
+                    Debug.WriteLine("Appointment status accepted, making changes");
                     await _context.Database.ExecuteSqlRawAsync(@"UPDATE Appointments SET Appointments.Status == 'cancelled'
 	                                                            WHERE
 	                                                            Appointments.AppointmentID != {0}
 	                                                            AND
-                                                                Appointments.SitterId == {2}
+                                                                Appointments.SitterId == {1}
                                                                 AND
 	                                                            Appointments.Status LIKE '%pending%'
 	                                                            AND
-	                                                            (Appointments.StartDate BETWEEN {3} AND {4})
+	                                                            (Appointments.StartDate BETWEEN {2} AND {3})
 	                                                            AND
-	                                                            (Appointments.EndDate BETWEEN {3} AND {4})
+	                                                            (Appointments.EndDate BETWEEN {2} AND {3})
 	                                                            AND
-	                                                            (Appointments.StartDate <= {3} AND Appointments.EndDate >= {4});",
+	                                                            (Appointments.StartDate <= {2} AND Appointments.EndDate >= {3});",
                                                                 id,
                                                                 appointment.SitterId,
-                                                                appointment.StartDate.ToString(),
-                                                                appointment.EndDate.ToString());
+                                                                appointment.StartDate,
+                                                                appointment.EndDate);
                 }
             }
             catch (DbUpdateConcurrencyException)

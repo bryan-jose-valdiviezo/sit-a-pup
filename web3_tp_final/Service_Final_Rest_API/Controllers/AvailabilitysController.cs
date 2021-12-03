@@ -29,9 +29,15 @@ namespace Service_Final_Rest_API.Controllers
             Debug.WriteLine("DateEnd: " + EndDate.ToString("yyyy-MM-dd HH:mm:ss"));
             Debug.WriteLine("ID: " + id);
             return _context.Availabilities.FromSqlRaw(@"SELECT * FROM Availabilities
-                                                        WHERE UserId == {0} AND 
-                                                        Availabilities.StartDate <= {1} AND
-                                                        Availabilities.EndDate >= {2}", 
+                                                        WHERE UserId == {0} 
+                                                        AND Availabilities.StartDate <= {1} 
+                                                        AND Availabilities.EndDate >= {2}
+                                                        AND UserId NOT IN (
+	                                                        SELECT Appointments.SitterId FROM Appointments
+	                                                        WHERE ({1} <= Appointments.EndDate AND {2} >= Appointments.StartDate)
+                                                            AND
+                                                            Appointments.Status == 'accepted'
+                                                        )", 
                                                         id, 
                                                         StartDate.ToString("yyyy-MM-dd HH:mm:ss"), 
                                                         EndDate.ToString("yyyy-MM-dd HH:mm:ss")).Any();

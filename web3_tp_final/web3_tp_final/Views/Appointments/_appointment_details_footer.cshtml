@@ -1,6 +1,6 @@
 ﻿@model Appointment
 
-@if ((ViewBag.CurrentUser.UserID == Model.Owner.UserID) || (Model.Reviews != null && Model.Reviews.Count > 0) && Model.Status == "done")
+@if (((ViewBag.CurrentUser.UserID == Model.Owner.UserID) || (Model.Reviews != null && Model.Reviews.Count > 0)) && Model.Status == "done")
 {
     <div id="ReviewSection" class="col-12">
         <div class="row">
