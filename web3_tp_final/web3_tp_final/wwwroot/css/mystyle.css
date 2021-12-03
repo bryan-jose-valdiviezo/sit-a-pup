@@ -519,6 +519,9 @@ section {
     color: #e09650 !important;
     font-weight: 100;
     padding: 10px 45px;
+    background-color: white;
+    border-radius: 30px;
+    border: none;
 }
 
 .log-card ::placeholder {
@@ -529,4 +532,13 @@ section {
     color: #e09650 !important;
     text-align: center;
     font-size: 15px;
+}
+
+#SignUpCard {
+    display: none;
+    opacity: 0;
+}
+
+#LogInAlert {
+    display: none;
 }

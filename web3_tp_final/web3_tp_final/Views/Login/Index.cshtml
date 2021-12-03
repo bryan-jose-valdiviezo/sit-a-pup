@@ -2,60 +2,40 @@
 @using web3_tp_final.Helpers;
 
 <div class="d-flex" id="LoginContainer">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
     <div class="log-card">
-        <form asp-action="Login">
-            <div class="log-header">
-                <h3>Log in</h3>
-                <div class="row no-gutters">
-                    <div class="col-4 text-right">
-                        <a href="">
-                            <i class="fab fa-facebook facebook-icon"></i>
-                        </a>
-                    </div>
-                    <div class="col-4">
-                        <a style="padding: 20px;" href="">
-                            <i class="fab fa-twitter twitter-icon"></i>
-                        </a>
-                    </div>
-                    <div class="col-4 text-left">
-                        <a href="">
-                            <i class="fab fa-google-plus google-icon"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <div id="LogInCard">
+            @await Html.PartialAsync("_LoginCard")
+        </div>
 
-            <div class="log-content">
-                <div class="row">
-                    <div class="input-group col-12">
-                        <div class="input-group-text input-left-icon input-color">
-                            <span>
-                                <i class="fas fa-user"></i>
-                            </span>
-                        </div>
-                        <input asp-for="UserName" class="form-control input-with-left-icon input-color" placeholder="Username..." name="username">
-                        <span asp-validation-for="UserName" class="text-danger" data-color="caramel"></span>
-                    </div>
-                    <div class="input-group col-12">
-                        <div class="input-group-text input-left-icon input-color">
-                            <span>
-                                <i class="fas fa-key"></i>
-                            </span>
-                        </div>
-                        <input type="password" asp-for="Password" class="form-control input-with-left-icon input-color" placeholder="Password..." name="password">
-                        <span asp-validation-for="Password" class="text-danger" data-color="caramel"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="log-footer text-center">
-                <div class="form-group text-center">
-                    <input type="submit" class="submit" value="Log In" />
-                </div>
-                <a asp-action="CreateAccount" class="text-danger" data-color="caramel"> Don't have an account ? </a>
-            </div>
-        </form>
+        <div id="SignUpCard">
+            @await Html.PartialAsync("~/Views/Users/_SignUpCard.cshtml")
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script>
+    $('#SignUpSection').click(function (e) {
+        e.preventDefault();
+        $('#LogInCard').fadeTo(500, 0.0, function () {
+            $('#LogInCard').slideUp();
+            $('#SignUpCard').slideDown(function () {
+                $('#SignUpCard').fadeTo(500, 1.0);
+            });
+        });
+    });
+
+    $('#LogInSection').click(function (e) {
+        e.preventDefault();
+        $('#SignUpCard').fadeTo(500, 0.0, function () {
+            $('#SignUpCard').slideUp();
+            $('#LogInCard').slideDown(function () {
+                $('#LogInCard').fadeTo(500, 1.0);
+            });
+        });
+    });
+</script>

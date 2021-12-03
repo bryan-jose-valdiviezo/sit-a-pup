@@ -40,7 +40,7 @@ namespace web3_tp_final
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _api.Delete<Availability>(id);
+            await _api.Delete<Availability>((int)id);
             ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             return View("Index");
         }

@@ -1,0 +1,91 @@
+﻿<div class="col-12 mt-3">
+    <div class="alert alert-danger" role="alert" id="LogInAlert">
+        
+    </div>
+</div>
+<form asp-action="Login" id="LogInForm">
+    <div class="log-header">
+        <h3>Log in</h3>
+        <div class="row no-gutters">
+            <div class="col-4 text-right">
+                <a href="">
+                    <i class="fab fa-facebook facebook-icon"></i>
+                </a>
+            </div>
+            <div class="col-4">
+                <a style="padding: 20px;" href="">
+                    <i class="fab fa-twitter twitter-icon"></i>
+                </a>
+            </div>
+            <div class="col-4 text-left">
+                <a href="">
+                    <i class="fab fa-google-plus google-icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="log-content">
+        <div class="row">
+            <div class="input-group col-12">
+                <div class="input-group-text input-left-icon input-color">
+                    <span>
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+                <input id="usernameLogin" class="form-control input-with-left-icon input-color" placeholder="Username..." name="usernameLogin">
+            </div>
+            <div class="input-group col-12">
+                <div class="input-group-text input-left-icon input-color">
+                    <span>
+                        <i class="fas fa-key"></i>
+                    </span>
+                </div>
+                <input id="passwordLogin" type="password" class="form-control input-with-left-icon input-color" placeholder="Password..." name="passwordLogin">
+            </div>
+        </div>
+    </div>
+
+    <div class="log-footer text-center">
+        <div class="form-group text-center">
+            <button class="btn btn-primary submit" id="LoginButton">
+                Log in
+            </button>
+        </div>
+        <a href="#" id="SignUpSection" class="text-danger" data-color="caramel"> Don't have an account ? </a>
+    </div>
+</form>
+
+<script>
+    $('#LoginButton').click(function (e) {
+        e.preventDefault();
+        $('#LogInAlert').hide();
+        $('#LoginButton').disabled = true;
+        $('#LoginButton').html(GetSpinner());
+
+        $.ajax({
+            url: 'https://localhost:44308/api/Users/LogIn',
+            dataType: 'json',
+            type: 'get',
+            data: {
+                username: $('#usernameLogin').val(),
+                password: $('#passwordLogin').val()
+            },
+            success: function (data) {
+                if (data) {
+                    $('#LogInAlert').hide();
+                    $('#LogInForm').submit();
+                }
+                else {
+                    $('#LogInAlert').html("Invalid credentials");
+                    $('#LoginButton').html("Log in");
+                    $('#LogInAlert').show();
+                    $('#LoginButton').disabled = false;
+                }
+            },
+            error: function (xhr) {
+                alert(xhr);
+            }
+        });
+    });
+</script>
