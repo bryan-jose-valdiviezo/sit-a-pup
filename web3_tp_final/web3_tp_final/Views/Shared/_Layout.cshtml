@@ -20,98 +20,95 @@
 </head>
 <body>
     @Html.Partial("_GlobalModal")
-    <div id="website-body" class="container-fluid pl-0 pr-0">
-        <div class="sticky-top">
-            <nav class="navbar navbar-expand-lg navbar-light website-navbar">
-                <a class="navbar-brand text-capitalize" href="#">
-                    <img src="~/images/happy.png" class="d-inline-block align-top" width="30" height="30" alt="">
-                    Sit-a-pup
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+    <div class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light website-navbar">
+            <a class="navbar-brand text-capitalize" href="#">
+                <img src="~/images/happy.png" class="d-inline-block align-top" width="30" height="30" alt="">
+                Sit-a-pup
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item website-navbar-link">
+                        <a class="nav-link text-white" asp-area="" asp-controller="FindSitter" asp-action="Index">Trouver un gardien</a>
+                    </li>
+                    @if (ViewBag.CurrentUser != null)
+                    {
                         <li class="nav-item website-navbar-link">
-                            <a class="nav-link text-white" asp-area="" asp-controller="FindSitter" asp-action="Index">Trouver un gardien</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Sitter" asp-action="Index">Devenir gardien</a>
                         </li>
-                        @if (ViewBag.CurrentUser != null)
-                        {
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Sitter" asp-action="Index">Devenir gardien</a>
-                            </li>
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
-                            </li>
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
-                            </li>
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">Rendez-vous</a>
-                            </li>
-                        }
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Pets" asp-action="Index">Mes animaux</a>
+                        </li>
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
+                        </li>
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" href="/Users/@ViewBag.CurrentUser.UserID/Appointments">Rendez-vous</a>
+                        </li>
+                    }
+                    <li class="nav-item dropdown website-navbar-link">
+                        <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Liens de tests
+                        </a>
+                        <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
+                            <h6 class="dropdown-header">Mock Generation</h6>
+                            <a asp-area="" asp-controller="Home" asp-action="GenerateMockData" class="dropdown-item">Generate mock data</a>
+                            <a asp-area="" asp-controller="Users" asp-action="Index" class="dropdown-item">All users</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Instant Log In</h6>
+                            @for (int i = 1; i < 5; i++)
+                            {
+                                <a class="dropdown-item" asp-route-userID="@i" asp-controller="Home" asp-action="GenerateMockLogin">Login for User @i</a>
+                            }
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    @if (ViewBag.CurrentUser != null)
+                    {
                         <li class="nav-item dropdown website-navbar-link">
-                            <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Liens de tests
+                            <a class="nav-link text-white dropdown-toggle mr-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Compte
                             </a>
                             <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
-                                <h6 class="dropdown-header">Mock Generation</h6>
-                                <a asp-area="" asp-controller="Home" asp-action="GenerateMockData" class="dropdown-item">Generate mock data</a>
-                                <a asp-area="" asp-controller="Users" asp-action="Index" class="dropdown-item">All users</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Instant Log In</h6>
-                                @for (int i = 1; i < 5; i++)
-                                {
-                                    <a class="dropdown-item" asp-route-userID="@i" asp-controller="Home" asp-action="GenerateMockLogin">Login for User @i</a>
-                                }
+                                <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@ViewBag.CurrentUser.UserID">Profil</a>
+                                <a class="dropdown-item" asp-controller="Login" asp-action="LogOut">Déconnexion</a>
                             </div>
                         </li>
-                    </ul>
-
-                    <ul class="navbar-nav">
-                        @if (ViewBag.CurrentUser != null)
-                        {
-                            <li class="nav-item dropdown website-navbar-link">
-                                <a class="nav-link text-white dropdown-toggle mr-4" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Compte
-                                </a>
-                                <div class="dropdown-menu website-navbar-dropdown" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@ViewBag.CurrentUser.UserID">Profil</a>
-                                    <a class="dropdown-item" asp-controller="Login" asp-action="LogOut">Déconnexion</a>
-                                </div>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item website-navbar-link">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Connexion</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </nav>
-            <div aria-live="polite" aria-atomic="true" class="notification-center">
-                <!-- Position it -->
-                <div style="position: absolute; top: 0; right: 0;" id="notification-section">
-                    <!-- Then put toasts within -->
-                </div>
+                    }
+                    else
+                    {
+                        <li class="nav-item website-navbar-link">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Login" asp-action="Index">Connexion</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+        <div aria-live="polite" aria-atomic="true" class="notification-center">
+            <!-- Position it -->
+            <div style="position: absolute; top: 0; right: 0;" id="notification-section">
+                <!-- Then put toasts within -->
             </div>
         </div>
-        <main role="main" class="pb-3 h-100">
-
-            @RenderBody()
-        </main>
     </div>
-    <footer id="footer">
-        <div class="split m-4 p-4">
-            <div class="text-left justify-content-center">
-                &copy; 2021 - web3_tp_final - <a asp-area="" asp-controller="Home" asp-action="Privacy">Confidentialité</a>
+    <main role="main" style="height: calc(100vh - 72px);">
+        <div class="wrapper">
+            @RenderBody()
+        </div>
+        <div class="col-12 row" id="sap-footer">
+            <div class="text-left justify-content-center col-2">
+                &copy; 2021 - Sit-A-Pup 
             </div>
-            <div class="text-right justify-content-center">
+            <div class="text-right justify-content-center col-10">
                 Par: Bryan Valdiviezo, Jade Traverse-L'Heureux, Nicholas Lachapelle et Christian Méthot
             </div>
         </div>
-</footer>
+    </main>
     <script>
         SetUserConnection('@(ViewBag.CurrentUser == null ? 0 : ViewBag.CurrentUser.UserID)');
     </script>
