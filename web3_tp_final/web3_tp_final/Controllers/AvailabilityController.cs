@@ -7,12 +7,13 @@ using web3_tp_final.Controllers;
 using web3_tp_final.DTO;
 using web3_tp_final.Hubs;
 using web3_tp_final.Interface;
+using web3_tp_final.Models;
 
 namespace web3_tp_final
 {
-    public class SitterController : BaseController
+    public class AvailabilityController : BaseController
     {
-        public SitterController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
+        public AvailabilityController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
             base(notificationUserHubContext, userConnectionManager, api)
         {
         }
@@ -37,9 +38,9 @@ namespace web3_tp_final
         }
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
-            //await _api.Delete<Availability>(id);
+            await _api.Delete<Availability>(id);
             ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             return View("Index");
         }

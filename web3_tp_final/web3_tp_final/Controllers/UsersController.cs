@@ -152,7 +152,6 @@ namespace web3_tp_final
             return RedirectToAction(nameof(Index));
         }
 
-
         private bool UserExists(int id)
         {
             return _users.Any(e => e.UserID == id);

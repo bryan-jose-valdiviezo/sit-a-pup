@@ -6,8 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using web3_tp_final.DTO;
 using web3_tp_final.Models;
-using System.Linq;
-using System.Web.Http;
 
 namespace web3_tp_final.API
 {
@@ -165,23 +163,6 @@ namespace web3_tp_final.API
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
                 return (Availability)JsonConvert.DeserializeObject<Availability>(apiResponse);
-            }
-            else
-            {
-                Debug.WriteLine("API Error: " + response.StatusCode.ToString());
-                return null;
-            }
-        }
-
-        public async Task<Availability> DeleteAvailability(long availabilityID)
-        {
-            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Availabilitys/DeleteAvailability/", availabilityID);
-            if (response.IsSuccessStatusCode)
-            {
-                Debug.WriteLine("Response success");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-
-                return null;
             }
             else
             {

@@ -8,6 +8,7 @@ namespace Service_Final_Rest_API.DTO
 {
     public class AvailabilityDTO
     {
+        public int AvailabilityID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public long UserId { get; set; }

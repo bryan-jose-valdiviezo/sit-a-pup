@@ -25,9 +25,9 @@ namespace Service_Final_Rest_API.Controllers
         [HttpGet("{id}/AvailabilitiesFor")]
         public async Task<ActionResult<bool>> GetAvailabilitiesForDate(long id, [FromQuery] DateTime StartDate, [FromQuery] DateTime EndDate)
         {
-            Debug.WriteLine("DateStart: " + StartDate.ToString("yyyy-MM-dd HH:mm:ss"));
-            Debug.WriteLine("DateEnd: " + EndDate.ToString("yyyy-MM-dd HH:mm:ss"));
-            Debug.WriteLine("ID: " + id);
+            //Debug.WriteLine("DateStart: " + StartDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            //Debug.WriteLine("DateEnd: " + EndDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            //Debug.WriteLine("ID: " + id);
             return _context.Availabilities.FromSqlRaw(@"SELECT * FROM Availabilities
                                                         WHERE UserId == {0} 
                                                         AND Availabilities.StartDate <= {1} 
@@ -101,9 +101,9 @@ namespace Service_Final_Rest_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Availability>> PostAvailability([FromBody] AvailabilityDTO availabilityDTO)
         {
-            Debug.WriteLine("Form StartDate: " + availabilityDTO.StartDate.ToString());
-            Debug.WriteLine("Form EndDate: " + availabilityDTO.EndDate.ToString());
-            Debug.WriteLine("Form userId: " + availabilityDTO.UserId);
+            //Debug.WriteLine("Form StartDate: " + availabilityDTO.StartDate.ToString());
+            //Debug.WriteLine("Form EndDate: " + availabilityDTO.EndDate.ToString());
+            //Debug.WriteLine("Form userId: " + availabilityDTO.UserId);
             Availability availability = new Availability {
                 UserId = availabilityDTO.UserId,
                 StartDate = availabilityDTO.StartDate.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -119,9 +119,9 @@ namespace Service_Final_Rest_API.Controllers
         [HttpPost("CreateAvailability")]
         public async Task<ActionResult<Availability>> PostAvailabilityDTO([FromBody] AvailabilityDTO availabilityDTO)
         {
-            Debug.WriteLine("Form StartDate: " + availabilityDTO.StartDate.ToString());
-            Debug.WriteLine("Form EndDate: " + availabilityDTO.EndDate.ToString());
-            Debug.WriteLine("Form userId: " + availabilityDTO.UserId);
+            //Debug.WriteLine("Form StartDate: " + availabilityDTO.StartDate.ToString());
+            //Debug.WriteLine("Form EndDate: " + availabilityDTO.EndDate.ToString());
+            //Debug.WriteLine("Form userId: " + availabilityDTO.UserId);
             Availability availability = new Availability
             {
                 UserId = availabilityDTO.UserId,
@@ -135,10 +135,10 @@ namespace Service_Final_Rest_API.Controllers
             return availability;
         }
 
-        [HttpPost("DeleteAvailability")]
-        public async Task<IActionResult> DeleteAvailabilityDTO([FromBody] long availabilityID)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAvailability(long id)
         {
-            var availability = await _context.Availabilities.FindAsync(availabilityID);
+            var availability = await _context.Availabilities.FindAsync(id);
             if (availability == null)
             {
                 return NotFound();
