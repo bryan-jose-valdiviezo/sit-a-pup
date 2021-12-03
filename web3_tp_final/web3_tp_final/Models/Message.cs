@@ -18,5 +18,7 @@ namespace web3_tp_final.Models
 
         [Required]
         public int Recipient { get; set; }
+       
+      
     }
 }

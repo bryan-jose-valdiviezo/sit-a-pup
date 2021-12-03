@@ -54,13 +54,14 @@ namespace web3_tp_final.Hubs
             var connections = _userConnectionManager.GetUserConnections(receiverId.ToString());
             var user = username;
             DateTime dateTime = DateTime.Now;
+            Debug.WriteLine(dateTime.ToString());
 
             if (connections != null && connections.Count > 0)
             {
                 foreach (var connectionId in connections)
                 {
 
-                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message,dateTime);
+                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message,dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 }
             }
@@ -69,6 +70,8 @@ namespace web3_tp_final.Hubs
                 Debug.WriteLine("Connection not found, sending to nobody");
             }
         }
+
+       
 
     }
 }
