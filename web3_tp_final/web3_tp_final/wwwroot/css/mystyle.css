@@ -566,3 +566,7 @@ section {
 #LogInAlert {
     display: none;
 }
+
+.container {
+    background-color: rgba(224, 210, 173,0.8);
+}
