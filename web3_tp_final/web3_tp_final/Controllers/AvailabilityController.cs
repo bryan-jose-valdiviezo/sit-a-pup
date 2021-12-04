@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Controllers;
@@ -21,6 +23,7 @@ namespace web3_tp_final
         {
             if (CheckIfUserIsConnected())
             {
+                CleanupExpiredAvailabilities(await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID));
                 ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
                 return View();
             }
@@ -34,15 +37,20 @@ namespace web3_tp_final
         {
             if (CheckIfUserIsConnected())
             {
+                List<Availability> availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+                ViewBag.Availabilities = availabilities;
                 if (ModelState.IsValid)
                 {
+                    if (CheckIfAvailabalityIsOverlapping(availabilities, availability)) {
+                        ModelState.AddModelError(nameof(AvailabilityDTO.StartDate), "Vous êtes déjà disponible à ce moment");
+                        return View("Index", availability);
+                    }
                     availability.UserId = GetCurrentUser().UserID;
                     await _api.PostAvailability(availability);
                     ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
                 }
                 return View("Index");
             }
-
             return RedirectToAction("Index", "Login");
         }
 
@@ -50,7 +58,11 @@ namespace web3_tp_final
         {
             if (CheckIfUserIsConnected())
             {
-                await _api.Delete<Availability>(id);
+                Availability availabilityToDelete = await _api.Get<Availability>(id);
+                if (GetCurrentUser().UserID == availabilityToDelete.UserId)
+                {
+                    await _api.Delete<Availability>(id);
+                }
                 ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
                 return View("Index");
             }
@@ -68,6 +80,30 @@ namespace web3_tp_final
             }
 
             return RedirectToAction("Index", "Login");
+        }
+
+        private bool CheckIfAvailabalityIsOverlapping(List<Availability> availabilities, AvailabilityDTO availabilityDTO)
+        {
+            foreach (Availability availability in availabilities)
+            {
+                if (availabilityDTO.StartDate.Date >= availability.StartDate.Date && availabilityDTO.EndDate.Date <= availability.EndDate.Date
+                    || availabilityDTO.StartDate.Date <= availability.StartDate.Date && availabilityDTO.EndDate.Date >= availability.EndDate.Date)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private async void CleanupExpiredAvailabilities(List<Availability> availabilities)
+        {
+            foreach (Availability availability in availabilities)
+            {
+                if (availability.EndDate.Date < DateTime.Now.Date)
+                {
+                    await _api.Delete<Availability>(availability.AvailabilityID);
+                }
+            }
         }
     }
 }
