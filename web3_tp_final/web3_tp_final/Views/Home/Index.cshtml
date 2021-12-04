@@ -37,7 +37,17 @@
                     <p class="card-text mb-4">Créez un compte pour vous et vos animaux</p>
                 </div>
             </div>
-            <a class="stretched-link" asp-controller="Login" asp-action="Index"></a>
+            @{
+                if (user == null)
+                {
+                    <a class="stretched-link" asp-controller="Login" asp-action="Index"></a>
+                }
+                else
+                {
+                    <a class="stretched-link" asp-controller="Pets" asp-action="Index"></a>
+                }
+            }
+
         </div>
 
     </div>

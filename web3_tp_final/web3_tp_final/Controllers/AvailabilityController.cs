@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Controllers;
@@ -24,35 +19,55 @@ namespace web3_tp_final
 
         public async Task<IActionResult> IndexAsync()
         {
-            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-            return View();
+            if (CheckIfUserIsConnected())
+            {
+                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+                return View();
+            }
+            
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AvailabilityID,StartDate,EndDate,UserId")] AvailabilityDTO availability)
         {
-            if (ModelState.IsValid)
+            if (CheckIfUserIsConnected())
             {
-                availability.UserId = GetCurrentUser().UserID;
-                await _api.PostAvailability(availability);
-                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+                if (ModelState.IsValid)
+                {
+                    availability.UserId = GetCurrentUser().UserID;
+                    await _api.PostAvailability(availability);
+                    ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+                }
+                return View("Index");
             }
-            return View("Index");
+
+            return RedirectToAction("Index", "Login");
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            await _api.Delete<Availability>(id);
-            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-            return View("Index");
+            if (CheckIfUserIsConnected())
+            {
+                await _api.Delete<Availability>(id);
+                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+                return View("Index");
+            }
+
+            return RedirectToAction("Index", "Login");
         }
 
         public async Task<IActionResult> ConfirmDeletion(int id)
         {
-            await _api.Delete<Availability>(id);
-            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-            return View("Index");
+            if (CheckIfUserIsConnected())
+            {
+                await _api.Delete<Availability>(id);
+                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+                return View("Index");
+            }
+
+            return RedirectToAction("Index", "Login");
         }
     }
 }
