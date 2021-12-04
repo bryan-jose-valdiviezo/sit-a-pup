@@ -106,7 +106,7 @@
                                 {
                                     if (Model.AverageRating() > i)
                                     {
-                                        <i class="fas fa-star"></i> 
+                                        <i class="fas fa-star"></i>
                                     }
                                     else
                                     {
@@ -118,35 +118,37 @@
                     </div>
                 </div>
             </div>
-            @foreach (Appointment appointment in Model.AppointmentSitters)
-            {
-                @if (appointment.Reviews.Any())
+            <div class="scroll">
+                @foreach (Appointment appointment in Model.AppointmentSitters)
                 {
-                <div class="col-12 preview-review-row">
-                    <div class="row">
-                        <div class="col-2">
-                            <div class="row justify-content-center">
-                                @appointment.Review().User.UserName
+                    @if (appointment.Reviews.Any())
+                    {
+                        <div class="col-12 preview-review-row">
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="row justify-content-center">
+                                        @appointment.Review().User.UserName
+                                    </div>
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        if (appointment.Review().Stars > i)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star"></i>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-10" style="word-wrap: break-word;">
+                                    @appointment.Review().Comment
+                                </div>
                             </div>
-                            @for (int i = 0; i < 5; i++)
-                            {
-                                if (appointment.Review().Stars > i)
-                                {
-                                    <i class="fas fa-star"></i> 
-                                }
-                                else
-                                {
-                                    <i class="far fa-star"></i>
-                                }
-                            }
                         </div>
-                        <div class="col-10" style="word-wrap: break-word;">
-                            @appointment.Review().Comment
-                        </div>
-                    </div>
-                </div>               
-                }            
-            }
+                    }
+                }
+            </div>
         </div>        
     </div>    
 
