@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -82,20 +85,18 @@ namespace web3_tp_final
             return View("Signup");
         }
 
-        // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [Route("Users/UsersDetails")]
+        public async Task<IActionResult> UsersDetails()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var user = await _api.Get<User>(GetCurrentUser().UserID);
+            return PartialView("_UserDetails", user);
+        }
 
-            var user = await _api.Get<User>(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
+        // GET: Users/Edit/5
+        public async Task<IActionResult> Edit()
+        {
+            var user = await _api.Get<User>(GetCurrentUser().UserID);
+            return PartialView("_UserDetailsEdit", user);
         }
 
         // POST: Users/Edit/5
@@ -116,6 +117,7 @@ namespace web3_tp_final
                 {
                     user.UserID = id;
                     User updatedUser = await _api.Put<User>(id, user);
+                    return PartialView("_UserDetails", updatedUser);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,6 +133,28 @@ namespace web3_tp_final
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
+        }
+
+        [HttpPost("Users/EditUser/{id}")]
+        public async Task<IActionResult> EditUser(int id, [Bind("UserName,Email,Address,PhoneNumber")] User user)
+        {
+            if (GetCurrentUser().UserID != id)
+                return RedirectToAction("Index", "Home");
+
+            User currentUser = await _api.Get<User>(id);
+            user.UserID = id;
+            user.Password = currentUser.Password;
+
+            var errors = new List<ValidationResult>();
+            if (Validator.TryValidateObject(user, new ValidationContext(user), errors, true))
+            {
+                await _api.Put<User>(id, user);
+                return PartialView("_UserDetails", user);
+            }
+            else
+            {
+                return PartialView("_UserDetails", currentUser);
+            }
         }
 
         // GET: Users/Delete/5

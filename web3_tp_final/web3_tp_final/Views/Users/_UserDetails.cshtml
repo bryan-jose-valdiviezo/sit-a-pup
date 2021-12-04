@@ -1,0 +1,77 @@
+﻿@model web3_tp_final.Models.User
+<div class="form">
+    <div class="row">
+        <div class="col-md-3 col-sm-12" id="UserSection">
+            <div class="h-75 text-center w-100 d-flex mb-2" style="align-items:center;">
+                <div class="w-100">
+                    <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="mx-auto" />
+                    @Model.UserName
+                </div>
+            </div>
+            <div class="row align-items-center no-gutters mb-2">
+                @if (ViewBag.CurrentID != null && ViewBag.CurrentID != Model.UserID)
+                {
+                    <div class="col-5">
+                        <a id="BookAppointmentModal" asp-controller="FindSitter" asp-route-id="@Model.UserID" asp-action="BookAppointment">
+                            <img src="https://img.icons8.com/external-prettycons-solid-prettycons/60/ffffff/external-appointment-business-and-finance-prettycons-solid-prettycons.png" class="btn bouton-size" />
+                        </a>
+                    </div>
+                    <div class="col-2 w-100">
+                    </div>
+                    <div class="col-5">
+                        <a asp-controller="Chat" asp-route-id="@Model.UserID" asp-action="Index">
+                            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/chat.png" class="btn bouton-size" />
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-12" id="UserInputInfo">
+            <div class="row">
+                <div class="col-12 User-information-main-title">
+                    Information
+                </div>
+                <div class="col-12 User-Info-Input-Title">
+                    <div class="row">
+                        <div class="col-6">
+                            @Html.DisplayNameFor(model => model.Email)
+                        </div>
+                        <div class="col-6">
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 User-Information-Input">
+                    <div class="row">
+                        <div class="col-6">
+                            @Model.Email
+                        </div>
+                        <div class="col-6">
+                            @Model.PhoneNumber
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 User-Info-Input-Title">
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.Address)
+                        </div>
+                        <div class="col-12 User-Information-Input">
+                            @Model.Address
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 User-Info-Input-Title">
+                    <div class="row">
+                        @if (ViewBag.CurrentUser.UserID == @Model.UserID)
+                        {
+                            <div class="col-12 h-25" style="padding-top: 15px;">
+                                <button id="EditUsersBtn" type="button" class="btn btn-primary" onclick="ShowUserEdit()">Edit</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

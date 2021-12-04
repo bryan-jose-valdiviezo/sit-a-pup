@@ -155,4 +155,11 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        $(document).on('#UserEditForm', 'submit', function (e) {
+            e.preventDefault();
+            alert("Submit");
+        });
+    });
 </script>
