@@ -326,7 +326,7 @@ section {
 
 #UserInputInfo {
     border-radius: 0 10px 10px 0;
-    background-color: white !important;
+    background-color: rgb(247 227 201 / 0.8) !important;
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 40px;
