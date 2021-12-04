@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,38 +20,46 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Index()
         {
-            int userID = 0;
-            User user = SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
-            if (user != null)
+            if (CheckIfUserIsConnected())
             {
-                userID = user.UserID;
+                int userID = GetCurrentUser().UserID;
+                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+                return View(pets.FindAll(pet => pet.UserID == userID));
             }
 
-            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-
-            return View(pets.FindAll(pet => pet.UserID == userID));
+            return RedirectToAction("Index", "Login");
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (CheckIfUserIsConnected())
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+                Pet pet = pets.Find(pet => pet.PetID == id);
+                if (pet == null)
+                {
+                    return NotFound();
+                }
+
+                return View(pet);
             }
 
-            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-            Pet pet = pets.Find(pet => pet.PetID == id);
-            if (pet == null)
-            {
-                return NotFound();
-            }
-
-            return View(pet);
+            return RedirectToAction("Index", "Login");
         }
 
         public IActionResult Create()
         {
-            return View();
+            if (CheckIfUserIsConnected())
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -85,19 +92,24 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (CheckIfUserIsConnected())
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+                Pet pet = pets.Find(pet => pet.PetID == id);
+
+                if (pet == null)
+                {
+                    return NotFound();
+                }
+                return View(pet);
             }
 
-            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-            Pet pet = pets.Find(pet => pet.PetID == id);
-
-            if (pet == null)
-            {
-                return NotFound();
-            }
-            return View(pet);
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -134,18 +146,23 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (CheckIfUserIsConnected())
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+                Pet pet = pets.Find(pet => pet.PetID == id);
+                if (pet == null)
+                {
+                    return NotFound();
+                }
+                return View(pet);
             }
 
-            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-            Pet pet = pets.Find(pet => pet.PetID == id);
-            if (pet == null)
-            {
-                return NotFound();
-            }
-            return View(pet);
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost, ActionName("Delete")]
