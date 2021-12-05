@@ -12,30 +12,44 @@
             <div id="rechercheParIDUserModif">
                 <label for="idRechercheUserModif">ID du User recherché</label>
                 <input type="text" name="idRechercheUserModif" id="idRechercheUserModif" />
-                <button class="btn btn-neutral btn-round btn-lg" onclick="rechercheUserParIDUserModif()"> Rechercher </button>
+                <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="rechercheUserParIDUserModif()"> Rechercher </button>
             </div>
+            <br />
             <div id="modifierUser" style="visibility:hidden">
-                <form id="formModifUser">
-                    <label for="userId">Id</label>
-                    <input type="text" id="userIdModif" name="userId" />
-
-                    <label for="username">Nom d'utilisateur'</label>
-                    <input type="text" name="username" id="usernameModifUser" />
-
-                    <label for="email">Email</label>
-                    <input type="text" name="email" id="emailModifUser" />
-
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="passwordModifUser" />
-
-                    <label for="address">Adresse</label>
-                    <input type="text" name="address" id="addressModifUser" />
-
-                    <label for="phoneNumber">Numéro de Téléphone</label>
-                    <input type="text" name="phoneNumber" id="phonenumberModifUser" />
-
-                </form>
-                <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="modifyUser()">Modifier</button>
+                <div>
+                    <form id="formModifUser">
+                        <div>
+                            <label for="userId">Id</label>
+                            <input type="text" id="userIdModif" name="userId" />
+                        </div>
+                        
+                        <div>
+                            <label for="username">Nom d'utilisateur</label>
+                            <input type="text" name="username" id="usernameModifUser" />
+                        </div>
+                        
+                        <div>
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="emailModifUser" />
+                        </div>
+                        
+                        <div>
+                            <label for="password">Mot de passe</label>
+                            <input type="password" name="password" id="passwordModifUser" />
+                        </div>
+                        
+                        <div>
+                            <label for="address">Adresse</label>
+                            <input type="text" name="address" id="addressModifUser" />
+                        </div>
+                        
+                        <div>
+                            <label for="phoneNumber">Numéro de Téléphone</label>
+                            <input type="text" name="phoneNumber" id="phonenumberModifUser" />
+                        </div>
+                    </form>
+                    <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="modifyUser()">Modifier</button>
+                </div>
             </div>
         </div>
     </div>
