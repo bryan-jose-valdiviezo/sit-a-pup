@@ -72,6 +72,9 @@ namespace web3_tp_final.Controllers
                 pets.Clear();
             }
 
+            Admin admin = new Admin() { Name="Admin", Password="admin" } ;
+            await _api.Post<Admin>(admin);
+
             return RedirectToAction(nameof(Index));
         }
 
