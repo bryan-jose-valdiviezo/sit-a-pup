@@ -95,8 +95,7 @@ namespace web3_tp_final
         {
             foreach (Availability availability in availabilities)
             {
-                if (availabilityDTO.StartDate.Date >= availability.StartDate.Date && availabilityDTO.EndDate.Date <= availability.EndDate.Date
-                    || availabilityDTO.StartDate.Date <= availability.StartDate.Date && availabilityDTO.EndDate.Date >= availability.EndDate.Date)
+                if (availabilityDTO.StartDate.Date <= availability.EndDate.Date)
                 {
                     return true;
                 }
