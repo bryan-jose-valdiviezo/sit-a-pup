@@ -105,60 +105,7 @@
 <script src="~/js/chat.js"></script>
 
 <script>
-    /*  var id = document.getElementById("senderId").value
-       var currentUsername = document.getElementById("senderInput").value
-       var receiverUsername = document.getElementById("userChat").value
-       var url = "https://localhost:44308/api/Messages/" + id
-       var xhttp = new XMLHttpRequest();
-       xhttp.onreadystatechange = function () {
-           if (this.readyState == 4 && this.status == 200) {
-               var divReponse = document.getElementById("messageList");
-               divReponse.innerHTML = ""
-               var reponse = this.responseText;
-               var tableauReponse = JSON.parse(reponse);
-
-
-               for (i in tableauReponse) {
-                   var div = document.createElement("div");
-
-                   if (tableauReponse[i].sender == id) {
-                       div.className = "col-md-6 offset-md-6";
-                       var div2 = document.createElement("div");
-
-                       div2.className == "container darker bg-primary";
-                       var p = document.createElement("p");
-                       p.className = "sender text-right text-white";
-                       p.innerHTML = document.getElementById("senderInput").value
-                       div2.appendChild(p);
-                       var p2 = document.createElement("p");
-                       p2.className = "text-right text-white";
-                       p2.innerHTML = tableauResposne[i].content;
-                       div2.appendChild(p2);
-                       div.appendChild(div2);
-
-                   }
-                   if (tableauReponse[i].recipient == id) {
-                       div.className = ""
-                       var div2 = document.createElement("div");
-
-                       div2.className == "container bg-light";
-                       var p = document.createElement("p");
-                       p.className = "sender text-left";
-                       p.innerHTML = document.getElementById("userChat").value
-                       div2.appendChild(p);
-                       var p2 = document.createElement("p");
-                       p2.className = "text-left";
-                       p2.innerHTML = tableauResposne[i].content;
-                       div2.appendChild(p2);
-                       div.appendChild(div2);
-                   }
-                   divReponse.appendChild(div);
-               }
-
-           }
-       };
-       xhttp.open("GET", url, true);
-       xhttp.send();*/
+   
     function postMessage() {
         var url = "https://localhost:44308/api/Messages"
         var userIdInt = parseInt(document.getElementById("senderId").value);
