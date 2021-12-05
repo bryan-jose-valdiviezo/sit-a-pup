@@ -97,7 +97,7 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> SendToSpecificUser(int userId)
         {
             var connections = _userConnectionManager.GetUserConnections(userId.ToString());
-            Debug.WriteLine("Sending to user : " + userId);
+            //Debug.WriteLine("Sending to user : " + userId);
             if (connections != null && connections.Count > 0)
             {
                 foreach (var connectionId in connections)
@@ -105,10 +105,10 @@ namespace web3_tp_final.Controllers
                     await _notificationUserHubContext.Clients.Client(connectionId).SendAsync("sendNewFormToUser", 5);
                 }
             }
-            else
-            {
-                Debug.WriteLine("Connection not found, sending to nobody");
-            }
+            //else
+            //{
+            //    Debug.WriteLine("Connection not found, sending to nobody");
+            //}
             return RedirectToAction("Index");
         }
 

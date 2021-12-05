@@ -14,13 +14,10 @@ namespace web3_tp_final.Controllers
 {
     public class ChatController : BaseController
     {
-      
-
         public ChatController(IHubContext<NotificationUserHub> notificationUserHubContext, IUserConnectionManager userConnectionManager, APIController api) :
             base(notificationUserHubContext, userConnectionManager, api)
         {
         }
-
 
         public IActionResult Index()
         {
@@ -30,7 +27,7 @@ namespace web3_tp_final.Controllers
         [Route("Chat/Index/{userId}")]
         public async Task<IActionResult> Index(int userId) {
             if (GetCurrentUser() == null)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
            
             User receiver = await _api.Get<User>(userId);
             User sender = await _api.Get<User>(GetCurrentUser().UserID);
@@ -39,10 +36,7 @@ namespace web3_tp_final.Controllers
             ViewBag.receiver = receiver;
             ViewBag.sender = sender;
            
-            
             return View(messages);
         }
-
-       
     }
 }

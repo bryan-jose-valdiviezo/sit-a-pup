@@ -44,19 +44,6 @@ namespace web3_tp_final.Controllers
                     await _notificationUserHubContext.Clients.Client(connectionId).SendAsync("sendNewFormToUser", appointmentId);
                 }
             }
-            //else
-            //{
-            //    Debug.WriteLine("Connection not found, sending to nobody");
-            //}
-        }
-
-        protected bool CheckIfUserIsConnected()
-        {
-            if (GetCurrentUser() == null)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

@@ -21,65 +21,74 @@ namespace web3_tp_final
 
         public async Task<IActionResult> IndexAsync()
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                CleanupExpiredAvailabilities(await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID));
-                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-                return View();
+                return RedirectToAction("Index", "Login");
             }
+
+            CleanupExpiredAvailabilities(await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID));
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
             
-            return RedirectToAction("Index", "Login");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AvailabilityID,StartDate,EndDate,UserId")] AvailabilityDTO availability)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                List<Availability> availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-                ViewBag.Availabilities = availabilities;
-                if (ModelState.IsValid)
-                {
-                    if (CheckIfAvailabalityIsOverlapping(availabilities, availability)) {
-                        ModelState.AddModelError(nameof(AvailabilityDTO.StartDate), "Vous êtes déjà disponible à ce moment");
-                        return View("Index", availability);
-                    }
-                    availability.UserId = GetCurrentUser().UserID;
-                    await _api.PostAvailability(availability);
-                    ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-                }
-                return View("Index");
+                return RedirectToAction("Index", "Login");
             }
-            return RedirectToAction("Index", "Login");
+
+            List<Availability> availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+            ViewBag.Availabilities = availabilities;
+            
+            if (ModelState.IsValid)
+            {
+                if (CheckIfAvailabalityIsOverlapping(availabilities, availability))
+                {
+                    ModelState.AddModelError(nameof(AvailabilityDTO.StartDate), "Vous êtes déjà disponible à ce moment");
+                    return View("Index", availability);
+                }
+
+                availability.UserId = GetCurrentUser().UserID;
+                await _api.PostAvailability(availability);
+                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+            }
+
+            return View("Index");
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                Availability availabilityToDelete = await _api.Get<Availability>(id);
-                if (GetCurrentUser().UserID == availabilityToDelete.UserId)
-                {
-                    await _api.Delete<Availability>(id);
-                }
-                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-                return View("Index");
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            Availability availabilityToDelete = await _api.Get<Availability>(id);
+
+            if (GetCurrentUser().UserID == availabilityToDelete.UserId)
+            {
+                await _api.Delete<Availability>(id);
+            }
+
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+
+            return View("Index");
         }
 
         public async Task<IActionResult> ConfirmDeletion(int id)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                await _api.Delete<Availability>(id);
-                ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
-                return View("Index");
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            await _api.Delete<Availability>(id);
+            ViewBag.Availabilities = await _api.GetAvailabilitiesForUser(GetCurrentUser().UserID);
+            return View("Index");
         }
 
         private bool CheckIfAvailabalityIsOverlapping(List<Availability> availabilities, AvailabilityDTO availabilityDTO)

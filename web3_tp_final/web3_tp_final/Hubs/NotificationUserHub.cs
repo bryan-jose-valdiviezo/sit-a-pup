@@ -49,7 +49,7 @@ namespace web3_tp_final.Hubs
             var value = await Task.FromResult(0);
         }
 
-        public async void SendNewMessage(string receiverId,string username, string message)
+        public async void SendNewMessage(string receiverId, string username, string message)
         {
             var connections = _userConnectionManager.GetUserConnections(receiverId.ToString());
             var user = username;
@@ -60,15 +60,13 @@ namespace web3_tp_final.Hubs
             {
                 foreach (var connectionId in connections)
                 {
-
                     await Clients.Client(connectionId).SendAsync("SendMessageToUser", user, message,dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
-
                 }
             }
-            else
-            {
-                Debug.WriteLine("Connection not found, sending to nobody");
-            }
+            //else
+            //{
+            //    Debug.WriteLine("Connection not found, sending to nobody");
+            //}
         }
 
        

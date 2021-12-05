@@ -35,6 +35,9 @@ namespace web3_tp_final
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (GetCurrentUser() == null)
+                return RedirectToAction("Index", "Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -44,7 +47,6 @@ namespace web3_tp_final
             user.Appointments = await _api.GetAppointmentsForUser((int)id);
             user.AppointmentSitters = user.AppointmentAsSitter();
             
-
             if (user == null)
             {
                 return NotFound();
@@ -61,12 +63,13 @@ namespace web3_tp_final
         }
 
         // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserID,UserName, Password,Email,Address,PhoneNumber")] User user)
         {
+            if (GetCurrentUser() == null)
+                return RedirectToAction("Index", "Login");
+
             if (ModelState.IsValid)
             {
                 user.UserID = 0;
@@ -88,6 +91,9 @@ namespace web3_tp_final
         [Route("Users/UsersDetails")]
         public async Task<IActionResult> UsersDetails()
         {
+            if (GetCurrentUser() == null)
+                return RedirectToAction("Index", "Login");
+
             var user = await _api.Get<User>(GetCurrentUser().UserID);
             return PartialView("_UserDetails", user);
         }
@@ -95,17 +101,21 @@ namespace web3_tp_final
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit()
         {
+            if (GetCurrentUser() == null)
+                return RedirectToAction("Index", "Login");
+
             var user = await _api.Get<User>(GetCurrentUser().UserID);
             return PartialView("_UserDetailsEdit", user);
         }
 
         // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,Email,Address,PhoneNumber")] User user)
         {
+            if (GetCurrentUser() == null)
+                return RedirectToAction("Index", "Login");
+
             if (id != user.UserID)
             {
                 return NotFound();
@@ -130,8 +140,8 @@ namespace web3_tp_final
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(user);
         }
 

@@ -19,159 +19,167 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                int userID = GetCurrentUser().UserID;
-                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-                return View(pets.FindAll(pet => pet.UserID == userID));
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            int userID = GetCurrentUser().UserID;
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+            return View(pets.FindAll(pet => pet.UserID == userID));
+
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-                Pet pet = pets.Find(pet => pet.PetID == id);
-                if (pet == null)
-                {
-                    return NotFound();
-                }
-
-                return View(pet);
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+            Pet pet = pets.Find(pet => pet.PetID == id);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(pet);
         }
 
         public IActionResult Create()
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null) 
             {
-                return View();
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PetID,Name,Specie,BirthYear,Photo,UserID")] Pet pet)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                if (ModelState.IsValid)
-                {
-                    User user = GetCurrentUser();
-                    var photo = Request.Form.Files.GetFile("photo");
-                    if (photo != null)
-                    {
-                        MemoryStream memoryStream = new MemoryStream();
-                        await photo.CopyToAsync(memoryStream);
-                        pet.Photo = memoryStream.ToArray();
-                    }
-                    pet.UserID = user.UserID;
-                    await _api.Post<Pet>(pet);
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(pet);
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            if (ModelState.IsValid)
+            {
+                User user = GetCurrentUser();
+                var photo = Request.Form.Files.GetFile("photo");
+                if (photo != null)
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    await photo.CopyToAsync(memoryStream);
+                    pet.Photo = memoryStream.ToArray();
+                }
+                pet.UserID = user.UserID;
+                await _api.Post<Pet>(pet);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(pet);            
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-                Pet pet = pets.Find(pet => pet.PetID == id);
-
-                if (pet == null)
-                {
-                    return NotFound();
-                }
-                return View(pet);
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+            Pet pet = pets.Find(pet => pet.PetID == id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(pet);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,Photo,UserID")] Pet pet)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() != null)
             {
-                if (ModelState.IsValid)
-                {
-                    User user = GetCurrentUser();
-
-                    var photo = Request.Form.Files.GetFile("photo");
-                    if (photo != null)
-                    {
-                        MemoryStream memoryStream = new MemoryStream();
-                        await photo.CopyToAsync(memoryStream);
-                        pet.Photo = memoryStream.ToArray();
-                    } else
-                    {
-                        Pet databasePet = await _api.Get<Pet>(id);
-                        pet.Photo = databasePet.Photo;
-                    }
-                    pet.UserID = user.UserID;
-                    await _api.Put<Pet>(id, pet);
-
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(pet);
+                return RedirectToAction("Index", "Login");
             }
-            return RedirectToAction("Index", "Login");
+
+            if (ModelState.IsValid)
+            {
+                User user = GetCurrentUser();
+
+                var photo = Request.Form.Files.GetFile("photo");
+                if (photo != null)
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    await photo.CopyToAsync(memoryStream);
+                    pet.Photo = memoryStream.ToArray();
+                }
+                else
+                {
+                    Pet databasePet = await _api.Get<Pet>(id);
+                    pet.Photo = databasePet.Photo;
+                }
+                pet.UserID = user.UserID;
+                await _api.Put<Pet>(id, pet);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(pet);
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() != null)
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
-                Pet pet = pets.Find(pet => pet.PetID == id);
-                if (pet == null)
-                {
-                    return NotFound();
-                }
-                return View(pet);
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<Pet> pets = (List<Pet>)await _api.Get<Pet>();
+            Pet pet = pets.Find(pet => pet.PetID == id);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(pet); 
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (CheckIfUserIsConnected())
+            if (GetCurrentUser() == null)
             {
-                await _api.Delete<Pet>(id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Login");
             }
 
-            return RedirectToAction("Index", "Login");
+            await _api.Delete<Pet>(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
