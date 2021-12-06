@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using web3_tp_final.API;
+using web3_tp_final.DTO;
 using web3_tp_final.Hubs;
 using web3_tp_final.Interface;
 using web3_tp_final.Models;
@@ -22,9 +23,20 @@ namespace web3_tp_final.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View();
+            int RecipientID;
+            if (id != null)
+            {
+                RecipientID = (int) id;
+            }
+            else
+            {
+                RecipientID = 2;
+            }
+
+            ConversationDTO conversation = await _api.GetConversation(GetCurrentUser().UserID, RecipientID);
+            return View(conversation);
         }
 
         [Route("Chat/Index/{userId}")]

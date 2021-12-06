@@ -282,5 +282,26 @@ namespace web3_tp_final.API
             }
             return null;
         }
+
+        //Messages API Calls
+        public async Task<ConversationDTO> GetConversation(int userID, int recipientID)
+        {
+            var response = await _client.GetAsync("https://localhost:44308/api/Messages/GetConversation?userID=" + userID + "&recipientID=" + recipientID);
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                IEnumerable<Message> messages = (IEnumerable<Message>)JsonConvert.DeserializeObject<IEnumerable<Message>>(apiResponse);
+                return new ConversationDTO
+                {
+                    UserID = userID,
+                    RecipientID = recipientID,
+                    Conversation = messages
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
