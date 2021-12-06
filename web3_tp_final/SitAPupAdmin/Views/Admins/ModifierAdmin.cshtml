@@ -12,26 +12,30 @@
         <div id="rechercheParIDAdminModif">
             <label for="idRechercheAdminModif">ID de l'admin' recherché</label>
             <input type="text" name="idRechercheAdminModif" id="idRechercheAdminModif" />
-            <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="rechercheUserParIDAdminModif()"> Rechercher </button>
+            <div class="card-footer text-center">
+                <button class="btn btn-neutral btn-round btn-lg border-dark marginTop" onclick="rechercheUserParIDAdminModif()"> Rechercher </button>
+            </div>
+            </div>
+            <div id="modifierAdmin" style="visibility:hidden">
+                <form id="formModifAdmin">
+                    <div>
+                        <label for="adminId">ID de l'admin à modifier</label>
+                        <input type="text" name="adminId" id="adminIdModif" />
+                    </div>
+                    <div>
+                        <label for="name">Nom d'Utilisateur</label>
+                        <input type="text" name="name" id="nameAdminModif" />
+                    </div>
+                    <div>
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="password" id="passwordAdminModif" />
+                    </div>
+                </form>
+                <div class="card-footer text-center">
+                    <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="modifyAdmin()">Modifier</button>
+                </div>
+            </div>
         </div>
-        <div id="modifierAdmin" style="visibility:hidden">
-            <form id="formModifAdmin">
-                <div>
-                    <label for="adminId">ID de l'admin à modifier</label>
-                    <input type="text" name="adminId" id="adminIdModif" />
-                </div>
-                <div>
-                    <label for="name">Nom d'Utilisateur</label>
-                    <input type="text" name="name" id="nameAdminModif" />
-                </div>
-                <div>
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="passwordAdminModif" />
-                </div>
-            </form>
-        <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="modifyAdmin()">Modifier</button>
-        </div>
-    </div>
 </div>
         }
         else
