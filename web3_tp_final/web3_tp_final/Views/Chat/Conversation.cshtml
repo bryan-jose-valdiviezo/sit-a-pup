@@ -1,0 +1,9 @@
+﻿@model web3_tp_final.DTO.ConversationDTO
+
+<div id="ConversationList">
+    @await Html.PartialAsync("_ConversationList")
+</div>
+
+<div id="MainConversation">
+    @await Html.PartialAsync("_MainConversation", Model)
+</div>

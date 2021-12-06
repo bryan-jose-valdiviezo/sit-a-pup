@@ -68,21 +68,6 @@ function SetUserConnection(userId) {
             document.getElementById("messagesList").appendChild(li);
            
             li.textContent = `${user} says: ${message}`;
-
-
-            
-            /* let container = document.createElement('div');
-             container.className = "container sender";
-             let sender = document.createElement('p');
-             sender.className = "sender";
-             sender.innerHTML = user;
-             let text = document.createElement('p');
-             text.innerHTML = message;
-
-             container.appendChild(sender);
-             container.appendChild(text);
-             document.getElementById("messagesList").appendChild(container);
-             */
              userId = document.getElementById("senderId").value;
              recipientId = document.getElementById("recipientInput").value;
 

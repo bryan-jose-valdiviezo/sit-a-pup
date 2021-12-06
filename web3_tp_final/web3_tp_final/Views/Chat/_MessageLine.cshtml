@@ -1,0 +1,10 @@
+﻿@{ 
+    string message = ViewBag.Message;
+    bool IsUser = ViewBag.IsUser;
+}
+
+<div class="d-block sap-chat-message @(IsUser ? "user-message" : "recipient-message")">
+    <div class="sap-sent-message">
+        @message
+    </div>
+</div>

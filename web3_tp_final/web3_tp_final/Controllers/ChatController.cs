@@ -22,8 +22,16 @@ namespace web3_tp_final.Controllers
         {
         }
 
+        [Route("Chat/GetMessageLine")]
+        public async Task<IActionResult> GetMessageLine(int id, string message)
+        {
+            ViewBag.Message = message;
+            ViewBag.IsUser = (id == GetCurrentUser().UserID);
+            return PartialView("_MessageLine");
+        }
 
-        public async Task<IActionResult> Index(int? id)
+        [Route("Chat/Conversation/{id}")]
+        public async Task<IActionResult> Conversation(int? id)
         {
             int RecipientID;
             if (id != null)
