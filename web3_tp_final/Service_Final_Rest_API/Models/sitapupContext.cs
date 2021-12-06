@@ -26,6 +26,7 @@ namespace Service_Final_Rest_API.Models
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Admin>(entity =>
@@ -160,7 +161,7 @@ namespace Service_Final_Rest_API.Models
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasColumnType("VARCHAR(255)")
-                    .HasDefaultValueSql("\"active\"");
+                    .HasDefaultValueSql("'active'");
 
                 entity.Property(e => e.UserName).IsRequired();
             });

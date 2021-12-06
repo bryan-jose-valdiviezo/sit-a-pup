@@ -9,7 +9,7 @@ using Service_Final_Rest_API.Models;
 namespace Service_Final_Rest_API.Migrations
 {
     [DbContext(typeof(sitapupContext))]
-    [Migration("20211205165359_InitialCreate")]
+    [Migration("20211206020523_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,7 +240,7 @@ namespace Service_Final_Rest_API.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("VARCHAR(255)")
-                        .HasDefaultValueSql("\"active\"");
+                        .HasDefaultValueSql("'active'");
 
                     b.Property<string>("UserName")
                         .IsRequired()

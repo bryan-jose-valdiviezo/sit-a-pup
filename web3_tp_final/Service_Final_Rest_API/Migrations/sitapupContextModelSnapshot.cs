@@ -238,7 +238,7 @@ namespace Service_Final_Rest_API.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("VARCHAR(255)")
-                        .HasDefaultValueSql("\"active\"");
+                        .HasDefaultValueSql("'active'");
 
                     b.Property<string>("UserName")
                         .IsRequired()
