@@ -570,3 +570,116 @@ section {
 .container {
     background-color: rgba(224, 210, 173,0.8);
 }
+
+#ConversationList {
+    height: calc(100vh - 113px);
+    width: 25%;
+    position: absolute;
+    left: 0;
+    overflow-y: auto;
+    background-color: rgba(224, 210, 173,0.8);
+    border-right: 1px solid black;
+}
+
+#MainConversation {
+    height: calc(100vh - 113px);
+    width: 75%;
+    position:absolute;
+    right: 0;
+}
+
+#CurrentRecipient {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    background-color: rgb(107 59 43 / 86%);
+    color: white;
+}
+
+#CurrentConversation {
+    height: 80%;
+    overflow-y: scroll;
+}
+
+#CurrentMessage {
+    height: 10%;
+    background-color: rgb(107 59 43 / 86%);
+    padding-top: 10px;
+}
+
+#NextMessage {
+    height: 40px;
+}
+
+#SendMessage {
+    background-color: rgb(107 59 43 / 86%);
+    color: #AB753F;
+    border: 1px solid #AB753F;
+    border-radius: 10px;
+    padding: 0px 20px;
+}
+
+.sap-chat-message {
+    width:50%;
+    clear:both;
+}
+
+.user-message {
+    float:right;
+}
+
+.sap-sent-message {
+    color: #AB753F;
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.user-message .sap-sent-message {
+    float: right;
+    word-break: break-word;
+    background-color: rgb(107 59 43 / 86%);
+}
+
+.recipient-message {
+    float:left;
+}
+
+.recipient-message .sap-sent-message{
+    float: left;
+    background-color: rgba(224, 210, 173,0.8)
+}
+
+.last-message {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border: 1px solid;
+    font-size: 15px;
+}
+
+.last-message:hover {
+    background-color: rgba(173, 141, 50, 0.9);
+}
+
+.active-conversation {
+    background-color: rgba(173, 141, 50, 0.9);
+}
+
+.recipient-last-message-name {
+    font-size: 20px !important;
+}
+
+.EmptyChat {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+    border: 1px solid black;
+    background-color: rgba(224, 210, 173,0.8);
+    border-radius: 20px;
+    color: #AB753F;
+}

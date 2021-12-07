@@ -8,7 +8,7 @@
 <head>
     <link rel="stylesheet" href="~/css/Chat/chat.css" />
 </head>
-<div class="margin-div-principal">
+<div class="margin-div-principal" style="display: none;">
     <h1>Chat avec: @receiver.UserName</h1>
 
     <div class="row margin-div">
@@ -101,11 +101,11 @@
         <input type="text" id="content" value="" style="visibility:hidden" readonly="true" name="content" />
     </div>
 </div>
+
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
 <script>
-   
     function postMessage() {
         var url = "https://localhost:44308/api/Messages"
         var userIdInt = parseInt(document.getElementById("senderId").value);

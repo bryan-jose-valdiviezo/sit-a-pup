@@ -27,6 +27,28 @@ namespace Service_Final_Rest_API.Controllers
             return await _context.Messages.ToListAsync();
         }
 
+        [HttpGet("GetConversation")]
+        public async Task<ActionResult<IEnumerable<Message>>> GetConversation([FromQuery] int userID, [FromQuery] int recipientID)
+        {
+            return await _context.Messages.FromSqlRaw(@"SELECT * FROM Messages
+                                                        WHERE
+                                                        {0} IN (Messages.Sender, Messages.Recipient)
+                                                        AND
+                                                        {1} IN (Messages.Sender, Messages.Recipient)
+                                                        ORDER BY Messages.MessageID", 
+                                                        userID,
+                                                        recipientID).ToListAsync();
+        }
+
+        [HttpGet("{id}/GetLastMessages")]
+        public async Task<ActionResult<IEnumerable<Message>>> GetLastMessages(int id)
+        {
+            return await _context.Messages.FromSqlRaw(@"SELECT max(Messages.MessageID), Messages.* 
+                                                        FROM Messages
+                                                        WHERE {0} IN (Messages.Sender, Messages.Recipient)
+                                                        group by (Messages.Sender+Messages.Recipient)", id).ToListAsync();
+        }
+
         // GET: api/Messages/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Message>> GetMessage(long id)

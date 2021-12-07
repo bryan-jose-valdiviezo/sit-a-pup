@@ -65,6 +65,22 @@ namespace web3_tp_final.API
 
         //Users API calls
 
+        public async Task<string> GetUsername(int id)
+        {
+            var response = await _client.GetAsync("https://localhost:44308/api/Users/" + id + "/GetUserName/");
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("GetUsername apiresponse: " + apiResponse);
+                return apiResponse;
+            }
+            else
+            {
+                Debug.WriteLine(response.StatusCode.ToString());
+                return null;
+            }
+        }
+
         public async Task<User> LogIn(string username, string password)
         {
             var response = await _client.GetAsync("https://localhost:44308/api/Users/LogIn?username=" + username + "&password=" + password);
@@ -281,6 +297,56 @@ namespace web3_tp_final.API
                 return messagesARenvoyer;
             }
             return null;
+        }
+
+        //Messages API Calls
+        public async Task<ConversationDTO> GetConversation(int userID, int recipientID)
+        {
+            var response = await _client.GetAsync("https://localhost:44308/api/Messages/GetConversation?userID=" + userID + "&recipientID=" + recipientID);
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                IEnumerable<Message> messages = (IEnumerable<Message>)JsonConvert.DeserializeObject<IEnumerable<Message>>(apiResponse);
+                return new ConversationDTO
+                {
+                    UserID = userID,
+                    RecipientID = recipientID,
+                    Conversation = messages
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<KeyValuePair<string, Message>>> GetLastMessages(int id)
+        {
+            List<KeyValuePair<string, Message>> LastMessages = new List<KeyValuePair<string, Message>>();
+            string username;
+            var response = await _client.GetAsync("https://localhost:44308/api/Messages/" + id + "/GetLastMessages");
+            if (response.IsSuccessStatusCode)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                IEnumerable<Message> messages = (IEnumerable<Message>)JsonConvert.DeserializeObject<IEnumerable<Message>>(apiResponse);
+                Debug.WriteLine("Amount of messages : " + messages.Count());
+                List<KeyValuePair<string, Message>> lastMessages = new List<KeyValuePair<string, Message>>();
+                foreach (Message message in messages)
+                {
+                    if(message.Sender == id)
+                        username = await GetUsername(message.Recipient);
+                    else
+                        username = await GetUsername(message.Sender);
+
+                    lastMessages.Add(new KeyValuePair<string, Message>(username, message));
+                }
+
+                return lastMessages;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
