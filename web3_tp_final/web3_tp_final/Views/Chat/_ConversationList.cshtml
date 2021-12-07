@@ -1,8 +1,24 @@
-﻿<div id="Conversations">
-    @for (int i = 0; i < 30; i++)
+﻿@model List<KeyValuePair<string, Message>>
+
+@{ 
+    var active = "";
+    bool isCurrentUser;
+}
+
+<div id="Conversations">
+    @foreach (KeyValuePair<string, Message> message in Model)
     {
-        <div class="d-block">
-            Salut
+        active = ViewBag.CurrentRecipient.UserID == message.Value.Sender || ViewBag.CurrentRecipient.UserID == message.Value.Recipient ? "active-conversation" : "";
+        isCurrentUser = message.Value.Sender == ViewBag.CurrentUser.UserID;
+
+        <div class="d-block last-message @active" onclick="SwitchConversation($(this) ,@(isCurrentUser ? message.Value.Recipient : message.Value.Sender))">
+            <div class="recipient-last-message-name">
+                @message.Key
+            </div>
+            <div id="ConversationRecipient_@(isCurrentUser ? message.Value.Recipient : message.Value.Sender)">
+                @(isCurrentUser ? "You: " + message.Value.Content : message.Value.Content)
+            </div>
         </div>
     }
+
 </div>

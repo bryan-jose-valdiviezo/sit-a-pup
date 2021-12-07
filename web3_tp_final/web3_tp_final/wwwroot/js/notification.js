@@ -34,8 +34,12 @@ function SetUserConnection(userId) {
         alert(message);
     });
 
-    connection.on("SendMessageToUser", function (message, dateTime) {
-        GetMessageLine(0, message);
+    connection.on("SendMessageToUser", function (senderId, message, dateTime) {
+        console.log("Message received from id " + senderId);
+
+        IsInCurrentConversation(senderId, message);
+
+        UpdateLastMessage(senderId, false, message);
     });
 
     connection.start().catch(function (err) {
@@ -73,11 +77,13 @@ function SendConversationMessage() {
 
         success: function (data) {
             $('#NextMessage').val("");
-            connection.invoke("SendNewMessage", recipientIdInt, content).catch(function (err) {
+            connection.invoke("SendNewMessage", userIdInt, recipientIdInt, content).catch(function (err) {
                 return console.error(err.toString());
             });
             console.log("Ajout du message réussi.");
             GetMessageLine(userIdInt, content);
+
+            UpdateLastMessage(recipientIdInt, true, content);
         },
         error: function (data) {
             alert("Error: " + data.responseText);
@@ -100,6 +106,78 @@ function GetMessageLine(id, message) {
         },
         error: function (xhr) {
             console.log("Error in GetMessageLine");
+        }
+    });
+}
+
+function UpdateLastMessage(id, isUser, message) {
+    var ConversationCase = $('#ConversationRecipient_' + id);
+    if (ConversationCase.length == 0) {
+        $.ajax({
+            url: '/Chat/ReloadConversationList',
+            type: 'GET',
+            dataType: 'html',
+            success: function (data) {
+                $('#ConversationList').html(data);
+            },
+            error: function (xhr) {
+                console.log("Error in reloading conversations list");
+            }
+        });
+    }
+    else if (isUser) {
+        ConversationCase.text("You: " + message);
+    }
+    else {
+        ConversationCase.text(message);
+    }
+}
+
+function IsInCurrentConversation(senderId, message) {
+    console.log("Checking if id is in current conversation: " + senderId);
+    $.ajax({
+        url: '/Chat/CurrentConversation',
+        type: 'get',
+        dataType: 'json',
+        data: {
+            recipientID: senderId
+        },
+        success: function (data) {
+            console.log("Got CurrentConversation condition:" + data);
+            if (data) {
+                console.log("Appended message");
+                GetMessageLine(0, message);
+            }
+            else {
+                console.log("Did not add message");
+            }
+        },
+        error: function (xhr) {
+            console.log("Error in gettting CurrentConversation condition");
+            return false;
+        }
+    });
+}
+
+function SwitchConversation(conversationBox, id) {
+    $('.last-message').removeClass('active-conversation');
+    conversationBox.toggleClass('active-conversation');
+
+    var recipientId = id;
+    console.log("Recipient id to send : " + recipientId);
+    $.ajax({
+        url: '/Chat/ShowConversation',
+        dataType: 'html',
+        type: 'GET',
+        data: {
+            recipientID: recipientId
+        },
+        success: function (data) {
+            console.log("Success in fetching conversation, applying to screen");
+            $('#MainConversation').html(data);
+        },
+        error: function (xhr) {
+            console.log("Error in switching conversation");
         }
     });
 }

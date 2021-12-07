@@ -22,6 +22,37 @@ namespace web3_tp_final.Controllers
         {
         }
 
+        [Route("Chat/ReloadConversationList")]
+        public async Task<IActionResult> ReloadConversationList()
+        {
+            List<KeyValuePair<string, Message>> lastMessages =  await _api.GetLastMessages(GetCurrentUser().UserID);
+            ViewBag.CurrentRecipient = GetCurrentRecipient();
+            return PartialView("_ConversationList", lastMessages);
+        }
+
+        [Route("Chat/CurrentConversation")]
+        public async Task<IActionResult> CurrentConversation(int recipientID)
+        {
+            Debug.WriteLine("Checking if id is in conversation: " + recipientID);
+            Debug.WriteLine("Current recipient id: " + GetCurrentRecipient().UserID);
+            if (GetCurrentRecipient() != null && GetCurrentRecipient().UserID == recipientID)
+                return Json(true);
+            else
+                return Json(false);
+        }
+
+        [Route("Chat/ShowConversation")]
+        public async Task<IActionResult> ShowConversation(int recipientID)
+        {
+            User recipient;
+            Debug.WriteLine("Recipient ID received: " + recipientID);
+            recipient = await SetCurrentRecipient(recipientID);
+            ViewBag.CurrentRecipient = recipient;
+            ConversationDTO conversation = await _api.GetConversation(GetCurrentUser().UserID, recipient.UserID);
+
+            return PartialView("_MainConversation", conversation);
+        }
+
         [Route("Chat/GetMessageLine")]
         public async Task<IActionResult> GetMessageLine(int id, string message)
         {
@@ -30,20 +61,32 @@ namespace web3_tp_final.Controllers
             return PartialView("_MessageLine");
         }
 
-        [Route("Chat/Conversation/{id}")]
+        [Route("Chat/Conversation/{id?}")]
         public async Task<IActionResult> Conversation(int? id)
         {
-            int RecipientID;
+            List<KeyValuePair<string,Message>> lastMessages = await _api.GetLastMessages(GetCurrentUser().UserID);
+            if (id == null && (lastMessages == null || lastMessages.Count == 0))
+                return View("EmptyChat");
+
+            User recipient;
             if (id != null)
             {
-                RecipientID = (int) id;
+                recipient = await SetCurrentRecipient((int)id);
             }
             else
             {
-                RecipientID = 2;
+                var firstConversation = lastMessages.First();
+                if (GetCurrentRecipient() != null)
+                    recipient = GetCurrentRecipient();
+                else if (firstConversation.Value.Sender == GetCurrentUser().UserID)
+                    recipient = await SetCurrentRecipient(firstConversation.Value.Recipient);
+                else
+                    recipient = await SetCurrentRecipient(firstConversation.Value.Sender);
             }
 
-            ConversationDTO conversation = await _api.GetConversation(GetCurrentUser().UserID, RecipientID);
+            ViewBag.LastMessages = await _api.GetLastMessages(GetCurrentUser().UserID);
+            ViewBag.CurrentRecipient = recipient;
+            ConversationDTO conversation = await _api.GetConversation(GetCurrentUser().UserID, recipient.UserID);
             return View(conversation);
         }
 

@@ -34,6 +34,12 @@ namespace Service_Final_Rest_API.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet("{id}/GetUserName")]
+        public async Task<ActionResult<string>> GetUserName(int id)
+        {
+            return await _context.Users.Where(u => u.UserId == id).Select(u => u.UserName).SingleOrDefaultAsync();
+        }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)

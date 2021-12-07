@@ -38,6 +38,19 @@ namespace web3_tp_final.Controllers
             return SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "user");
         }
 
+        public User GetCurrentRecipient()
+        {
+            return SessionHelper.GetObjectFromJson<User>(HttpContext.Session, "recipient");
+        }
+
+        public async Task<User> SetCurrentRecipient(int recipientID)
+        {
+            User recipient = await _api.Get<User>(recipientID);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "recipient", recipient);
+            return recipient;
+        }
+
+
         public async void SendNewAppointmentNotification(int sitterId, int appointmentId)
         {
             var connections = _userConnectionManager.GetUserConnections(sitterId.ToString());

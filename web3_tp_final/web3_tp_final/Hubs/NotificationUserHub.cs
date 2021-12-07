@@ -49,7 +49,7 @@ namespace web3_tp_final.Hubs
             var value = await Task.FromResult(0);
         }
 
-        public async void SendNewMessage(string receiverId, string message)
+        public async void SendNewMessage(string senderId,string receiverId, string message)
         {
             var connections = _userConnectionManager.GetUserConnections(receiverId.ToString());
             DateTime dateTime = DateTime.Now;
@@ -60,7 +60,7 @@ namespace web3_tp_final.Hubs
                 foreach (var connectionId in connections)
                 {
 
-                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", message,dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                    await Clients.Client(connectionId).SendAsync("SendMessageToUser", senderId, message, dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 }
             }
