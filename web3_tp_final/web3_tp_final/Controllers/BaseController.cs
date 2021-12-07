@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.Helpers;
 using web3_tp_final.Hubs;
