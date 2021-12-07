@@ -64,10 +64,10 @@ namespace web3_tp_final.Hubs
 
                 }
             }
-            else
-            {
-                Debug.WriteLine("Connection not found, sending to nobody");
-            }
+            //else
+            //{
+            //    Debug.WriteLine("Connection not found, sending to nobody");
+            //}
         }
 
        

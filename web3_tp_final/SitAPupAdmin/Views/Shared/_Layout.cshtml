@@ -26,7 +26,7 @@
 <body>
     <header>
         <nav class="navbar sticky-top navbar-expand-lg navbar-light website-navbar">
-            <a class="navbar-brand text-capitalize" href="#">
+            <a class="navbar-brand text-capitalize" asp-controller="Home" asp-action="Index">
                 <img src="~/images/happy.png" class="d-inline-block align-top" width="30" height="30" alt="">
                 Sit-a-pup
             </a>
@@ -58,7 +58,6 @@
                             <a asp-area="" asp-controller="Users" asp-action="VoirUsers" class="dropdown-item">Voir Utilisateurs</a>
                             <a asp-area="" asp-controller="Users" asp-action="RechercherUser"class="dropdown-item">Rechercher Utilisateur</a>
                             <a asp-area="" asp-controller="Users" asp-action="ModifierUser"class="dropdown-item">Modifier Utilisateur</a>
-                            <a asp-area="" asp-controller="Users" asp-action="SupprimerUser"class="dropdown-item">Supprimer Utilisateur</a>
                         </div>
                     </li>
                     } 
@@ -73,14 +72,6 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - SitAPupAdmin - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
-
-
-    @await RenderSectionAsync("Scripts", required: false)
+       @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

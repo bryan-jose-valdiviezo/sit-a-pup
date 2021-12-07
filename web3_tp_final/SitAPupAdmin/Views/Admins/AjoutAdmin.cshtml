@@ -9,14 +9,19 @@
 
     <div class="row">
         <div class="col-3" id="ajoutAdmin">
-            <form id="formAjoutAdmin">
-                <label for="name">Nom d'Utilisateur</label>
-                <input type="text" name="name" id="nameAdminAjout" />
-                <label for="password">Mot de passe</label>
-                <input type="text" name="password" id="passwordAdminAjout" />
-
+            <form id="formAjoutAdmin" class="marginBottom">
+                <div>
+                    <label for="name">Nom d'Utilisateur</label>
+                    <input type="text" name="name" id="nameAdminAjout" />
+                </div>
+                <div>
+                    <label for="password">Mot de passe</label>
+                    <input type="text" name="password" id="passwordAdminAjout"  />
+                </div>
             </form>
-            <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="postAdmin()">Ajouter Admin</button>
+            <div class="card-footer text-center">
+                <button class="btn btn-neutral btn-round btn-lg border-dark " onclick="postAdmin()">Ajouter Admin</button>
+            </div>
         </div>
     </div>
         }

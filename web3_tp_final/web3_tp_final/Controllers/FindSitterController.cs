@@ -28,8 +28,8 @@ namespace web3_tp_final.Controllers
             if (GetCurrentUser() != null)
                 users = users.Where(user => user.UserID != GetCurrentUser().UserID);
 
-            if (users == null)
-                Debug.WriteLine("Error in fetching objects");
+            //if (users == null)
+            //    Debug.WriteLine("Error in fetching objects");
             return View(users);
         }
 
@@ -57,7 +57,7 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> BookAppointment(int id)
         {
             if (GetCurrentUser() == null)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
 
             User sitter = await _api.Get<User>(id);
             User currentUser = await _api.Get<User>(GetCurrentUser().UserID);
@@ -71,11 +71,11 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> Create(int id, [Bind("AppointmentID, OwnerId, SitterId, StartDate, EndDate, PetIds")] AppointmentDTO appointmentForm)
         {
             if (GetCurrentUser() == null)
-                RedirectToAction("Index", "Home");
+                RedirectToAction("Index", "Login");
 
-            if ((appointmentForm.OwnerId != null && appointmentForm.OwnerId == GetCurrentUser().UserID) && (appointmentForm.SitterId != null && appointmentForm.SitterId == id))
+            if (appointmentForm.OwnerId != null && appointmentForm.OwnerId == GetCurrentUser().UserID && appointmentForm.SitterId != null && appointmentForm.SitterId == id)
             {
-                Debug.WriteLine("Passed conditionnal, posting to api");
+                //Debug.WriteLine("Passed conditionnal, posting to api");
                 Appointment newAppointment = await _api.PostAppointment(appointmentForm);
                 if (newAppointment != null)
                 {

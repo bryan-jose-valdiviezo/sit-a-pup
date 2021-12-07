@@ -9,9 +9,9 @@ namespace SitAPupAdmin.Models
     public class Admin
     {
         public int AdminID { get; set; }
-        [Required]
+       
         public string Name { get; set; }
-        [Required]
+       
         public string Password { get; set; }
     }
 }

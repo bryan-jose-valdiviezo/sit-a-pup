@@ -18,7 +18,7 @@
                     <div class="col-12 row">
                         <div class="col-6 form-group">
                             <input type="datetime-local" asp-for="StartDate">
-                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                            <span asp-validation-for="StartDate" class="text-danger" ></span>
                         </div>
                         <div class="col-6 form-group">
                             <input type="datetime-local" asp-for="EndDate">
@@ -48,7 +48,7 @@
                                                             À @availability.EndDate.ToString();
                                                         </span>
                                                         <span class="fa-pull-right">
-                                                            <a asp-controller="Availability" asp-action="Delete" asp-route-id="@availability.AvailabilityID" class="btn btn-danger" data-toggle="confirmation">Supprimer</a>
+                                                            <a asp-controller="Availability" asp-action="Delete" asp-route-id="@availability.AvailabilityID" class="btn btn-danger">Supprimer</a>
                                                         </span>
                                                     </div>
                                         </div>

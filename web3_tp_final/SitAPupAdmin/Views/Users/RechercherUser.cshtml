@@ -10,14 +10,18 @@
 <div class="row">
     <div class="col-3">
         <div id="rechercheParID">
-            <label for="idRecherche">ID du User recherché</label>
-            <input type="text" name="idRecherche" id="idRecherche" />
-            <button class="btn btn-neutral btn-round btn-lg border-dark" onclick="rechercheUserParID()"> Rechercher </button>
+            <div>
+                <label for="idRecherche">ID du User recherché</label>
+                <input type="text" name="idRecherche" id="idRecherche" />
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-neutral btn-round btn-lg border-dark marginTop" onclick="rechercheUserParID()"> Rechercher </button>
+            </div>
+            </div>
         </div>
-    </div>
 </div>
     <div class="row">
-        <div class="col-3" id="reponse">
+        <div class="col-6" id="reponse">
 
         </div>
     </div>
@@ -39,7 +43,7 @@
                     var tableauReponse = JSON.parse(reponse);
                     var texte = document.createElement("p");
 
-                    texte.innerHTML += "ID :" + tableauReponse.userId + "<br> Username : " + tableauReponse.userName + "<br> email : " + tableauReponse.email + "<br> Address " + tableauReponse.address + "<br>  phone Number :" + tableauReponse.phoneNumber
+                    texte.innerHTML += "ID : " + tableauReponse.userId + "<br> Username : " + tableauReponse.userName + "<br> Email : " + tableauReponse.email + "<br> Address : " + tableauReponse.address + "<br>  Phone Number : " + tableauReponse.phoneNumber
 
                     divReponse.appendChild(texte);
                     cacherToutLesFormulaire()

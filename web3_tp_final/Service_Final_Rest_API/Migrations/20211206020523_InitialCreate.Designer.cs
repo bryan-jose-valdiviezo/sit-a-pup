@@ -9,7 +9,7 @@ using Service_Final_Rest_API.Models;
 namespace Service_Final_Rest_API.Migrations
 {
     [DbContext(typeof(sitapupContext))]
-    [Migration("20211121073611_InitialCreate")]
+    [Migration("20211206020523_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,6 +235,12 @@ namespace Service_Final_Rest_API.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(255)")
+                        .HasDefaultValueSql("'active'");
 
                     b.Property<string>("UserName")
                         .IsRequired()

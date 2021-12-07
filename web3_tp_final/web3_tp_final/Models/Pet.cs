@@ -21,8 +21,8 @@ namespace web3_tp_final.Models
         public int PetID { get; set; }
 
         [Display(Name = "Nom")]
-        [Required(ErrorMessage = "Maximum 40 caractères")]
-        [MaxLength(40)]
+        [Required(ErrorMessage = "Le nom doit avoir de 3 à 40 caractères")]
+        [MinLength(3), MaxLength(40)]
         public string Name { get; set; }
 
         [Column("Specie")]

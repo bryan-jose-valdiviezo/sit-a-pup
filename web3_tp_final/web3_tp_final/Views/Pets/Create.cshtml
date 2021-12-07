@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BirthYear" class="control-label"></label>
-                <input asp-for="BirthYear" class="form-control" />
+                <input asp-for="BirthYear" class="form-control" value="@DateTime.Now.Year" />
                 <span asp-validation-for="BirthYear" class="text-danger"></span>
             </div>
             <div class="form-group">

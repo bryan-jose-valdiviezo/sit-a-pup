@@ -23,6 +23,7 @@ namespace Service_Final_Rest_API.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+        public string Status { get; set; }
 
         public virtual ICollection<Appointment> AppointmentOwners { get; set; }
         public virtual ICollection<Appointment> AppointmentSitters { get; set; }

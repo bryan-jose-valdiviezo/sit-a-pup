@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -41,42 +42,38 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> GenerateMockData()
         {
-            List<Pet> pets1 = new List<Pet>();
-            pets1.Add(new Pet { Name = "Skye", BirthYear = 2016, Specie = Species.CHIEN });
-            User user1 = new User { UserName = "Quigid Trunslo", Password = "crosemont2021", Email = "trunslo@gmail.com", PhoneNumber = "514-250-2121", Address = "20e Avenue Montréal", Pets = pets1 };
-            /*List<Appointment> appointments= new List<Appointment>();            
-            for (int i = 0; i < 10; i++)
+            Random random = new Random();
+            List<Pet> pets = new List<Pet>();
+            List<User> users = new List<User>();
+            List<Availability> availabilities = new List<Availability>();
+            string[] usernames = new string[40] { "Coltoliv Fermed", "Leonevan Galpdor", "Davtari Babalb", "Krikol Bachtrul","Marsab Scriloa","Noemat Racygatw","Tommjoa Colgin","Aubarma Harhase","Yadibren Vaunort","Jayleze Stinray","Chrhay Gatldarc","Mia jal Ligdobk","Elianad Veager","Savacarr Shatod","Carllog Wooamos","Denstac Beenstur","Halebere Boldduf","Catacal Windlync","Brejam Lawloc","Eveama Huttild", "Rarnam Danimaa", "Olsmula Dron", "Chruvlith Grar", "Sizzalull Girgix", "Camath Brigdella", "Ievlag Grovasaarr", "Kades Gagroggorm", "Lurwos Pedatint", "Chreth Birgossus", "Lugrog Glonsinn", "Shuglah Todditha", "Shir Nurm", "Jen Pastellant", "Neir Burgal", "Gassa Glan", "Mano Drotholen", "Deh Drogderre", "Messo Bremarerm", "Zorshe Stytara", "Kot Forbarru" };
+            string[] petNames = new string[50] { "Sharptooth", "Kaleida", "Balgzr", "Thallophyta", "Mothball", "Athugz", "Irubleu", "Render", "Hyphae", "Star", "Awin", "Destiny", "RleSothoorla", "Kokoro", "Oreo", "Tlaitparh", "Mist", "Bluestar", "Squeekers", "Athugz", "Imamu", "Wendigo", "Madare", "Wendigo", "Ybhugr", "Raymundo", "Ynremr", "MrGlows", "Cibarius", "Saka", "Garth", "Misty", "Oasis", "Dawn", "Goro", "Pinocchio", "Chub", "Gus", "Sebastian", "Geppetto", "Pretzel", "Camay", "Muse", "Clue", "Bolt", "Squeek", "Orchid", "Smoke", "Chico", "Rain" };
+            string email = "courriel@crosemont.qc.ca";
+            string password = "crosemont2021";
+            string phoneNumber = "514-376-1620";
+            string address = "6400, 16e Avenue Montréal(Québec) H1X 2S9";
+
+            for (int i = 0; i < 20; i++)
             {
-                Appointment appointment = new Appointment();
-                appointment.Reviews = new List<Review>();
-                User owner = new User { UserName = "User " + i, Password = "crosemont2021", Email = "trunslo" + i + "@gmail.com", PhoneNumber = "514-25" + i + "-2121", Address = "20e Avenue Montréal"};
-
-                Review review = new Review();
-                review.Stars = i;
-                review.Comment = "Test " + i;
-                appointment.Owner = owner;
-                appointment.Reviews.Add(review);
-
-                appointments.Add(appointment);
+                availabilities.Add(new Availability() { StartDate = DateTime.Today, EndDate = DateTime.Today.AddDays(random.Next(7,72)) });
+                pets.Add(new Pet() { Name = petNames[random.Next(petNames.Length)], BirthYear = random.Next(2008,2021), Specie = Species.CHIEN });
+                pets.Add(new Pet() { Name = petNames[random.Next(petNames.Length)], BirthYear = random.Next(2008, 2021), Specie = Species.CHIEN });
+                await _api.Post<User>(new User()
+                {
+                    UserName = usernames[random.Next(usernames.Length)],
+                    Email = email,
+                    Password = password,
+                    PhoneNumber = phoneNumber,
+                    Address = address,
+                    Pets = pets,
+                    Availabilities = availabilities
+                });
+                availabilities.Clear();
+                pets.Clear();
             }
-            user1.AppointmentSitters = appointments;*/
 
-            List <Pet> pets2 = new List<Pet>();
-            pets2.Add(new Pet { Name = "Astro", BirthYear = 2017, Specie = Species.CHAT } );
-            User user2 = new User { UserName = "Gertrev Framab", Password = "crosemont2021", Email = "framab@yahoo.fr", PhoneNumber = "514-250-2120", Address = "21e Avenue Montréal", Pets = pets2 };
-
-            List<Pet> pets3 = new List<Pet>();
-            pets3.Add(new Pet { Name = "Chase", BirthYear = 2018, Specie = Species.OISEAU });
-            User user3 = new User { UserName = "Zoirile Wolvlowe", Password = "crosemont2021", Email = "zoirile@videotron.ca", PhoneNumber = "514-250-2119", Address = "22e Avenue Montréal", Pets = pets3 };
-
-            List<Pet> pets4 = new List<Pet>();
-            pets4.Add(new Pet { Name = "Render", BirthYear = 2019, Specie = Species.RONGEUR });
-            User user4 = new User { UserName = "Sophhai Rusell", Password = "crosemont2021", Email = "rusell@ciuss.qc.ca", PhoneNumber = "514-250-2118", Address = "23e Avenue Montréal", Pets = pets4 };
-
-            await _api.Post<User>(user1);
-            await _api.Post<User>(user2);
-            await _api.Post<User>(user3);
-            await _api.Post<User>(user4);
+            Admin admin = new Admin() { Name="Admin", Password="admin" } ;
+            await _api.Post<Admin>(admin);
 
             return RedirectToAction(nameof(Index));
         }
@@ -97,7 +94,7 @@ namespace web3_tp_final.Controllers
         public async Task<IActionResult> SendToSpecificUser(int userId)
         {
             var connections = _userConnectionManager.GetUserConnections(userId.ToString());
-            Debug.WriteLine("Sending to user : " + userId);
+            //Debug.WriteLine("Sending to user : " + userId);
             if (connections != null && connections.Count > 0)
             {
                 foreach (var connectionId in connections)
@@ -105,10 +102,10 @@ namespace web3_tp_final.Controllers
                     await _notificationUserHubContext.Clients.Client(connectionId).SendAsync("sendNewFormToUser", 5);
                 }
             }
-            else
-            {
-                Debug.WriteLine("Connection not found, sending to nobody");
-            }
+            //else
+            //{
+            //    Debug.WriteLine("Connection not found, sending to nobody");
+            //}
             return RedirectToAction("Index");
         }
 
@@ -127,3 +124,21 @@ namespace web3_tp_final.Controllers
         }
     }
 }
+
+
+/*List<Appointment> appointments= new List<Appointment>();            
+for (int i = 0; i < 10; i++)
+{
+    Appointment appointment = new Appointment();
+    appointment.Reviews = new List<Review>();
+    User owner = new User { UserName = "User " + i, Password = "crosemont2021", Email = "trunslo" + i + "@gmail.com", PhoneNumber = "514-25" + i + "-2121", Address = "20e Avenue Montréal"};
+
+    Review review = new Review();
+    review.Stars = i;
+    review.Comment = "Test " + i;
+    appointment.Owner = owner;
+    appointment.Reviews.Add(review);
+
+    appointments.Add(appointment);
+}
+user1.AppointmentSitters = appointments;*/

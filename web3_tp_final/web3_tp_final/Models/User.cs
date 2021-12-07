@@ -31,6 +31,7 @@ namespace web3_tp_final.Models
         [Required(ErrorMessage = "Vous devez entrer un numéro de téléphone valide")]
         public string PhoneNumber { get; set; }
 
+        public string Status { get; set; }
         public List<Pet> Pets { get; set; } = new List<Pet>();
 
         public List<Availability> Availabilities { get; set; } = new List<Availability>();

@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using web3_tp_final.API;
 using web3_tp_final.DTO;
-using web3_tp_final.Helpers;
 using web3_tp_final.Hubs;
 using web3_tp_final.Interface;
 using web3_tp_final.Models;
@@ -25,7 +22,7 @@ namespace web3_tp_final.Controllers.Users
         public async Task<IActionResult> Index(int userID)
         {
             if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
 
             ViewBag.CurrentUserID = userID;
             List<Appointment> appointments = await _api.GetAppointmentsForUser(userID);
@@ -38,10 +35,8 @@ namespace web3_tp_final.Controllers.Users
         [Route("Users/{userID}/Appointments/{id}")]
         public async Task<IActionResult> Details(int userID, int? id)
         {
-
             if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
-                return RedirectToAction("Index", "Home");
-
+                return RedirectToAction("Index", "Login");
 
             Appointment appointment = await _api.Get<Appointment>(id);
 
@@ -56,6 +51,9 @@ namespace web3_tp_final.Controllers.Users
         [Route("Users/{userID}/Appointments/{id}/UpdateAppointmentStatus")]
         public async Task<IActionResult> UpdateAppointmentStatus(int userID, int id, string? newStatus)
         {
+            if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
+                return RedirectToAction("Index", "Login");
+
             await _api.UpdateAppointmentStatus(id, newStatus);
             Appointment appointment = await _api.Get<Appointment>(id);
             return PartialView("_appointment_details_footer", appointment);
@@ -66,7 +64,7 @@ namespace web3_tp_final.Controllers.Users
         public async Task<IActionResult> PostReview(int userID, int id, [Bind("AppointmentId, UserId, Stars, Comment")] ReviewDTO review)
         {
             if (GetCurrentUser() == null || GetCurrentUser().UserID != userID)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
 
             Review postedReview = await _api.PostReview(review);
             if (postedReview == null)

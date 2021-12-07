@@ -29,7 +29,7 @@ else
             var texte = document.createElement("p");
             for (i in tableauReponse) {
 
-                texte.innerHTML += "<ul style='list-style-type:none'> <li>ID :" + tableauReponse[i].userId + "</li><li>  Username : " + tableauReponse[i].userName + "</li><li>  Email : " + tableauReponse[i].email + "</li><li>  Phone Number " + tableauReponse[i].phoneNumber + "</li></ul>"
+                texte.innerHTML += "<ul style='list-style-type:none'> <li>ID : " + tableauReponse[i].userId + "</li><li>  Username : " + tableauReponse[i].userName + "</li><li>  Email : " + tableauReponse[i].email + "</li><li style='border-bottom:0.5px solid black'>  Phone Number : " + tableauReponse[i].phoneNumber + "</li></ul>"
 
             }
             divReponse.appendChild(texte);

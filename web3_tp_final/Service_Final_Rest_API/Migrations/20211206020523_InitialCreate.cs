@@ -31,7 +31,8 @@ namespace Service_Final_Rest_API.Migrations
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false)
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "VARCHAR(255)", nullable: false, defaultValueSql: "'active'")
                 },
                 constraints: table =>
                 {
