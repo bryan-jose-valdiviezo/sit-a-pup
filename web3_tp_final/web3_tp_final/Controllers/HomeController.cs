@@ -122,6 +122,14 @@ namespace web3_tp_final.Controllers
 
             return PartialView("_ToastNotification", appointment);
         }
+
+        public async Task<IActionResult> GetChatNotification(int senderId, string content)
+        {
+            User sender = await _api.Get<User>(senderId);
+            KeyValuePair<User, string> message = new KeyValuePair<User, string>(sender, content);
+
+            return PartialView("_ToastChatNotification", message);
+        }
     }
 }
 

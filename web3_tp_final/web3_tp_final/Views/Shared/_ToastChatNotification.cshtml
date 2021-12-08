@@ -1,0 +1,15 @@
+﻿@model KeyValuePair<User, string>
+
+<div class="toast toast-width" role="alert" data-delay="100000" aria-live="assertive" aria-atomic="true" id="Notification_Chat_@Model.Key.UserID">
+    <div class="toast-header">
+        <i class="fab fa-wpforms mr-2"></i>
+        <strong class="mr-auto toast-title">@Model.Key.UserName</strong>
+        <small>À l'instant</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        <a href="/Chat/Conversation/@Model.Key.UserID">@Model.Value</a>
+    </div>
+</div>

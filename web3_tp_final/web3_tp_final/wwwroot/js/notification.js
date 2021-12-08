@@ -37,9 +37,14 @@ function SetUserConnection(userId) {
     connection.on("SendMessageToUser", function (senderId, message, dateTime) {
         console.log("Message received from id " + senderId);
 
-        IsInCurrentConversation(senderId, message);
+        if ($('#MainConversation').length == 0) {
+            GetMessageNotification(senderId, message);
+        }
+        else {
+            IsInCurrentConversation(senderId, message);
 
-        UpdateLastMessage(senderId, false, message);
+            UpdateLastMessage(senderId, false, message);
+        }
     });
 
     connection.start().catch(function (err) {
@@ -48,47 +53,51 @@ function SetUserConnection(userId) {
 }
 
 function SendConversationMessage() {
-    var url = "https://localhost:44308/api/Messages"
-    var userIdInt = $('#SenderID').val();
-    var recipientIdInt = $('#RecipientID').val();
-    var content = $('#NextMessage').val();
+    if ($('#NextMessage').val() != "") {
+        var url = "https://localhost:44308/api/Messages"
+        var userIdInt = $('#SenderID').val();
+        var recipientIdInt = $('#RecipientID').val();
+        var content = $('#NextMessage').val();
 
-    var date = new Date($.now());
-    var dateTime = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    console.log(dateTime);
-    var variable = {
+        $('#NextMessage').val("");
+        $('#SendMessageToRecipient').prop('disabled', true);
 
-        'content': content,
-        'timeStamp': dateTime,
-        'sender': userIdInt,
-        'recipient': recipientIdInt,
-        'userId': null,
-        'user': null
+        var date = new Date($.now());
+        var dateTime = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        console.log(dateTime);
+        var variable = {
 
-    }
+            'content': content,
+            'timeStamp': dateTime,
+            'sender': userIdInt,
+            'recipient': recipientIdInt,
+            'userId': null,
+            'user': null
 
-    $.ajax({
-        url: url,
-        type: 'POST',
-        contentType: 'application/json',
-        datatype: 'json',
-        data: JSON.stringify(variable),
-
-
-        success: function (data) {
-            $('#NextMessage').val("");
-            connection.invoke("SendNewMessage", userIdInt, recipientIdInt, content).catch(function (err) {
-                return console.error(err.toString());
-            });
-            console.log("Ajout du message réussi.");
-            GetMessageLine(userIdInt, content);
-
-            UpdateLastMessage(recipientIdInt, true, content);
-        },
-        error: function (data) {
-            alert("Error: " + data.responseText);
         }
-    });
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json',
+            datatype: 'json',
+            data: JSON.stringify(variable),
+
+
+            success: function (data) {
+                connection.invoke("SendNewMessage", userIdInt, recipientIdInt, content).catch(function (err) {
+                    return console.error(err.toString());
+                });
+                console.log("Ajout du message réussi.");
+                GetMessageLine(userIdInt, content);
+
+                UpdateLastMessage(recipientIdInt, true, content);
+            },
+            error: function (data) {
+                alert("Error: " + data.responseText);
+            }
+        });
+    }
 }
 
 function GetMessageLine(id, message) {
@@ -103,6 +112,7 @@ function GetMessageLine(id, message) {
         success: function (data) {
             console.log("Success in getting line from GetMEssageLine");
             $('#CurrentConversation').append(data);
+            ScrollChatBottom();
         },
         error: function (xhr) {
             console.log("Error in GetMessageLine");
@@ -175,9 +185,33 @@ function SwitchConversation(conversationBox, id) {
         success: function (data) {
             console.log("Success in fetching conversation, applying to screen");
             $('#MainConversation').html(data);
+            ScrollChatBottom();
         },
         error: function (xhr) {
             console.log("Error in switching conversation");
+        }
+    });
+}
+
+function GetMessageNotification(senderId, content) {
+    $.ajax({
+        url: '/Home/GetChatNotification',
+        type: 'get',
+        dataType: 'html',
+        data: {
+            senderId: senderId,
+            content: content
+        },
+        success: function (data) {
+            $('#notification-section').append(data);
+            $('#Notification_Chat_' + senderId).toast('show');
+            $('#Notification_Chat_' + senderId).on('hidden.bs.toast', function () {
+                $(this).remove();
+            });
+        },
+        error: function (xhr) {
+            alert("Error ajax");
+            alert(xhr.responseJSON);
         }
     });
 }

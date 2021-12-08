@@ -610,14 +610,30 @@ section {
 
 #NextMessage {
     height: 40px;
+    resize: none;
+    border-radius: 15px;
+    background-color: rgba(224, 210, 173,0.4);
+    border: 1px solid #AB753F;
 }
 
-#SendMessage {
+#SendMessageToRecipient {
     background-color: rgb(107 59 43 / 86%);
     color: #AB753F;
     border: 1px solid #AB753F;
     border-radius: 10px;
     padding: 0px 20px;
+}
+
+#SendMessageToRecipient:hover {
+    color: rgba(224, 210, 173);
+    background-color: rgb(107 59 43 / 6%)
+}
+
+#SendMessageToRecipient:disabled {
+    color: rgba(255,255,255,0.1);
+    background-color: rgba(108, 117, 125,0.5);
+    border-color: #6c757d;
+    cursor: not-allowed;
 }
 
 .sap-chat-message {
@@ -662,10 +678,12 @@ section {
 
 .last-message:hover {
     background-color: rgba(173, 141, 50, 0.9);
+    cursor: pointer;
 }
 
 .active-conversation {
     background-color: rgba(173, 141, 50, 0.9);
+    cursor: default !important;
 }
 
 .recipient-last-message-name {

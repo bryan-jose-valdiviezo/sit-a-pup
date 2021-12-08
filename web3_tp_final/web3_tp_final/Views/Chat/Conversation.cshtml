@@ -7,3 +7,9 @@
 <div id="MainConversation">
     @await Html.PartialAsync("_MainConversation", Model)
 </div>
+
+<script>
+    $(document).ready(function() {
+        ScrollChatBottom();
+    });
+</script>
