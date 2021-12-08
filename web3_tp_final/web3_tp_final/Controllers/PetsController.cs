@@ -149,7 +149,7 @@ namespace web3_tp_final.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (GetCurrentUser() != null)
+            if (GetCurrentUser() == null)
             {
                 return RedirectToAction("Index", "Login");
             }
