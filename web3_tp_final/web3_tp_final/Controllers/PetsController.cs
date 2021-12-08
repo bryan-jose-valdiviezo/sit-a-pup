@@ -117,7 +117,7 @@ namespace web3_tp_final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PetID,Name,Specie,BirthYear,Photo,UserID")] Pet pet)
         {
-            if (GetCurrentUser() != null)
+            if (GetCurrentUser() == null)
             {
                 return RedirectToAction("Index", "Login");
             }
