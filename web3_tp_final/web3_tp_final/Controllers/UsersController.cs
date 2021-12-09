@@ -154,6 +154,7 @@ namespace web3_tp_final
             User currentUser = await _api.Get<User>(id);
             user.UserID = id;
             user.Password = currentUser.Password;
+            user.Status = currentUser.Status;
 
             var errors = new List<ValidationResult>();
             if (Validator.TryValidateObject(user, new ValidationContext(user), errors, true))
